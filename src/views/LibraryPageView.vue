@@ -149,6 +149,7 @@ export default {
   data(){
     return {
         districtList:null,
+        districtname:null,
         allLibrariesList: null,
         libraryResult:null
     }
@@ -169,9 +170,9 @@ export default {
                 document.getElementById("uppertriangle").style.display="block";
             }
         },
-        async showDistrictLibraries(districtId,districtname) {
+        async showDistrictLibraries(districtId, districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
-            this.districtname=districtname
+            this.districtname = districtname;
             return this.libraryResult;
         },
         agreeToConditionOfUse() {
