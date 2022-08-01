@@ -58,7 +58,7 @@
                             <div id="uppertriangle2" v-on:click="showLibrary()" style="display: none;" ></div>
                         </div>
                     </div>
-                    <div v-if="libraryResult" id="libraryDropdown" class="dropdown-content">
+                    <div id="libraryDropdown" class="dropdown-content">
                         <a v-for="library in libraryResult" :key="library.id">{{library.Name}}</a>
                     </div>
                 </div>
