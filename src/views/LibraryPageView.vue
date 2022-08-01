@@ -2,33 +2,33 @@
 <div class="LibraryPageView">
     <b-container class="containerHeader">
         <b-row>
-            <b-col class="4" id="title">
+            <b-col id="title">
                 <div class="title1">PLACE WORKSTATION BOOKING</div>
                 <div class="title2">SELECT LOCATION</div>
             </b-col>
-            <b-col class="4" id="catalogue">
+            <b-col id="catalogue">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
                     <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
                 </svg>
                  <button type="button" class="cataloguebutton">Home</button>
-                 <i class="fa-solid fa-angle-right"></i>
+                 <font-awesome-icon icon="fas fa-angle-right"/>
                  <button type="button" class="cataloguebutton2">SELECT LOCATION</button>
-                 <i class="fa-solid fa-angle-right"></i>
+                 <font-awesome-icon icon="fas fa-angle-right"/>
                  <button type="button" class="cataloguebutton">DATE/TIME CHOOSE</button>
-                 <i class="fa-solid fa-angle-right"></i>
+                 <font-awesome-icon icon="fas fa-angle-right"/>
                  <button type="button" class="cataloguebutton">WORKSTATION GROUP</button>
-                 <i class="fa-solid fa-angle-right"></i>
+                 <font-awesome-icon icon="fas fa-angle-right"/>
                  <button type="button" class="cataloguebutton">BOOKING DETAILS</button>
-                 <i class="fa-solid fa-angle-right"></i>
+                 <font-awesome-icon icon="fas fa-angle-right"/>
                  <button type="button" class="cataloguebutton">BOOKING CONFIRMATION</button>
             </b-col>
         </b-row>
     </b-container>
 
     <b-container class="container2">
-        <b-row class="row">
-            <b-col class="col">
+        <b-row>
+            <b-col>
                 <div class="dropdown">
                     <div class="dropbtn">
                         <div class="firstHeader">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </b-col>
-            <b-col class="col">
+            <b-col>
                 <div class="dropdown">
                     <div class="dropbtn">
                         <div class="firstHeader">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </b-col>
-            <b-col class="col">
+            <b-col>
                 <div class="dropdown">
                     <div class="dropbtn">
                         <div class="firstHeader">
@@ -106,7 +106,7 @@
                 </div>
             </button>
             <button type="button" class="button2" style="float: right;">Accept and Continue
-                <i class="fa-solid fa-right-long"></i>
+                <font-awesome-icon icon="fas fa-right-long"/>
             </button>
     </b-container>
 
@@ -120,7 +120,7 @@
         </div>
         <div>
             <button id="next" type="button" class="buttonNext" disabled>Next
-                <i class="fa-solid fa-right-long"></i>
+                <font-awesome-icon icon="fas fa-right-long"/>
             </button>
         </div>
     </b-container>
@@ -150,6 +150,7 @@ export default {
   data(){
     return {
         districtList:null,
+        districtname:null,
         allLibrariesList: null,
         libraryResult:null,
         isShow:true
@@ -198,7 +199,7 @@ export default {
         
        showDistrictLibraries(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
-            this.districtname=districtname
+            this.districtname = districtname;
             return this.libraryResult;
         },
         agreeToConditionOfUse() {
