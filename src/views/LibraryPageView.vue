@@ -89,7 +89,7 @@
                                 <div class="firstfont">AV<br></div>
                                 <div class="secondfont">WORKSTATION</div>
                             </label>
-                            <i class="fa-solid fa-exclamation" id="exclamationicon"></i>
+                            <font-awesome-icon icon="fas fa-exclamation" class="fa-solid fa-exclamation" id="exclamationicon"/>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                 </div>
             </button>
             <button type="button" class="button2" style="float: right;">Accept and Continue
-                <i class="fa-solid fa-right-long"></i>
+                <font-awesome-icon icon="fas fa-right-long"/>
             </button>
     </b-container>
 
@@ -119,7 +119,7 @@
         </div>
         <div>
             <button id="next" type="button" class="buttonNext" disabled>Next
-                <i class="fa-solid fa-right-long"></i>
+                <font-awesome-icon icon="fas fa-right-long"/>
             </button>
         </div>
     </b-container>
