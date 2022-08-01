@@ -54,8 +54,8 @@
                             <div class="secondHeader" >Please choose the library that suits you</div>
                         </div> 
                         <div>
-                            <div id="triangle2" onclick="showLibrary()"></div>
-                            <div id="uppertriangle2" onclick="showLibrary()" style="display: none;" ></div>
+                            <div id="triangle2" v-on:click="showLibrary()"></div>
+                            <div id="uppertriangle2" v-on:click="showLibrary()" style="display: none;" ></div>
                         </div>
                     </div>
                     <div v-if="libraryResult" id="libraryDropdown" class="dropdown-content">
@@ -66,16 +66,17 @@
             <b-col class="col">
                 <div class="dropdown">
                     <div class="dropbtn">
-                        <div>
+                        <div class="firstHeader">
                             <div>CHOOSE COMPUTER</div>
                             <div class="secondHeader">Computer specially equipped for different users</div> 
                         </div>
                         <div>
-                            <div id="triangle3" onclick="showWorkStation()"></div>
+                            <div id="triangle3" v-on:click="showWorkStation()"></div>
+                             <div id="uppertriangle3" v-on:click="showWorkStation()" style="display: none;" ></div>
                         </div>
                     </div>
-                    <div id="workStationDropdown">
-                        <div class="rectangle1">
+                    <div v-show="isShow"  id="workStationDropdown" >
+                        <div class="rectangle1"    >
                             <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
                             <label for="workstationtype">
                                 <div class="firstfont">ADULT<br></div>
@@ -89,7 +90,7 @@
                                 <div class="firstfont">AV<br></div>
                                 <div class="secondfont">WORKSTATION</div>
                             </label>
-                            <i class="fa-solid fa-exclamation" id="exclamationicon"></i>
+                          <font-awesome-icon icon="fas fa-exclamation" class="fa-solid fa-exclamation" id="exclamationicon"/>
                         </div>
                     </div>
                 </div>
@@ -150,7 +151,8 @@ export default {
     return {
         districtList:null,
         allLibrariesList: null,
-        libraryResult:null
+        libraryResult:null,
+        isShow:true
     }
   },
   props: {
@@ -169,7 +171,32 @@ export default {
                 document.getElementById("uppertriangle").style.display="block";
             }
         },
-        async showDistrictLibraries(districtId,districtname) {
+        showLibrary() {
+        i++;
+        if(i % 2== 0){
+        document.getElementById("libraryDropdown").style.display="none";
+        document.getElementById("triangle2").style.display="block";
+        document.getElementById("uppertriangle2").style.display="none";
+        }else{
+        document.getElementById("libraryDropdown").style.display="block";
+        document.getElementById("triangle2").style.display="none";
+        document.getElementById("uppertriangle2").style.display="block";
+        }
+},        
+        showWorkStation() {
+        i++;
+        this.isShow=!this.isShow
+        if(i % 2== 0){
+        document.getElementById("triangle3").style.display="block";
+        document.getElementById("uppertriangle3").style.display="none";
+        }else{
+        document.getElementById("triangle3").style.display="none";
+        document.getElementById("uppertriangle3").style.display="block";
+        }
+},
+
+        
+       showDistrictLibraries(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
             this.districtname=districtname
             return this.libraryResult;

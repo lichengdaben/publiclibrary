@@ -157,6 +157,14 @@
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
   }
+
+  #uppertriangle3 {
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid rgb(22, 22, 22);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
   
   
   
