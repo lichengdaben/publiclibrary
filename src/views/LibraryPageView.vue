@@ -64,7 +64,7 @@
                 </div>
             </b-col>
             <b-col>
-                <div class="dropdown">
+                <div class="dropdown"><!-- -->
                     <div class="dropbtn">
                         <div class="firstHeader">
                             <div>CHOOSE COMPUTER</div>
@@ -79,7 +79,7 @@
                         <div class="rectangle1"    >
                             <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
                             <label for="workstationtype">
-                                <div class="firstfont">ADULT<br></div>
+                                <div class="firstfont">ADULT <br></div>
                                 <div class="secondfont">WORKSTATION</div>
                             </label>
                             <font-awesome-icon icon="fas fa-exclamation" class="fa-solid fa-exclamation" id="exclamationicon"/>
