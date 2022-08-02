@@ -1,34 +1,8 @@
 <template>
 <div class="LibraryPageView">
  <div v-if="isMobile()">
-    <b-container class="containerHeader">
-        <b-row>
-        <div>i am doing</div>
-          <img src="portallogo.jfif" alt=""  id="titleimage">
-            <b-col id="title">
-                <div class="title1">PLACE WORKSTATION BOOKING</div>
-                <div class="title2">SELECT LOCATION</div>
-            </b-col>
-            <b-col id="catalogue">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                    <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
-                </svg>
-                 <button type="button" class="cataloguebutton">Home</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton2">SELECT LOCATION</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">DATE/TIME CHOOSE</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">WORKSTATION GROUP</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">BOOKING DETAILS</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">BOOKING CONFIRMATION</button>
-            </b-col>
-        </b-row>
-    </b-container>
-
+ <img src="../assets/portallogo.png" alt=""  id="titleimage"> 
+   <div id="number" >手机版</div>
     <b-container class="container2">
         <b-row>
             <b-col>
@@ -44,7 +18,7 @@
                             <div id="uppertriangle"  v-on:click="showDistrict()" style="display: none;" ></div>
                         </div>
                     </div>
-                    <div v-if="districtList" id="districtDropdown" class="dropdown-content">
+                    <div v-if="districtList" id="districtDropdown" class="dropdown-content" style="display: none;">
                         <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="showDistrictLibraries(district.id,district.Name)">{{ district.Name}}</a>            
                     </div>
                 </div>
@@ -53,7 +27,7 @@
                 <div class="dropdown">
                     <div class="dropbtn">
                         <div class="firstHeader">
-                            <div> LIBRARY</div>
+                            <div>LIBRARY</div>
                             <div class="secondHeader" >Please choose the library that suits you</div>
                         </div> 
                         <div>
@@ -61,7 +35,7 @@
                             <div id="uppertriangle2" v-on:click="showLibrary()" style="display: none;" ></div>
                         </div>
                     </div>
-                    <div id="libraryDropdown" class="dropdown-content">
+                    <div id="libraryDropdown" class="dropdown-content" style="display: none;">
                         <a v-for="library in libraryResult" :key="library.id">{{library.Name}}</a>
                     </div>
                 </div>
@@ -78,7 +52,7 @@
                              <div id="uppertriangle3" v-on:click="showWorkStation()" style="display: none;" ></div>
                         </div>
                     </div>
-                    <div v-show="isShow"  id="workStationDropdown" >
+                    <div v-show="isShowMob"  id="workStationDropdown">
                         <div class="rectangle1"    >
                             <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
                             <label for="workstationtype">
@@ -116,31 +90,6 @@
     </b-container>
 </div>
 <div v-else>
-    <b-container class="containerHeader">
-        <b-row>
-            <b-col id="title">
-                <div class="title1">PLACE WORKSTATION BOOKING</div>
-                <div class="title2">SELECT LOCATION</div>
-            </b-col>
-            <b-col id="catalogue">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                    <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
-                </svg>
-                 <button type="button" class="cataloguebutton">Home</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton2">SELECT LOCATION</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">DATE/TIME CHOOSE</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">WORKSTATION GROUP</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">BOOKING DETAILS</button>
-                 <font-awesome-icon icon="fas fa-angle-right"/>
-                 <button type="button" class="cataloguebutton">BOOKING CONFIRMATION</button>
-            </b-col>
-        </b-row>
-    </b-container>
 
     <b-container class="container2">
         <b-row>
@@ -252,7 +201,8 @@ export default {
         districtname:null,
         allLibrariesList: null,
         libraryResult:null,
-        isShow:true
+        isShow:true,
+        isShowMob:false
     }
   },
   mixins: [mixins],
@@ -287,6 +237,7 @@ export default {
         showWorkStation() {
         i++;
         this.isShow=!this.isShow
+        this.isShowMob=!this.isShowMob
         if(i % 2== 0){
         document.getElementById("triangle3").style.display="block";
         document.getElementById("uppertriangle3").style.display="none";
@@ -319,4 +270,12 @@ export default {
 </script>
 
 <style scoped>
+
+#number{
+width:3.75rem
+}
+
+
+
+
 </style>

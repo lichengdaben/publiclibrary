@@ -6,26 +6,42 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/workstationbooking/Home',
     name: 'home',
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/workstationbooking/SelectLocation',
+    name: 'SelectLocation',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SelectLocation.vue')
   },
   {
-    path: '/LibraryPageView',
-    name: 'LibraryPageView',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/LibraryPageView.vue')
-  }
+  path: '/workstationbooking/DateTimeChoose',
+  name: 'DateTimeChoose',
+  component: () => import(/* webpackChunkName: "about" */ '../views/DateTimeChoose.vue')
+},
+{
+  path: '/workstationbooking/WorkstationGroup',
+  name: 'WorkstationGroup',
+  component: () => import(/* webpackChunkName: "about" */ '../views/WorkstationGroup.vue')
+},
+{
+  path: '/workstationbooking/BookingDetails',
+  name: 'BookingDetails',
+  component: () => import(/* webpackChunkName: "about" */ '../views/BookingDetails.vue')
+},
+{
+  path: '/workstationbooking/BookingConfirmation',
+  name: 'BookingConfirmation',
+  component: () => import(/* webpackChunkName: "about" */ '../views/BookingConfirmation.vue')
+},
+{
+  path: '/LibraryPageview',
+  name: 'LibraryPageview',
+  component: () => import(/* webpackChunkName: "about" */ '../views/LibraryPageView.vue')
+},
+
+
 ]
 
 const router = new VueRouter({
@@ -35,3 +51,5 @@ const router = new VueRouter({
 })
 
 export default router
+
+

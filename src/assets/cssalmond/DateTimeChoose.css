@@ -1,0 +1,23 @@
+#container-DTC {width:100%;}
+#container-DTC .left-menu header
+    {width: 30% !important; float: left; 
+    background-color:aliceblue; text-transform: uppercase;}
+    
+#container-DTC .right-content
+{width: 100% !important; float: right;}
+
+.Calendar-primary {padding:10px; margin:0 5px; min-width:150px }
+    .Calendar-primary span.Cal-Month{float:left; line-height: 2.2em;  font-weight: bold;}
+    .Calendar-primary span.Cal-Date{float: right;  line-height: 1.6em; font-weight: bold;  font-size: 1.4em;}
+    .Calendar-primary span.Cal-Status{float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;}
+
+.Calendar-light {padding:10px; margin:0 5px; min-width:150px; color: #ffffff !important; background-color:#C8C8C8;}
+    .Calendar-light span.Cal-Month{float:left; line-height: 2.2em;  font-weight: bold;}
+    .Calendar-light span.Cal-Date{float: right;  line-height: 1.6em; font-weight: bold;  font-size: 1.4em;}
+    .Calendar-light span.Cal-Status{float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;}
+
+.Calendar-outline {padding:10px; margin:0 5px; min-width:150px }
+    .Calendar-outline span.Cal-Month{float:left; line-height: 2.2em;  font-weight: bold;}
+    .Calendar-outline span.Cal-Date{float: right;  line-height: 1.6em; font-weight: bold;  font-size: 1.4em;}
+    .Calendar-outline span.Cal-Status{float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;}
+
