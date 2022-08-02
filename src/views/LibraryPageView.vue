@@ -3,6 +3,8 @@
  <div v-if="isMobile()">
     <b-container class="containerHeader">
         <b-row>
+        <div>i am doing</div>
+          <img src="portallogo.jfif" alt=""  id="titleimage">
             <b-col id="title">
                 <div class="title1">PLACE WORKSTATION BOOKING</div>
                 <div class="title2">SELECT LOCATION</div>
@@ -97,7 +99,7 @@
                 </div>
             </b-col>
         </b-row>
-</b-container>
+    </b-container>
     <b-container id="containerMobile2">
         <div class="containerbutton">
             <div>
@@ -253,10 +255,10 @@ export default {
         isShow:true
     }
   },
+  mixins: [mixins],
   props: {
     msg: String
   },
-  mixins: [mixins],
   methods: {
         showDistrict() {
             i++; // <-- Updated
