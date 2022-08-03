@@ -23,7 +23,7 @@
   }
   
   nav a.router-link-exact-active {
-    color: #42b983;
+    color: #096BCC;
   }
 
 .libraryPage{
@@ -309,7 +309,7 @@ text-decoration: none; font-weight: bold;
   /* bottom button */
   
   input[type="checkbox"], input[type="radio"]{
-    margin-right: 5px; height:22px;}
+    margin-right: 5px; height:22px; width: 18px;}
 
   #workstationtype{width:80px; }
   .button1{
@@ -343,6 +343,7 @@ text-decoration: none; font-weight: bold;
   
   .checkedboxstyle{
       accent-color: #096BCC;
+      height:30px;
   }
   
   .containerbutton{
