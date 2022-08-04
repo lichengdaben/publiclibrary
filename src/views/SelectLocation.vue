@@ -7,12 +7,12 @@
                     <div class="dropbtn">
                         <div class="firstHeader">
                              <div>DISTRICT</div>
-                             <div v-if="districtname" class="secondHeader">{{districtname}}</div>
+                             <div v-if="selectedDistrict" class="secondHeader">{{selectedDistrict}}</div>
                             <div  v-else class="secondHeader" >Please choose the district that suits you</div>
                         </div> 
                     </div>
                     <div v-if="districtList" id="districtDropdown" class="dropdown-content">
-                        <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrictLibraries(district.id,district.Name)">{{ district.Name}}</a>            
+                        <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrict(district.id,district.Name)">{{ district.Name}}</a>            
                     </div>
                 </div>
             </b-col>
@@ -62,11 +62,11 @@
     <b-container fluid id="container3" class="controller clearfix">
             <button type="button" class="button1">
                 <div class="containerbutton">
-                    <input type="checkbox" checked="checked" class="checkedboxstyle ">
+                    <input type="checkbox" class="checkedboxstyle" v-model="checked">
                     Condition of Use
                 </div>
             </button>
-            <button type="button" class="button2" style="float: right;">Accept and Continue
+            <button type="button" class="button2" style="float: right;" @click='jumpToNext'>Accept and Continue
                 <font-awesome-icon icon="fas fa-right-long"/>
             </button>
     </b-container>
@@ -189,11 +189,12 @@ export default {
   data(){
     return {
         districtList:null,
-        districtname:null,
+        // districtname:null,
         allLibrariesList: null,
         libraryResult:null,
         isShow:true,
-        isShowMob:false
+        isShowMob:false,
+        checked: false
     }
   },
   mixins: [mixins],
@@ -202,21 +203,19 @@ export default {
   },
   computed: {
     selectedDistrict(){
-    return this.$store.state.selectedDistrict
+        return this.$store.state.selectedDistrict
     },
     selectedLibrary(){
-      return this.$store.state.selectedLibrary
+        return this.$store.state.selectedLibrary
     }
   },
-  methods: {     
-        clickDistrictLibraries(districtId,districtname) {
+  methods: {   
+        clickDistrict(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
-            this.districtname = districtname;
             this.$store.commit('selectedDistrict',districtname);
             console.log(this.$store.state.selectedDistrict)
-            return this.libraryResult;
         },
-         clickLibraries(libraryName) {
+        clickLibraries(libraryName) {
             this.$store.commit('selectedLibrary',libraryName);
             console.log(this.$store.state.selectedLibrary)
         },
@@ -224,6 +223,15 @@ export default {
             let conditionOfUse = document.getElementById("conditionOfUse");
             let next = document.getElementById("next");
             next.disabled = !conditionOfUse.checked;
+        },
+        onChecked(val) {
+            console.log(val)
+        },
+        jumpToNext() {
+            if (this.checked) {
+                this.$router.push('/workstationbooking/DateTimeChoose');
+            }
+            
         }
     },
     async created(){
