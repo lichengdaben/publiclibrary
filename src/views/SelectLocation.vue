@@ -1,5 +1,5 @@
 <template>
-<div class="LibraryPageView">
+<div class="SelectLocation">
     <b-container class="container2">
         <b-row>
             <b-col>
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div v-if="districtList" id="districtDropdown" class="dropdown-content">
-                        <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="showDistrictLibraries(district.id,district.Name)">{{ district.Name}}</a>            
+                        <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrictLibraries(district.id,district.Name)">{{ district.Name}}</a>            
                     </div>
                 </div>
             </b-col>
@@ -94,25 +94,26 @@ async function getAllDistrict () {
 // let res =await fetch(`http://192.168.50.117:3000/cfm_getDistrict`);
 // let districtList = await res.json();
 let districtList=[
-	{"id":1,"Name":"CENTRAL AND WESTERN DISTRICT"},
-	{"id":2,"Name":"WAN CHAI DISTRICT"},
-	{"id":3,"Name":"EASTERN DISTRICT"},
-        {"id":4,"Name":"SOUTHERN DISTRICT"},
-        {"id":5,"Name":"SHAM SHUI PO DISTRICT"},
-        {"id":6,"Name":"YAU TSIM MONG DISTRICT"},
-	{"id":7,"Name":"KOWLOON CITY DISTRICT"},
-	{"id":8,"Name":"WONG TAI SIN DISTRICT"},
-        {"id":9,"Name":"KWUN TONG DISTRICT"},
-        {"id":10,"Name":"KWAI TSING DISTRICT"},
-	{"id":11,"Name":"TSUEN WAN DISTRICT"},
-        {"id":12,"Name":"TUEN MUN DISTRICT"},
-        {"id":13,"Name":"YUEN LONG DISTRICT"},
-        {"id":14,"Name":"NORTH DISTRICT"},
-	{"id":15,"Name":"TAI PO DISTRICT"},
-	{"id":16,"Name":"SHA TIN DISTRICT"},
-        {"id":17,"Name":"SAI KUNG DISTRICT"},
-        {"id":18,"Name":"ISLANDS DISTRICT"},
+    {"id":1,"Name":"CENTRAL AND WESTERN DISTRICT"},
+    {"id":2,"Name":"WAN CHAI DISTRICT"},
+    {"id":3,"Name":"EASTERN DISTRICT"},
+    {"id":4,"Name":"SOUTHERN DISTRICT"},
+    {"id":5,"Name":"SHAM SHUI PO DISTRICT"},
+    {"id":6,"Name":"YAU TSIM MONG DISTRICT"},
+    {"id":7,"Name":"KOWLOON CITY DISTRICT"},
+    {"id":8,"Name":"WONG TAI SIN DISTRICT"},
+    {"id":9,"Name":"KWUN TONG DISTRICT"},
+    {"id":10,"Name":"KWAI TSING DISTRICT"},
+    {"id":11,"Name":"TSUEN WAN DISTRICT"},
+    {"id":12,"Name":"TUEN MUN DISTRICT"},
+    {"id":13,"Name":"YUEN LONG DISTRICT"},
+    {"id":14,"Name":"NORTH DISTRICT"},
+    {"id":15,"Name":"TAI PO DISTRICT"},
+    {"id":16,"Name":"SHA TIN DISTRICT"},
+    {"id":17,"Name":"SAI KUNG DISTRICT"},
+    {"id":18,"Name":"ISLANDS DISTRICT"},
   ]
+
 return districtList
  }
 
@@ -212,6 +213,12 @@ export default {
   props: {
     msg: String
   },
+  computed: {
+    selectedDistrict(){
+    return this.$store.state.selectedDistrict
+    }
+  // selectedLibrary:this.$store.state.selectedLibrary
+  },
   methods: {
         showDistrict() {
             i++; // <-- Updated
@@ -249,13 +256,10 @@ export default {
         document.getElementById("uppertriangle3").style.display="block";
         }
 },
-
-        
-       showDistrictLibraries(districtId,districtname) {
+        clickDistrictLibraries(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
             this.districtname = districtname;
-            this.$store.state.selectedDistrict=districtname
-            this.$store.commit('selectedDistrict')
+            this.$store.commit('selectedDistrict',districtname)
             console.log(this.$store.state.selectedDistrict)
             return this.libraryResult;
         },
