@@ -180,6 +180,8 @@
 
 <script>
 import { mixins } from '@/common/mixins'
+import  {getAllDistrict} from '@/service/test.js'
+import  {getAllLibraries} from '@/service/test.js'
 let i=0
 async function getAllDistrict () {
 let res =await fetch(`http://192.168.50.117:3000/cfm_getDistrict`);
@@ -246,8 +248,6 @@ export default {
         document.getElementById("uppertriangle3").style.display="block";
         }
 },
-
-        
        showDistrictLibraries(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
             this.districtname = districtname;
@@ -270,12 +270,4 @@ export default {
 </script>
 
 <style scoped>
-
-#number{
-width:3.75rem
-}
-
-
-
-
 </style>
