@@ -8,7 +8,7 @@
     } from '@/common/mixins'
 
     export default {
-        name: 'LibraryPageView',
+        name: 'DateTimeChoose',
         data() {
             return {
                 districtList: null,

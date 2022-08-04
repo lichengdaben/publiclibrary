@@ -8,7 +8,7 @@
     } from '@/common/mixins'
 
     export default {
-        name: 'LibraryPageView',
+        name: 'WorkstationGroup',
         data() {
             return {
                 districtList: null,
