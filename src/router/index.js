@@ -35,11 +35,6 @@ const routes = [
   name: 'BookingConfirmation',
   component: () => import(/* webpackChunkName: "about" */ '../views/BookingConfirmation.vue')
 },
-{
-  path: '/LibraryPageview',
-  name: 'LibraryPageview',
-  component: () => import(/* webpackChunkName: "about" */ '../views/LibraryPageView.vue')
-},
 
 
 ]

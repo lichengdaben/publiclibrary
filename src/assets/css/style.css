@@ -375,6 +375,7 @@
       border: 1px solid #D4D4D4;
       border-radius: 4px;
       opacity: 1;
+      float: right;
       font: normal normal 600 16px/21px Segoe UI;
      
   }
@@ -384,17 +385,12 @@
     justify-content: space-between;
     font-weight: bold;
     height: 52px;
-    flex-direction: row
+    flex-direction: row;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
   }
-  
-  @media only screen and (max-width: 800px) {
-    #container3 {
-    display: none;
-   }
-   }
-   
-   @media only screen and (min-width: 801px) {
-   #containerMobile2 {
-   display: none;
-   }
-   }
+
+  .aaaaaaa {
+    float: right
+  }

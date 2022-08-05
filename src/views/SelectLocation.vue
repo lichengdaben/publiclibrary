@@ -75,19 +75,21 @@
             </b-col>
         </b-row>
     </b-container>
-    <b-container id="containerMobile2">
+    <b-container id="containerMobile2"  class="bv-example-row" fluid>
+    <b-row>
         <div class="containerbutton">
             <div>
-                <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" v-on:click="agreeToConditionOfUse()">
+                <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" v-model="checked">
                 I agree to the <br/>
-                <p><a class="" href="#">Condition of Use</a></p>
+                <p><a>Condition of Use</a></p>
             </div>
         </div>
-        <div>
-            <button id="next" type="button" class="buttonNext" disabled>Next
+        <div class="aaaaaaa" align-h="between">
+            <button id="next" type="button" class="buttonNext"  @click='jumpToNext'>Next
                 <font-awesome-icon icon="fas fa-right-long"/>
             </button>
         </div>
+        </b-row>
     </b-container>
 </div>
 <div v-else>
@@ -129,7 +131,7 @@
                             <div class="secondHeader">Computer specially equipped for different users</div> 
                         </div>
                     </div>
-                    <div v-show="isShow"  id="workStationDropdown" >
+                    <div v-show="!isShow"  id="workStationDropdown" >
                         <div class="rectangle1"    >
                             <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
                             <label for="workstationtype">
@@ -182,7 +184,11 @@ export default {
         isShowMob:false,
         checked: false,
         selectedDistrictName:null,
-        selectedLibraryName:null
+        selectedLibraryName:null,
+        isShowD:true,
+        isShowL:true,
+        isShowW:true,
+        isShowWS:true
     }
   },
   mixins: [mixins],
@@ -206,7 +212,7 @@ export default {
         },
         
         showWorkStation() {  //mobile
-        this.isShowW=!this.isShowWS
+        this.isShowW=!this.isShowW
         this.isShowMob=!this.isShowMob
 
          },
@@ -218,16 +224,13 @@ export default {
         },
         clickLibraries(libraryName) {
             this.$store.commit('selectedLibrary',libraryName);
-            this.selectedlibraryName=libraryName
+            this.selectedLibraryName=libraryName
             console.log(this.$store.state.selectedLibrary)
         },
         agreeToConditionOfUse() {
             let conditionOfUse = document.getElementById("conditionOfUse");
             let next = document.getElementById("next");
             next.disabled = !conditionOfUse.checked;
-        },
-        onChecked(val) {
-            console.log(val)
         },
         jumpToNext() {
             if (this.checked) {
@@ -246,7 +249,7 @@ export default {
 
     }
 }   
-//mobile version
+
 
 
 
