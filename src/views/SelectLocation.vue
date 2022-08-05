@@ -2,7 +2,7 @@
 <div class="SelectLocation">
 <div v-if="isMobile()">
     <img src="../assets/portallogo.png" alt=""  id="titleimage"> 
-   <div id="number" >手机版</div>
+
     <b-container class="container2">
         <b-row>
             <b-col>
@@ -10,15 +10,15 @@
                     <div class="dropbtn">
                         <div class="firstHeader">
                              <div>DISTRICT</div>
-                             <div v-if="districtname" class="secondHeader">{{districtname}}</div>
+                               <div v-if="selectedDistrictName" class="secondHeader">{{selectedDistrictName}}</div>
                             <div  v-else class="secondHeader" >Please choose the district that suits you</div>
                         </div> 
                         <div>
-                            <div id="triangle"  v-on:click="showDistrict()"></div>
-                            <div id="uppertriangle"  v-on:click="showDistrict()" style="display: none;" ></div>
+                            <div id="triangle" @click="showDistrict()" v-if="isShowD"></div>
+                            <div id="uppertriangle" @click="showDistrict()" v-if="!isShowD"></div>
                         </div>
                     </div>
-                    <div v-if="districtList" id="districtDropdown" class="dropdown-content" style="display: none;">
+                    <div v-if="districtList" id="districtDropdown" class="dropdown-content" v-show="!isShowD">
                          <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrict(district.id,district.Name)">{{ district.Name}}</a>            
                     </div>
                 </div>
@@ -28,14 +28,15 @@
                     <div class="dropbtn">
                         <div class="firstHeader">
                             <div>LIBRARY</div>
-                            <div class="secondHeader" >Please choose the library that suits you</div>
+                             <div v-if="selectedLibraryName" class="secondHeader">{{selectedLibraryName}}</div>
+                            <div v-else class="secondHeader" >Please choose the library that suits you</div>
                         </div> 
                         <div>
-                            <div id="triangle2" ></div>
-                            <div id="uppertriangle2" v-on:click="showLibrary()" style="display: none;" ></div>
+                            <div id="triangle2" @click="showLibrary()" v-if="isShowL"></div>
+                            <div id="uppertriangle2" @click="showLibrary()" v-if="!isShowL"></div>
                         </div>
                     </div>
-                    <div id="libraryDropdown" class="dropdown-content" style="display: none;">
+                    <div id="libraryDropdown" class="dropdown-content" v-show="!isShowL">
                         <a v-for="library in libraryResult" :key="library.id" v-on:click="clickLibraries(library.Name)">{{library.Name}}</a>
                     </div>
                 </div>
@@ -48,8 +49,8 @@
                             <div class="secondHeader">Computer specially equipped for different users</div> 
                         </div>
                         <div>
-                            <div id="triangle3" v-on:click="showWorkStation()"></div>
-                             <div id="uppertriangle3" v-on:click="showWorkStation()" style="display: none;" ></div>
+                            <div id="triangle3" v-on:click="showWorkStation()"  v-if="isShowW"></div>
+                             <div id="uppertriangle3" v-on:click="showWorkStation()"  v-if="!isShowW" ></div>
                         </div>
                     </div>
                     <div v-show="isShowMob"  id="workStationDropdown">
@@ -97,7 +98,7 @@
                     <div class="dropbtn">
                         <div class="firstHeader">
                              <div>DISTRICT</div>
-                             <div v-if="selectedDistrict" class="secondHeader">{{selectedDistrict}}</div>
+                             <div v-if="selectedDistrictName" class="secondHeader">{{selectedDistrictName}}</div>
                             <div  v-else class="secondHeader" >Please choose the district that suits you</div>
                         </div> 
                     </div>
@@ -111,7 +112,8 @@
                     <div class="dropbtn">
                         <div class="firstHeader">
                             <div>LIBRARY</div>
-                            <div class="secondHeader" >Please choose the library that suits you</div>
+                              <div v-if="selectedLibraryName" class="secondHeader">{{selectedLibraryName}}</div>
+                            <div v-else class="secondHeader" >Please choose the library that suits you</div>
                         </div> 
                     </div>
                     <div id="libraryDropdown" class="dropdown-content">
@@ -178,7 +180,9 @@ export default {
         libraryResult:null,
         isShow:true,
         isShowMob:false,
-        checked: false
+        checked: false,
+        selectedDistrictName:null,
+        selectedLibraryName:null
     }
   },
   mixins: [mixins],
@@ -193,14 +197,28 @@ export default {
         return this.$store.state.selectedLibrary
     }
   },
-  methods: {   
+  methods: {
+        showDistrict() {   //mobile
+           this.isShowD=!this.isShowD
+        },
+        showLibrary() {    //mobile
+         this.isShowL=!this.isShowL
+        },
+        
+        showWorkStation() {  //mobile
+        this.isShowW=!this.isShowWS
+        this.isShowMob=!this.isShowMob
+
+         },
         clickDistrict(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
             this.$store.commit('selectedDistrict',districtname);
+            this. selectedDistrictName=districtname
             console.log(this.$store.state.selectedDistrict)
         },
         clickLibraries(libraryName) {
             this.$store.commit('selectedLibrary',libraryName);
+            this.selectedlibraryName=libraryName
             console.log(this.$store.state.selectedLibrary)
         },
         agreeToConditionOfUse() {
@@ -227,7 +245,7 @@ export default {
         this.allLibrariesList = this.allLibrariesList.data;
 
     }
-    }
+}   
 //mobile version
 
 
