@@ -182,19 +182,19 @@
 import { mixins } from '@/common/mixins'
 import  {getAllDistrict} from '@/service/test.js'
 import  {getAllLibraries} from '@/service/test.js'
+// let i=0
+// async function getAllDistrict () {
+// let res =await fetch(`http://192.168.50.117:3000/cfm_getDistrict`);
+// let districtList = await res.json();
+// return districtList
+//  }
+
+// async function getAllLibraries () {
+//     let res = await fetch(`http://192.168.50.117:3000/cfm_getAllLibrary`);
+//     let allLibrariesList = await res.json();
+//     return allLibrariesList;
+// }
 let i=0
-async function getAllDistrict () {
-let res =await fetch(`http://192.168.50.117:3000/cfm_getDistrict`);
-let districtList = await res.json();
-return districtList
- }
-
-async function getAllLibraries () {
-    let res = await fetch(`http://192.168.50.117:3000/cfm_getAllLibrary`);
-    let allLibrariesList = await res.json();
-    return allLibrariesList;
-}
-
 export default {
   name: 'LibraryPageView',
   data(){
@@ -213,7 +213,7 @@ export default {
   },
   methods: {
         showDistrict() {
-            i++; // <-- Updated
+           i++; // <-- Updated
             if (i % 2 == 0) {
                 document.getElementById("districtDropdown").style.display="none";
                 document.getElementById("triangle").style.display="block";
