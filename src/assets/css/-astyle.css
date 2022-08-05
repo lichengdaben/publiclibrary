@@ -360,7 +360,7 @@ text-decoration: none; font-weight: bold;
   
   #catalogue { 
       display: inline;
-      min-width: 877px;
+      /* min-width: 877px; */
   }
   
   

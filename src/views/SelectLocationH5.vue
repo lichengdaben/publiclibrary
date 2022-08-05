@@ -1,22 +1,24 @@
 <template>
-<div class="SelectLocation">
-<div v-if="isMobile()">
-    <SelectLocationH5/>
-</div>
-<div v-else>
-<b-container class="container2">
+<div>
+    <img src="../assets/portallogo.png" alt=""  id="titleimage"> 
+
+    <b-container class="container2">
         <b-row>
             <b-col>
                 <div class="dropdown">
                     <div class="dropbtn">
                         <div class="firstHeader">
                              <div>DISTRICT</div>
-                             <div v-if="selectedDistrictName" class="secondHeader">{{selectedDistrictName}}</div>
+                               <div v-if="selectedDistrictName" class="secondHeader">{{selectedDistrictName}}</div>
                             <div  v-else class="secondHeader" >Please choose the district that suits you</div>
                         </div> 
+                        <div>
+                            <div id="triangle" @click="showDistrict()" v-if="isShowD"></div>
+                            <div id="uppertriangle" @click="showDistrict()" v-if="!isShowD"></div>
+                        </div>
                     </div>
-                    <div v-if="districtList" id="districtDropdown" class="dropdown-content">
-                        <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrict(district.id,district.Name)">{{ district.Name}}</a>            
+                    <div v-if="districtList" id="districtDropdown" class="dropdown-content" v-show="!isShowD">
+                         <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrict(district.id,district.Name)">{{ district.Name}}</a>            
                     </div>
                 </div>
             </b-col>
@@ -25,11 +27,15 @@
                     <div class="dropbtn">
                         <div class="firstHeader">
                             <div>LIBRARY</div>
-                              <div v-if="selectedLibraryName" class="secondHeader">{{selectedLibraryName}}</div>
+                             <div v-if="selectedLibraryName" class="secondHeader">{{selectedLibraryName}}</div>
                             <div v-else class="secondHeader" >Please choose the library that suits you</div>
                         </div> 
+                        <div>
+                            <div id="triangle2" @click="showLibrary()" v-if="isShowL"></div>
+                            <div id="uppertriangle2" @click="showLibrary()" v-if="!isShowL"></div>
+                        </div>
                     </div>
-                    <div id="libraryDropdown" class="dropdown-content">
+                    <div id="libraryDropdown" class="dropdown-content" v-show="!isShowL">
                         <a v-for="library in libraryResult" :key="library.id" v-on:click="clickLibraries(library.Name)">{{library.Name}}</a>
                     </div>
                 </div>
@@ -41,8 +47,12 @@
                             <div>CHOOSE COMPUTER</div>
                             <div class="secondHeader">Computer specially equipped for different users</div> 
                         </div>
+                        <div>
+                            <div id="triangle3" v-on:click="showWorkStation()"  v-if="isShowW"></div>
+                             <div id="uppertriangle3" v-on:click="showWorkStation()"  v-if="!isShowW" ></div>
+                        </div>
                     </div>
-                    <div v-show="!isShow"  id="workStationDropdown" >
+                    <div v-show="isShowMob"  id="workStationDropdown">
                         <div class="rectangle1"    >
                             <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
                             <label for="workstationtype">
@@ -64,29 +74,31 @@
             </b-col>
         </b-row>
     </b-container>
-    <b-container fluid id="container3" class="controller clearfix">
-            <button type="button" class="button1">
-                <div class="containerbutton">
-                    <input type="checkbox" class="checkedboxstyle" v-model="checked">
-                    Condition of Use
-                </div>
-            </button>
-            <button type="button" class="button2" style="float: right;" @click='jumpToNext'>Accept and Continue
-                <font-awesome-icon icon="fas fa-right-long"/>
-            </button>
-    </b-container>
+    <b-row align-v="end" class="footer">
+      <b-col cols="6">
+        <div>
+          <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" v-model="checked">
+          I agree to the
+          <a>Condition of Use</a>
+        </div>
+
+      </b-col>
+      <b-col 	cols="6">
+        <button id="next" type="button" class="buttonNext"  @click='jumpToNext'>Next
+        <font-awesome-icon icon="fas fa-right-long"/>
+        </button>
+      </b-col>
+    </b-row>
 </div>
-</div>
+
 </template>
 
 <script>
 import { mixins } from '@/common/mixins'
 import  {getAllDistrict, getAllLibraries} from '@/service/test.js'
-import SelectLocationH5 from './SelectLocationH5.vue'
 
 export default {
   name: 'SelectLocation',
-  components: { SelectLocationH5 },
   data(){
     return {
         districtList:null,
@@ -150,16 +162,16 @@ export default {
             }
             
         }
-  },
-  async created(){
-  this.districtList=await getAllDistrict();
-  this.allLibrariesList = await getAllLibraries();
-  this.districtList=await getAllDistrict();
-  this.districtList = this.districtList.data;
-  this.allLibrariesList = await getAllLibraries();
-  this.allLibrariesList = this.allLibrariesList.data;
+    },
+    async created(){
+        this.districtList=await getAllDistrict();
+        this.allLibrariesList = await getAllLibraries();
+        this.districtList=await getAllDistrict();
+        this.districtList = this.districtList.data;
+        this.allLibrariesList = await getAllLibraries();
+        this.allLibrariesList = this.allLibrariesList.data;
 
-  }
+    }
 }   
 
 
@@ -171,4 +183,13 @@ export default {
 </script>
 
 <style scoped>
+#titleimage {
+  width: 100%;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
 </style>

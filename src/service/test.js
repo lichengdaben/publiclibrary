@@ -2,15 +2,15 @@ import request from '@/common/request'
 
 export async function getAllDistrict () {
     return request({
-        url: 'http://192.168.50.117:3000/cfm_getDistrict',
+        url: '/cfm_getDistrict',
         method: 'get'
-        // params: 
+        // params
       })
     }
 
 export async function getAllLibraries () {
         return request({
-            url: `http://192.168.50.117:3000/cfm_getAllLibrary`,
+            url: `/cfm_getAllLibrary`,
             method: 'get',
             // params: 
           })
