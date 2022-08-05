@@ -10,7 +10,12 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
-
+    selectedDistrict (state, val){
+      state.selectedDistrict = val;
+    },
+    selectedLibrary (state, val){
+      state.selectedLibrary = val;
+    },
   },
   actions: {
    

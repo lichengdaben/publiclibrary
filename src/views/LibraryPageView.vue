@@ -90,7 +90,6 @@
     </b-container>
 </div>
 <div v-else>
-
     <b-container class="container2">
         <b-row>
             <b-col>
