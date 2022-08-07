@@ -116,18 +116,6 @@ export default {
     }
   },
   methods: {
-        showDistrict() {   //mobile
-           this.isShowD=!this.isShowD
-        },
-        showLibrary() {    //mobile
-         this.isShowL=!this.isShowL
-        },
-        
-        showWorkStation() {  //mobile
-        this.isShowW=!this.isShowW
-        this.isShowMob=!this.isShowMob
-
-         },
         clickDistrict(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
             this.$store.commit('selectedDistrict',districtname);

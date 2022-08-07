@@ -1,23 +1,15 @@
 <template>
-<div class="WorkstationGroup">
-<div v-if="isMobile()">
-    <WorkstationGroupH5/>
-</div>
-<div v-else>
-</div>
-</div>
+<div class="WorkstationGroup">WorkstationGroupmob</div>
+
 </template>
 
-
 <script>
-import WorkstationGroupH5 from './WorkstationGroupH5.vue'
+
     import {
         mixins
     } from '@/common/mixins'
-
     export default {
         name: 'WorkstationGroup',
-        components: { WorkstationGroupH5 },
         data() {
             return {
                 isShow: true

@@ -7,7 +7,7 @@
     } from '@/common/mixins'
 
     export default {
-        name: 'LibraryPageView',
+        name: 'BookingConfirmation',
         data() {
             return {
                 districtList: null,

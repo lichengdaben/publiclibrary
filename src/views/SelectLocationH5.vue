@@ -83,7 +83,7 @@
         </div>
 
       </b-col>
-      <b-col 	cols="6">
+      <b-col cols="6">
         <button id="next" type="button" class="buttonNext"  @click='jumpToNext'>Next
         <font-awesome-icon icon="fas fa-right-long"/>
         </button>
