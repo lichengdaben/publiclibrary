@@ -1,18 +1,12 @@
 <template>
 <div class="SelectLocation">
-<div v-if="isMobile()">
-    <SelectLocationH5/>
-</div>
-<div v-else-if="isIpad()">
-    <SelectLocationT/>
-</div>
-<div v-else>
 <b-container class="container2">
         <b-row>
             <b-col>
                 <div class="dropdown">
                     <div class="dropbtn">
                         <div class="firstHeader">
+                         <div>ipad版本</div>
                              <div>DISTRICT</div>
                              <div v-if="selectedDistrictName" class="secondHeader">{{selectedDistrictName}}</div>
                             <div  v-else class="secondHeader" >Please choose the district that suits you</div>
@@ -79,17 +73,15 @@
             </button>
     </b-container>
 </div>
-</div>
+
 </template>
 
 <script>
 import { mixins } from '@/common/mixins'
 import  {getAllDistrict, getAllLibraries} from '@/service/test.js'
-import SelectLocationH5 from './SelectLocationH5.vue'
-import SelectLocationT from './SelectLocationT.vue'
+
 export default {
   name: 'SelectLocation',
-  components: { SelectLocationH5,SelectLocationT },
   data(){
     return {
         districtList:null,
