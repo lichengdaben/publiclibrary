@@ -35,6 +35,11 @@ const routes = [
   name: 'BookingConfirmation',
   component: () => import(/* webpackChunkName: "about" */ '../views/BookingConfirmation.vue')
 },
+{
+  path: '/workstationbooking/TermPageH5',
+  name: 'TermPageH5',
+  component: () => import(/* webpackChunkName: "about" */ '../views/TermPageH5.vue')
+},
 
 
 ]
