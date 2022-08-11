@@ -17,7 +17,7 @@ import request from '@/common/request'
 //             })
 //   }
 
-// https://keycloak.interlib.com.cn/
+
 
  export async function getAllDistrict () {
          return request({
@@ -28,13 +28,13 @@ import request from '@/common/request'
  }
 
 
-// export async function getAllLibraries () {
-//   return request({
-//       url: `https://keycloak.interlib.com.cn/api/cfm-admin-service/open-api/library/selectAllDistrictVOS`,
-//       method: 'get',
-//       // params: 
-//     })
-// }
+ export async function getAllLibraries () {
+   return request({
+       url: `/cfm-admin-service/open-api/library/selectAllLibrariesVOS`,
+       method: 'get',
+       // params: 
+     })
+ }
 
 
 

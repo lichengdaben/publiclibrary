@@ -144,19 +144,23 @@ export default {
      
   },
   async created(){
-  this.districtList=await getAllDistrict();
+    var parser,xmlDoc;
+    var text=await getAllDistrict();
+//   var text2 = await getAllLibraries();
+//  this.districtList=await getAllDistrict();
   this.allLibrariesList = await getAllLibraries();
-  this.districtList=await getAllDistrict();
-  this.districtList = this.districtList.data;
-  this.allLibrariesList = await getAllLibraries();
-  this.allLibrariesList = this.allLibrariesList.data;
+  parser=new DOMParser()
+  xmlDoc=parser.parseFromString(text,"text/xml")
 
+console.log(xmlDoc)
+// console.log(this.districtList)
+// console.log(this.allLibrariesList)
   },
 
 }   
 
   function printData(){
-           console.log(getAllLibraries);
+           console.log(getAllDistrict);
         }
 
 
