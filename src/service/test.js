@@ -1,20 +1,42 @@
 import request from '@/common/request'
 
-export async function getAllDistrict () {
-    return request({
-        url: '/cfm_getDistrict',
-        method: 'get'
-        // params
-      })
-    }
+// export async function getAllDistrict () {
+//     return request({
+//         url: '/cfm_getDistrict',
+//         method: 'get'
+//         // params
+//       })
+//     }
 
-export async function getAllLibraries () {
-        return request({
-            url: `/cfm_getAllLibrary`,
+
+// export async function getAllLibraries () {
+//           return request({
+//               url: `/cfm_getAllLibrary`,
+//               method: 'get',
+//               // params: 
+//             })
+//   }
+
+// https://keycloak.interlib.com.cn/
+
+ export async function getAllDistrict () {
+         return request({
+             url: `/cfm-admin-service/open-api/library/selectAllDistrictVOS`,
             method: 'get',
-            // params: 
+             // params: 
           })
-}
+ }
+
+
+// export async function getAllLibraries () {
+//   return request({
+//       url: `https://keycloak.interlib.com.cn/api/cfm-admin-service/open-api/library/selectAllDistrictVOS`,
+//       method: 'get',
+//       // params: 
+//     })
+// }
+
+
 
 
 

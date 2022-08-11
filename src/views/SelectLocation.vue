@@ -140,7 +140,8 @@ export default {
                 this.$router.push('/workstationbooking/DateTimeChoose');
             }
             
-        }
+        },
+     
   },
   async created(){
   this.districtList=await getAllDistrict();
@@ -150,13 +151,17 @@ export default {
   this.allLibrariesList = await getAllLibraries();
   this.allLibrariesList = this.allLibrariesList.data;
 
-  }
+  },
+
 }   
 
+  function printData(){
+           console.log(getAllLibraries);
+        }
 
 
 
-
+printData()
 
 
 </script>
