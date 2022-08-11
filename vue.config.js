@@ -1,15 +1,13 @@
-import { defineConfig } from '@vue/cli-service'
-export default defineConfig({
-  transpileDependencies: true,
-  devServer:{
+module.exports = {
+  devServer: {
     proxy: {
       '^/api': {
-        target: 'http://183.6.57.236:30000',
+        target: 'https://keycloak.interlib.com.cn',
         changeOrigin: true
       },
     }
   }
-})
+}
 
 
 
