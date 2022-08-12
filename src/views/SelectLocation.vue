@@ -19,7 +19,7 @@
                         </div> 
                     </div>
                     <div v-if="districtList" id="districtDropdown" class="dropdown-content">
-                        <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrict(district.id,district.Name)">{{ district.Name}}</a>            
+                        <a v-for="district in districtList" :key="district.districtId" v-bind:id="'district' + district.districtId" v-on:click="clickDistrict(district.districtId, district.districtName)">{{ district.districtName }}</a>            
                     </div>
                 </div>
             </b-col>
@@ -146,14 +146,8 @@ export default {
      
   },
   async created(){
-    let districtList=(await getAllDistrict()).data;
+    this.districtList = (await getAllDistrict()).data.data;
     this.allLibrariesList = (await getAllLibraries()).data;
-    let districtFrame=[];
-         for (let i=0;i<districtList.length;i++){ 
-          districtFrame.push(districtList.data[i])
-          console.log("wohangle")
-        }
-        this.districtList=districtFrame
   },
   
 
