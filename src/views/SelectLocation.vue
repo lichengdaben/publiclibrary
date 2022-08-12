@@ -82,11 +82,12 @@
 </div>
 </template>
 
-<script>
+<script >
 import { mixins } from '@/common/mixins'
 import  {getAllDistrict, getAllLibraries} from '@/service/test.js'
 import SelectLocationH5 from './SelectLocationH5.vue'
 import SelectLocationT from './SelectLocationT.vue'
+
 export default {
   name: 'SelectLocation',
   components: { SelectLocationH5,SelectLocationT },
@@ -141,32 +142,22 @@ export default {
             }
             
         },
+      
      
   },
   async created(){
-    var parser,xmlDoc;
-    var text=await getAllDistrict();
-//   var text2 = await getAllLibraries();
-//  this.districtList=await getAllDistrict();
-  this.allLibrariesList = await getAllLibraries();
-  parser=new DOMParser()
-  xmlDoc=parser.parseFromString(text,"text/xml")
-
-console.log(xmlDoc)
-// console.log(this.districtList)
-// console.log(this.allLibrariesList)
+    let districtList=(await getAllDistrict()).data;
+    this.allLibrariesList = (await getAllLibraries()).data;
+    let districtFrame=[];
+         for (let i=0;i<districtList.length;i++){ 
+          districtFrame.push(districtList.data[i])
+          console.log("wohangle")
+        }
+        this.districtList=districtFrame
   },
+  
 
 }   
-
-  function printData(){
-           console.log(getAllDistrict);
-        }
-
-
-
-printData()
-
 
 </script>
 
