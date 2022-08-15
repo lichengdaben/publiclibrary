@@ -1,10 +1,7 @@
 <template>
 <div class="SelectLocation">
-<div v-if="isMobile()">
+<div v-if="isMobile">
     <SelectLocationH5/>
-</div>
-<div v-else-if="isIpad()">
-    <SelectLocationT/>
 </div>
 <div v-else>
 <b-container class="container2">
@@ -83,13 +80,13 @@
 </template>
 
 <script>
-import { mixins } from '@/common/mixins'
+//import { mixins } from '@/common/mixins'
 import  {getAllDistrict, getAllLibraries} from '@/service/test.js'
 import SelectLocationH5 from './SelectLocationH5.vue'
-import SelectLocationT from './SelectLocationT.vue'
+
 export default {
   name: 'SelectLocation',
-  components: { SelectLocationH5,SelectLocationT },
+  components: { SelectLocationH5 },
   data(){
     return {
         districtList:null,
@@ -103,14 +100,25 @@ export default {
         isShowD:true,
         isShowL:true,
         isShowW:true,
-        isShowWS:true
+        isShowWS:true,
+        isMobile:true
     }
   },
-  mixins: [mixins],
+//  mixins: [mixins],
   props: {
     msg: String
   },
+  beforeDestroy(){
+    if(typeof window==='undefined') return
+    window.removeEventListener('resize', this.onResize, { passive: true })
+    },
+ mounted(){
+    this.onResize()
+    window.addEventListener('resize',this.onResize,{passive:true}) 
+ },
+
   computed: {
+
     selectedDistrict(){
         return this.$store.state.selectedDistrict
     },
@@ -119,6 +127,10 @@ export default {
     }
   },
   methods: {
+     onResize(){
+        this.isMobile=window.innerWidth < 600
+        console.log("ssss")
+        },
         clickDistrict(districtId,districtname) {
             this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
             this.$store.commit('selectedDistrict',districtname);
@@ -146,11 +158,7 @@ export default {
   async created(){
     //var parser,xmlDoc;
     var text=await getAllDistrict();
-//   var text2 = await getAllLibraries();
-//  this.districtList=await getAllDistrict();
  this.allLibrariesList = await getAllLibraries();
-//  parser=new DOMParser()
-//  xmlDoc=parser.parseFromString(text,"text/xml")
 console.log(text.data)
 
 // console.log(this.districtList)
@@ -158,14 +166,6 @@ console.log(text.data)
   },
 
 }   
-
-  function printData(){
-           console.log(getAllDistrict);
-        }
-
-
-
-printData()
 
 
 </script>
