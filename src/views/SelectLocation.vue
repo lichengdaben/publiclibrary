@@ -19,7 +19,7 @@
                         </div> 
                     </div>
                     <div v-if="districtList" id="districtDropdown" class="dropdown-content">
-                        <a v-for="district in districtList" :key="district.id" v-bind:id="'district' + district.id" v-on:click="clickDistrict(district.id,district.Name)">{{ district.Name}}</a>            
+                        <a v-for="district in districtList" :key="district.districtId" v-bind:id="'district' + district.districtId" v-on:click="clickDistrict(district.districtId, district.districtName)">{{ district.districtName }}</a>            
                     </div>
                 </div>
             </b-col>
@@ -82,11 +82,12 @@
 </div>
 </template>
 
-<script>
+<script >
 import { mixins } from '@/common/mixins'
 import  {getAllDistrict, getAllLibraries} from '@/service/test.js'
 import SelectLocationH5 from './SelectLocationH5.vue'
 import SelectLocationT from './SelectLocationT.vue'
+
 export default {
   name: 'SelectLocation',
   components: { SelectLocationH5,SelectLocationT },
@@ -141,32 +142,16 @@ export default {
             }
             
         },
+      
      
   },
   async created(){
-    //var parser,xmlDoc;
-    var text=await getAllDistrict();
-//   var text2 = await getAllLibraries();
-//  this.districtList=await getAllDistrict();
- this.allLibrariesList = await getAllLibraries();
-//  parser=new DOMParser()
-//  xmlDoc=parser.parseFromString(text,"text/xml")
-console.log(text.data)
-
-// console.log(this.districtList)
-// console.log(this.allLibrariesList)
+    this.districtList = (await getAllDistrict()).data.data;
+    this.allLibrariesList = (await getAllLibraries()).data;
   },
+  
 
 }   
-
-  function printData(){
-           console.log(getAllDistrict);
-        }
-
-
-
-printData()
-
 
 </script>
 
