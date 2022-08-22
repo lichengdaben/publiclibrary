@@ -7,7 +7,7 @@
     } from '@/common/mixins'
 
     export default {
-        name: 'BookingConfirmation',
+        name: 'WorkstationGroup',
         data() {
             return {
                 districtList: null,

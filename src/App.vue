@@ -4,8 +4,8 @@
       <b-container  class=" cataloguebutton" fluid>
         <b-row>
           <b-col cols="4" id="title">
-            <h1 class="title1">PLACE WORKSTATION BOOKING</h1>
-            <h2 class="title2">SELECT LOCATION</h2>
+            <h1 class="app_header">PLACE WORKSTATION BOOKING</h1>
+            <h2 class="app_title">SELECT LOCATION</h2>
           </b-col>
           <b-col class="cataloguebutton" id="catalogue">
             <ul>
