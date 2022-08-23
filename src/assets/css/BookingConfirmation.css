@@ -45,7 +45,8 @@
 
 .bookingConfirmationButtons {
     display: inline-flex;
-    text-align: center;
+    justify-content: center;
+    width: 50%;
 }
 
 #bookingConfirmationPrint {

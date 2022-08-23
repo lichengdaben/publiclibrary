@@ -117,10 +117,14 @@
                             </li>
                             <li>
                                 <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationPrint">Print</button>
+                                    <button id="bookingConfirmationPrint">
+                                        <font-awesome-icon icon="fa-solid fa-print" />&nbsp;&nbsp;Print
+                                    </button>
                                 </div>
                                 <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationSave">Save</button>
+                                    <button id="bookingConfirmationSave">
+                                        <font-awesome-icon icon="fa-regular fa-folder" />&nbsp;&nbsp;Save
+                                    </button>
                                 </div>
                             </li>
                         </ul>
