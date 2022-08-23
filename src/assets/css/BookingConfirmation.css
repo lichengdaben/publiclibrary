@@ -1,0 +1,69 @@
+.bookingConfirmationWarning {
+    font-weight: bold;
+}
+
+.bookingConfirmationWarning > em {
+    color: #FF0000;
+}
+
+#containerBookingConfirmation {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 33px;
+    padding-right: 33px;
+    border: 1px solid #BBBBBB;
+    width: 90%;
+}
+
+.bookingConfirmationCol > ul {
+    border-bottom: 1px dotted #BBBBBB;
+}
+
+.bookingConfirmationCol > ul > li div {
+    display: inline-block;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.bookingConfirmationGrid {
+    padding-bottom: 4px;
+}
+
+.bookingConfirmationFieldTitle {
+    color: #096BCC;
+    width: 194px;
+}
+
+.bookingConfirmationFieldColon {
+    color: #096BCC;
+    width: 24px;
+}
+
+#bookingConfirmationImage {
+    width: 100%;
+}
+
+.bookingConfirmationButtons {
+    display: inline-flex;
+    text-align: center;
+}
+
+#bookingConfirmationPrint {
+    background-image: linear-gradient(rgb(224,255,229), rgb(184,236,193));
+    border: none;
+    border-radius: 8px;
+    width: 25%;
+    height: 11%;
+    min-width: 100px;
+    min-height: 42px;
+}
+
+#bookingConfirmationSave {
+    background-image: linear-gradient(rgb(254,241,224), rgb(235,214,186));
+    border: none;
+    border-radius: 8px;
+    width: 25%;
+    height: 11%;
+    min-width: 100px;
+    min-height: 42px;
+}
