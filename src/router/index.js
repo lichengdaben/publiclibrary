@@ -40,8 +40,11 @@ const routes = [
   name: 'TermPageH5',
   component: () => import(/* webpackChunkName: "about" */ '../views/TermPageH5.vue')
 },
-
-
+{
+  path: '/workstationbooking/BookingSystem',
+  name: 'BookingSystem',
+  component: () => import(/* webpackChunkName: "about" */ '../views/BookingSystem.vue')
+}
 ]
 
 const router = new VueRouter({
