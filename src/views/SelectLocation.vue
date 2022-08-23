@@ -84,7 +84,7 @@
 
 <script >
 import { mixins } from '@/common/mixins'
-import  {getAllDistrict, getAllLibraries} from '@/service/test.js'
+import  {getAllDistrict,queryLibraryByDistrictId} from '@/service/test.js'
 import SelectLocationH5 from './SelectLocationH5.vue'
 import SelectLocationT from './SelectLocationT.vue'
 
@@ -147,7 +147,8 @@ export default {
   },
   async created(){
     this.districtList = (await getAllDistrict()).data.data;
-    this.allLibrariesList = (await getAllLibraries()).data;
+    this.queryLibraryByDistrictId=(await queryLibraryByDistrictId(1)).data.data
+    console.log(this.queryLibraryByDistrictId);
   },
   
 
