@@ -1,24 +1,6 @@
 import request from '@/common/request'
 
 
-// export async function getAllDistrict () {
-//     return request({
-//         url: '/cfm_getDistrict',
-//         method: 'get'
-//         // params
-//       })
-//     }
-
-
-// export async function getAllLibraries () {
-//           return request({
-//               url: `/cfm_getAllLibrary`,
-//               method: 'get',
-//               // params: 
-//             })
-//   }
-
-
 
  export async function getAllDistrict () {
          return request({
@@ -38,7 +20,6 @@ import request from '@/common/request'
 //  }
 
  export async function queryLibraryByDistrictId (districtId) {
-  console.log(districtId);
   return request({
       url: `/cfm-admin-service/open-api/library/queryLibraryByDistrictId/` + districtId,
       method: 'get',

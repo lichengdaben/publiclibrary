@@ -33,7 +33,7 @@
                         </div> 
                     </div>
                     <div id="libraryDropdown" class="dropdown-content">
-                        <a v-for="library in libraryResult" :key="library.id" v-on:click="clickLibraries(library.Name)">{{library.Name}}</a>
+                        <a v-for="library in libraryResult" :key="library.id" v-on:click="clickLibraries(library.libraryName,library.libraryId)">{{library.libraryName}}</a>
                     </div>
                 </div>
             </b-col>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div v-show="!isShow"  id="workStationDropdown" >
-                        <div class="rectangle1"    >
+                        <div class="rectangle1" >
                             <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
                             <label for="workstationtype">
                                 <div class="firstfont">ADULT <br></div>
@@ -120,17 +120,25 @@ export default {
     }
   },
   methods: {
-        clickDistrict(districtId,districtname) {
-            this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
-            this.$store.commit('selectedDistrict',districtname);
-            this. selectedDistrictName=districtname
-            console.log(this.$store.state.selectedDistrict)
-        },
-        clickLibraries(libraryName) {
+        // clickDistrict(districtId,districtname) {
+        //     this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
+        //     this.$store.commit('selectedDistrict',districtname);
+        //     this. selectedDistrictName=districtname
+        //     console.log(this.$store.state.selectedDistrict)
+        // },
+        async clickDistrict(districtId,districtname) {
+            this.libraryResult=(await queryLibraryByDistrictId(districtId)).data.data;
+           this.$store.commit('selectedDistrict',districtname);
+           this. selectedDistrictName=districtname
+           console.log(this.libraryResult)
+        //    console.log(this.$store.state.selectedDistrict)
+         },
+        async clickLibraries(libraryName) {
             this.$store.commit('selectedLibrary',libraryName);
             this.selectedLibraryName=libraryName
             console.log(this.$store.state.selectedLibrary)
         },
+      
         agreeToConditionOfUse() {
             let conditionOfUse = document.getElementById("conditionOfUse");
             let next = document.getElementById("next");
@@ -142,13 +150,9 @@ export default {
             }
             
         },
-      
-     
   },
   async created(){
     this.districtList = (await getAllDistrict()).data.data;
-    this.queryLibraryByDistrictId=(await queryLibraryByDistrictId(1)).data.data
-    console.log(this.queryLibraryByDistrictId);
   },
   
 
