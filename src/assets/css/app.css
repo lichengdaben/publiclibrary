@@ -281,11 +281,25 @@ nav a.router-link-exact-active {
 
 .rectangle1 {
     height: 72px;
+    background: var(--unnamed-color-c8c8c8) 0% 0% no-repeat padding-box;
+    background: #C8C8C8 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    opacity: 1;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color:#FFFFFF;
+}
+
+.rectangle1:hover{
+    height: 72px;
     border: 1px solid #f8f6f6;
     margin-top: 10px;
     display: flex;
     justify-content: space-evenly;
-    align-items: center
+    align-items: center;
+    padding:5px;
 }
 
 #workstationtype {
@@ -391,6 +405,19 @@ nav a.router-link-exact-active {
 
 }
 
+.buttonNext2 {
+    border: 1px solid var(--unnamed-color-d4d4d4);
+    background: transparent linear-gradient(180deg, #1C7CD5 0%, #0063C0 100%) 0% 0% no-repeat padding-box;
+    width: 174px;
+    height: 54px;
+    font-weight: bold;
+    border: 1px solid #D4D4D4;
+    border-radius: 4px;
+    opacity: 1;
+    float: right;
+    color:white;
+}
+
 #containerMobile2 {
     display: flex;
     justify-content: space-between;
@@ -435,3 +462,30 @@ nav a.router-link-exact-active {
 .dropbtn {
     padding: 30px 20px
 }
+
+
+
+.col-6{
+    flex: 0 0 50%;
+    max-width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    }
+
+.rightbutton{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center
+}
+
+.footer {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+}
+
+#conditionPage{
+
+}
+

@@ -18,7 +18,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
-import { faExclamation, faAngleDown, faAngleRight, faRightLong, faDisplay, faPrint, faCircleRight, faRotateRight, faReply } from '@fortawesome/free-solid-svg-icons'
+import { faExclamation, faAngleRight, faRightLong, faDisplay, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { faFolder } from '@fortawesome/free-regular-svg-icons'
 
 import VueGoodTablePlugin from 'vue-good-table';
@@ -35,7 +35,7 @@ library.add(faCircleRight);
 library.add(faRotateRight);
 library.add(faReply);
 library.add(faFolder);
-
+library.add(faArrowRotateLeft);
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
