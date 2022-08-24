@@ -41,33 +41,47 @@
                 <div class="dropdown">
                     <div class="dropbtn">
                         <div class="firstHeader">
-                            <div>CHOOSE COMPUTER</div>
-                            <div class="secondHeader">Computer specially equipped for different users</div> 
-                        </div>
+                            <div>WORKSTATION TYPE</div>
+                        </div>     
                     </div>
-                    <div v-show="!isShow"  id="workStationDropdown" >
-                        <div class="rectangle1" >
+                    <div v-show="isShow"  id="workStationDropdown" >
+                        <div  v-for="worktype in  workstationtype" :key="worktype.id">
+                        <div class="rectangle1">
                             <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
                             <label for="workstationtype">
-                                <div class="firstfont">ADULT <br></div>
+                                <div class="firstfont"> {{worktype.typeName}}<br></div>
                                 <div class="secondfont">WORKSTATION</div>
                             </label>
                             <font-awesome-icon icon="fas fa-exclamation" class="fa-solid fa-exclamation" id="exclamationicon"/>
                         </div>
-                        <div class="rectangle1"> 
-                            <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
-                            <label for="workstationtype">
-                                <div class="firstfont">AV<br></div>
-                                <div class="secondfont">WORKSTATION</div>
-                            </label>
-                          <font-awesome-icon icon="fas fa-exclamation" class="fa-solid fa-exclamation" id="exclamationicon"/>
                         </div>
                     </div>
                 </div>
             </b-col>
         </b-row>
     </b-container>
-    <b-container fluid id="container3" class="controller clearfix">
+    <b-container>
+     <b-row align-v="space-around" class="footer">
+      <b-col cols="6">
+        <div>
+           <button id="next" type="button" class="buttonNext"  @click='jumpToNext'>Back
+        <font-awesome-icon icon="fa-solid fa-arrow-rotate-left" />
+        </button>
+    </div>
+      </b-col>
+      <b-col cols="6">
+      <div class="rightbutton">
+        <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" v-model="checked">
+         <div> I agree to the</div>
+          <a id="conditionPage" @click='jumpToTerm'>&lt;Condition of Use&gt;</a>
+        <button id="next" type="button" class="buttonNext2"  @click='jumpToNext'>Next
+        <font-awesome-icon icon="fas fa-right-long"/>
+        </button>
+         </div>
+      </b-col>
+    </b-row>
+     </b-container>
+    <!--<b-container fluid id="container3" class="controller clearfix">
             <button type="button" class="button1">
                 <div class="containerbutton">
                     <input type="checkbox" class="checkedboxstyle" v-model="checked">
@@ -77,14 +91,14 @@
             <button type="button" class="button2" style="float: right;" @click='jumpToNext'>Accept and Continue
                 <font-awesome-icon icon="fas fa-right-long"/>
             </button>
-    </b-container>
+    </b-container>-->
 </div>
 </div>
 </template>
 
 <script >
 import { mixins } from '@/common/mixins'
-import  {getAllDistrict,queryLibraryByDistrictId} from '@/service/test.js'
+import  {getAllDistrict,queryLibraryByDistrictId,queryWorkstationByLibraryCode} from '@/service/test.js'
 import SelectLocationH5 from './SelectLocationH5.vue'
 import SelectLocationT from './SelectLocationT.vue'
 
@@ -94,13 +108,13 @@ export default {
   data(){
     return {
         districtList:null,
-        allLibrariesList: null,
         libraryResult:null,
         isShow:true,
         isShowMob:false,
         checked: false,
         selectedDistrictName:null,
         selectedLibraryName:null,
+        workstationtype:null,
         isShowD:true,
         isShowL:true,
         isShowW:true,
@@ -120,23 +134,18 @@ export default {
     }
   },
   methods: {
-        // clickDistrict(districtId,districtname) {
-        //     this.libraryResult = this.allLibrariesList.filter(library => library.DistrictId == districtId);
-        //     this.$store.commit('selectedDistrict',districtname);
-        //     this. selectedDistrictName=districtname
-        //     console.log(this.$store.state.selectedDistrict)
-        // },
         async clickDistrict(districtId,districtname) {
-            this.libraryResult=(await queryLibraryByDistrictId(districtId)).data.data;
+           this.libraryResult=(await queryLibraryByDistrictId(districtId)).data.data;
            this.$store.commit('selectedDistrict',districtname);
            this. selectedDistrictName=districtname
-           console.log(this.libraryResult)
         //    console.log(this.$store.state.selectedDistrict)
          },
         async clickLibraries(libraryName) {
             this.$store.commit('selectedLibrary',libraryName);
             this.selectedLibraryName=libraryName
-            console.log(this.$store.state.selectedLibrary)
+            this.workstationtype=(await queryWorkstationByLibraryCode(123456)).data.data;
+            // console.log(this.$store.state.selectedLibrary)
+            console.log( this.workstationtype)
         },
       
         agreeToConditionOfUse() {
@@ -150,6 +159,11 @@ export default {
             }
             
         },
+        jumpToTerm() {
+                this.$router.push('/workstationbooking/TermPageH5');
+            
+            
+        },
   },
   async created(){
     this.districtList = (await getAllDistrict()).data.data;
@@ -161,4 +175,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

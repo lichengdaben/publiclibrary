@@ -27,7 +27,13 @@ import request from '@/common/request'
     })
 }
 
-
+export async function queryWorkstationByLibraryCode (libraryCardNumber) {
+    return request({
+        url: `/cfm-admin-service/open-api/advancedBooking/getBookingType/`+libraryCardNumber,
+        method: 'get', 
+        // params: 
+      })
+  }
 
 //let districtList=[
 //        {"id":1,"Name":"CENTRAL AND WESTERN DISTRICT"},
