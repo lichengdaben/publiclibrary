@@ -50,7 +50,7 @@
 }
 
 #bookingConfirmationPrint {
-    background-image: linear-gradient(rgb(224,255,229), rgb(184,236,193));
+    background-image: linear-gradient(#E0FFE5, #B8ECC1);
     border: none;
     border-radius: 8px;
     width: 25%;
@@ -60,7 +60,7 @@
 }
 
 #bookingConfirmationSave {
-    background-image: linear-gradient(rgb(254,241,224), rgb(235,214,186));
+    background-image: linear-gradient(#FEF1E0, #EBD6BA);
     border: none;
     border-radius: 8px;
     width: 25%;

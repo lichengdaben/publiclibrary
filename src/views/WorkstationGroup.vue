@@ -7,39 +7,10 @@
             <b-container class="bv-example-row" id="container-DTC" fluid>
                 <b-row>
                     <b-col cols="3" class="left-menu">
-                        <ul>
-                            <li>
-                                <div class="firstHeader">
-                                    <div class="firstfont">DISTRICT</div>
-                                    <div class="secondfont">Item name</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="firstHeader">
-                                    <div class="firstfont">LIBRARY</div>
-                                    <div class="secondfont">Item name</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="firstHeader">
-                                    <div class="firstfont">CHOOSE COMPUTER</div>
-                                    <div class="secondfont">Item name</div>
-                                </div>
-                            </li>
-                            <li style="border-bottom: 1px dotted #BBBBBB;">
-                                <vs-button @click="active=!active" 
-                                        color="primary" class="SettingButton" 
-                                        type="filled">Setting
-                                </vs-button>
-                                <div class="firstHeader">
-                                    <div class="firstfont">DATE AND TIME OF USE</div>
-                                    <div class="secondfont">Item name</div>
-                                </div>
-                            </li>
-                        </ul>
+                        <WorkstationGroupLeftMenu />
                     </b-col>
                     <b-col cols="9" id="WorkstationGroup" class="right-content">
-                        <div ref="parentSidebar" id="parentx">
+                        <!--<div ref="parentSidebar" id="parentx">
                             <vs-sidebar :parent="$refs.parentSidebar" 
                                         default-index="1" color="primary" class="sidebarx"
                                         pacer v-model="active">
@@ -52,19 +23,21 @@
                                                 <h4>ajhfkajsfkjs</h4>
                                             </div>
                             </vs-sidebar>
-                        </div>
+                        </div>-->
                         <WorkstationGroupTable />
                     </b-col>
                 </b-row>
             </b-container>
         </div>
+        <WorkstationGroupFooter />
     </div>
 </template>
 
-
 <script>
-    import WorkstationGroupTable from '../components/WorkstationGroupTable.vue'
     import WorkstationGroupH5 from './WorkstationGroupH5.vue'
+    import WorkstationGroupLeftMenu from '../components/WorkstationGroupLeftMenu.vue'
+    import WorkstationGroupTable from '../components/WorkstationGroupTable.vue'
+    import WorkstationGroupFooter from '../components/WorkstationGroupFooter.vue'
 
     import { mixins } from '@/common/mixins'
 
@@ -73,7 +46,9 @@
         name: 'WorkstationGroup',
         components: {
             WorkstationGroupH5,
-            WorkstationGroupTable
+            WorkstationGroupLeftMenu,
+            WorkstationGroupTable,
+            WorkstationGroupFooter,
         },
         data() {
             return {
