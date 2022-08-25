@@ -6,20 +6,14 @@
                     <ul>
                         <li>
                             <div class="firstHeader">
-                                <div class="firstfont">DISTRICT</div>
-                                <div class="secondfont">Item name</div>
+                                <div class="firstfont">DISTRICT:</div>
+                                <div class="secondfont">{{this.$store.state.selectedDistrict}}</div>
                             </div>
                         </li>
                         <li>
                             <div class="firstHeader">
-                                <div class="firstfont">LIBRARY</div>
-                                <div class="secondfont">Item name</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="firstHeader">
-                                <div class="firstfont">CHOOSE COMPUTER</div>
-                                <div class="secondfont">Item name</div>
+                                <div class="firstfont">LIBRARY:</div>
+                                <div class="secondfont">{{this.$store.state.selectedLibrary}}</div>
                             </div>
                         </li>
                         <li style="border-bottom: 1px dotted #BBBBBB;">
@@ -27,7 +21,7 @@
                                         color="primary" class="SettingButton" type="filled">Setting
                                 </vs-button>
                             <div class="firstHeader">
-                                <div class="firstfont">DATE AND TIME OF USE</div>
+                                <div class="firstfont">FEATURE & LANGUAGE</div>
                                 <div class="secondfont">Item name</div>
                             </div>
                         </li>
@@ -74,10 +68,29 @@
             msg: String
         },
         methods: {
+       currentDateTime() {
+      const current = new Date();
+      const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
+      const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+      const dateTime = date +' '+ time;
+      return dateTime;
+                       }
 
-        }
+        },
+       async created(){
+    
+         },
     }
 </script>
 
 <style scoped>
+.firstfont{
+color:#096BCC;
+font-weight: bold;
+}
+
+.secondfont{
+color:#000000;  
+font-weight: bold;
+}
 </style>

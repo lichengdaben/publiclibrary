@@ -463,8 +463,6 @@ nav a.router-link-exact-active {
     padding: 30px 20px
 }
 
-
-
 .col-6{
     flex: 0 0 50%;
     max-width: 50%;
@@ -486,6 +484,13 @@ nav a.router-link-exact-active {
 }
 
 #conditionPage{
+    text-decoration: underline;
+    color:#1C7CD5;
+    font-weight: bold;
+}
 
+#conditionAgree{
+    font-weight: bold;
+    color:black;
 }
 
