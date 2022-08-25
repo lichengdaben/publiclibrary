@@ -12,7 +12,7 @@
           <div class="bookingDetailsInfoCenter">
             <ul>
               <li class="bookingDetailsFieldTitle">WORKSTATION GROUP :</li>
-              <li class="bookingDetailsFieldValue">2/F Children's Library Workstation</li>
+              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedWorkstationGroup }}</li>
               <li class="bookingDetailsFieldTitle">WORKSTATION NO. :</li>
               <li class="bookingDetailsFieldValue">2F15</li>
             </ul>
@@ -40,7 +40,7 @@
           <li>
             <ol>
               <li>Workstation Group :</li>
-              <li>2/F Children's Library Workstation</li>
+              <li>666</li>
               <li>Workstation no. :</li>
               <li>2F15</li>
             </ol>
@@ -56,9 +56,126 @@
 </template>
 
 <script>
-
+  export default {
+    name: 'BookingDetailsTable'
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+ol,
+ul,
+dl {
+    margin-top: 0;
+    margin-bottom: 0rem !important;
+}
+
+#bookingDetailsSessionTime {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+}
+
+
+
+#info-details {
+    width: 100%;
+    position: relative;
+}
+
+.bookingDetailsInfoLeft {
+    position: relative;
+    width: 40%;
+    width: 200px;
+    float: left;
+    z-index: 1;
+    display: inline;
+}
+
+.bookingDetailsInfoLeft .bookingDetailsImage {
+    width: 100%;
+    height: 100%;
+    max-width: 100;
+}
+
+.bookingDetailsInfoCenter {
+    margin-left: 30px;
+    width: 70%;
+    max-width: calc(70% - 100px);
+    float: left;
+    text-align: left;
+    display: inline;
+}
+
+.bookingDetailsInfoCenter li {
+    width: 100% !important;
+    line-height: 1.5em;
+    font-size: 1em;
+}
+
+.bookingDetailsInfoCenter li:nth-child(2) {
+    border-bottom: 1px dotted #D1D1D1;
+}
+
+.bookingDetailsInfoCenter li:nth-child(3) {
+    padding-top: 6px;
+}
+
+.bookingDetailsInfoCenter li:nth-child(odd) {
+    color: #096BCC;
+}
+
+.bookingDetailsInfoCenter li:nth-child(even) {
+    padding-bottom: 4px;
+}
+
+.bookingDetailsInfoRight {
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    float: right;
+    width: 90%;
+    height: 90%;
+    min-width: 120px;
+    max-width: 120px;
+    align-content: center;
+    background-color: #ffffff;
+    color: #096BCC;
+    font-weight: bold;
+    font-size: small;
+    box-shadow: 0px 3px 6px #6897B133;
+}
+
+.bookingDetailsInfoRight .bookingDetailsInfoRightUpper {
+    height: 80%;
+    border-radius: 10px 10px 0px 0px;
+    background-color: white;
+}
+
+.bookingDetailsInfoRight .bookingDetailsInfoRightLower {
+    height: 20%;
+    border-radius: 0px 0px 10px 10px;
+    background-color: #F6F6F6;
+}
+
+.bookingDetailsInfoRight div {
+    width: 100%;
+}
+
+.bookingDetailsFieldTitle {
+    color: #096BCC;
+    font-weight: bold;
+}
+
+.bookingDetailsFieldValue {
+    font-weight: bold;
+    display: inline-block;
+}
+
+.bookingDetailsIcon {
+    width: 25%;
+    height: auto;
+    max-width: 75px;
+    max-height: 75px;
+    text-align: center;
+}
 </style>

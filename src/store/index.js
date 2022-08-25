@@ -5,7 +5,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     district:"district",
-    library:"library"
+    library:"library",
+    workstationGroup:"workstationGroup"
   },
   getters: {
   },
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     selectedLibrary (state, val){
       state.selectedLibrary = val;
     },
+    selectedWorkstationGroup (state, val){
+      state.selectedWorkstationGroup = val;
+    }
   },
   actions: {
    

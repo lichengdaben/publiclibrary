@@ -29,7 +29,7 @@
                 </b-row>
             </b-container>
         </div>
-        <WorkstationGroupFooter />
+        <PageFooter />
     </div>
 </template>
 
@@ -37,18 +37,17 @@
     import WorkstationGroupH5 from './WorkstationGroupH5.vue'
     import WorkstationGroupLeftMenu from '../components/WorkstationGroupLeftMenu.vue'
     import WorkstationGroupTable from '../components/WorkstationGroupTable.vue'
-    import WorkstationGroupFooter from '../components/WorkstationGroupFooter.vue'
+    import PageFooter from '../components/PageFooter.vue'
 
     import { mixins } from '@/common/mixins'
 
     export default {
-        el: 'WorkstationGroup',
         name: 'WorkstationGroup',
         components: {
             WorkstationGroupH5,
             WorkstationGroupLeftMenu,
             WorkstationGroupTable,
-            WorkstationGroupFooter,
+            PageFooter,
         },
         data() {
             return {

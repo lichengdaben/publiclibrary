@@ -14,15 +14,21 @@
             </thead>
             <tbody>
               <tr>
-                <td align="center"><input type="radio" class="workstationGroupRadioButton" name="location" value="G"/></td>
+                <td align="center">
+                  <input type="radio" class="workstationGroupRadioButton" name="location" @click="setWorkstationGroup('G/F UE Hall Workstation')" />
+                </td>
                 <td>G/F UE Hall Workstation</td>
               </tr>
               <tr>
-                <td align="center"><input type="radio" class="workstationGroupRadioButton" name="location" value="2"/></td>
+                <td align="center">
+                  <input type="radio" class="workstationGroupRadioButton" name="location" @click="setWorkstationGroup('2/F Chlildren\'s Library Workstation')" />
+                </td>
                 <td>2/F Chlildren's Library Workstation</td>
               </tr>
               <tr>
-                <td align="center"><input type="radio" class="workstationGroupRadioButton" name="location" value="3"/></td>
+                <td align="center">
+                  <input type="radio" class="workstationGroupRadioButton" name="location" @click="setWorkstationGroup('3/F Adult Lending Library Workstation')" />
+                </td>
                 <td>3/F Adult Lending Library Workstation</td>
               </tr>
             </tbody>
@@ -37,6 +43,17 @@
 </template>
 
 <script>
+  export default {
+    name: 'WorkstationGroupTable',
+    methods: {
+      setWorkstationGroup(workStationGroup) {
+        this.$store.commit('selectedWorkstationGroup', workStationGroup);
+        document.getElementById("workstationGroupNextLink").classList.remove("btn");
+        document.getElementById("workstationGroupNextLink").classList.remove("disabled");
+      }
+    }
+  }
+
 /*export default {
   name: 'WorkstationGroupTable',
   data(){

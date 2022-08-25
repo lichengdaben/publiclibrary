@@ -57,7 +57,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">6/F LLC Workstation</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedWorkstationGroup }}</div>
                                 </div>
                             </li>
                         </ul>
