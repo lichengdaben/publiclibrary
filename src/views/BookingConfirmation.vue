@@ -131,17 +131,24 @@
                     </b-col>
                 </b-row>
             </b-container>
+
+            <PageFooter />
         </div>
     </div>
 </template>
 
 <script>
+    import PageFooter from '../components/PageFooter.vue'
+
     import {
         mixins
     } from '@/common/mixins'
 
     export default {
         name: 'WorkstationGroup',
+        components: {
+            PageFooter,
+        },
         data() {
             return {
                 isShow: true,
@@ -163,4 +170,82 @@
 </script>
 
 <style scoped>
+ol,
+ul,
+dl {
+    margin-top: 0;
+    margin-bottom: 0rem !important;
+}
+
+.bookingConfirmationWarning {
+    font-weight: bold;
+}
+
+.bookingConfirmationWarning > em {
+    color: #FF0000;
+}
+
+#containerBookingConfirmation {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 33px;
+    padding-right: 33px;
+    border: 1px solid #BBBBBB;
+    width: 90%;
+}
+
+.bookingConfirmationCol > ul {
+    border-bottom: 1px dotted #BBBBBB;
+}
+
+.bookingConfirmationCol > ul > li div {
+    display: inline-block;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.bookingConfirmationGrid {
+    padding-bottom: 4px;
+}
+
+.bookingConfirmationFieldTitle {
+    color: #096BCC;
+    width: 194px;
+}
+
+.bookingConfirmationFieldColon {
+    color: #096BCC;
+    width: 24px;
+}
+
+#bookingConfirmationImage {
+    width: 100%;
+}
+
+.bookingConfirmationButtons {
+    display: inline-flex;
+    justify-content: center;
+    width: 50%;
+}
+
+#bookingConfirmationPrint {
+    background-image: linear-gradient(#E0FFE5, #B8ECC1);
+    border: none;
+    border-radius: 8px;
+    width: 25%;
+    height: 11%;
+    min-width: 100px;
+    min-height: 42px;
+}
+
+#bookingConfirmationSave {
+    background-image: linear-gradient(#FEF1E0, #EBD6BA);
+    border: none;
+    border-radius: 8px;
+    width: 25%;
+    height: 11%;
+    min-width: 100px;
+    min-height: 42px;
+}
+
 </style>

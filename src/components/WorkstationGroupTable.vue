@@ -95,4 +95,55 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.workStationGroupFieldTitle {
+    color: #096BCC;
+    font-weight: bold;
+}
+
+#workstationGroupSessionTime {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+}
+
+#workstationGroupSessionDetails {
+    width: 100%;
+}
+
+#workstationGroupSessionDetails tr {
+    height: 30px;
+}
+
+#workstationGroupSessionDetails tr:nth-child(odd) {
+    background-color: white;
+}
+
+#workstationGroupSessionDetails tr:nth-child(even) {
+    background-color: #F3F3F3;
+}
+
+#workstationGroupSessionDetails th {
+    background-color: #676767;
+    color: white;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#workstationGroupSessionDetails td {
+    font-weight: bold;
+    vertical-align: middle;
+    border-bottom: 1px dotted #BBBBBB;
+}
+
+#workstationGroupSessionDetails td:nth-child(odd) {
+    width: 50px;
+}
+
+.workstationGroupRadioButton {
+    width: 18px;
+    height: 18px;
+    margin-top: 6px;
+}
+
 </style>

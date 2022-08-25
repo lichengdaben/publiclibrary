@@ -39,4 +39,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.workStationGroupFieldTitle {
+    color: #096BCC;
+    font-weight: bold;
+}
+
+.workStationGroupFieldValue {
+    font-weight: bold;
+    display: inline;
+}
+
 </style>

@@ -76,7 +76,15 @@ dl {
     padding-bottom: 5px;
 }
 
-
+.bookingDetailsItem {
+  width: 100% !important;
+  padding: 10px;
+  background: #FFFFFF !important;
+  color: black !important;
+  border: 1px solid #D1D1D1;
+  opacity: 1;
+  align-items: center;
+}
 
 #info-details {
     width: 100%;
