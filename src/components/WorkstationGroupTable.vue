@@ -48,8 +48,8 @@
     methods: {
       setWorkstationGroup(workStationGroup) {
         this.$store.commit('selectedWorkstationGroup', workStationGroup);
-        document.getElementById("workstationGroupNextLink").classList.remove("btn");
-        document.getElementById("workstationGroupNextLink").classList.remove("disabled");
+        document.getElementById("pageFooterNextLink").classList.remove("btn");
+        document.getElementById("pageFooterNextLink").classList.remove("disabled");
       }
     }
   }

@@ -46,6 +46,10 @@
             msg: String
         },
         methods: {
+        },
+        mounted() {
+            document.getElementById("pageFooterNextLink").classList.remove("btn");
+            document.getElementById("pageFooterNextLink").classList.remove("disabled");
         }
     }
 </script>
