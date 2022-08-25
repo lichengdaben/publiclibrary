@@ -132,23 +132,29 @@
                 </b-row>
             </b-container>
 
-            <PageFooter />
+            <b-container class="bv-example-row" id="containerBottom" fluid>
+                <b-row id="containerBottomRow">
+                    <b-col cols="3">
+                    </b-col>
+                    <b-col cols="3">
+                        <button id="bookingConfirmationOK">OK</button>
+                    </b-col>
+                    <b-col cols="3">
+                        <button id="bookingConfirmationAnotherBooking">Another Booking</button>
+                    </b-col>
+                    <b-col cols="3">
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
     </div>
 </template>
 
 <script>
-    import PageFooter from '../components/PageFooter.vue'
-
-    import {
-        mixins
-    } from '@/common/mixins'
+    import { mixins } from '@/common/mixins'
 
     export default {
         name: 'WorkstationGroup',
-        components: {
-            PageFooter,
-        },
         data() {
             return {
                 isShow: true,
@@ -246,6 +252,41 @@ dl {
     height: 11%;
     min-width: 100px;
     min-height: 42px;
+}
+
+#containerBottom {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#containerBottom div {
+    display: inline-flex;
+    justify-content: center;
+}
+
+#containerBottomRow {
+    width: 100%;
+}
+
+#bookingConfirmationOK {
+    background-image: linear-gradient(#1B7BD4, #0164C1);
+    color: white;
+    width: 14.5%;
+    min-width: 174px;
+}
+
+#bookingConfirmationAnotherBooking {
+    background-image: linear-gradient(#FEFEFE, #F2F2F2);
+    color: #676767;
+    width: 14.5%;
+    min-width: 174px;
+}
+
+#bookingConfirmationOK, #bookingConfirmationAnotherBooking {
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    height: 4%;
+    min-height: 44px;
 }
 
 </style>
