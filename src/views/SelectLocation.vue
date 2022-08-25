@@ -45,9 +45,9 @@
                         </div>     
                     </div>
                     <div v-show="isShow"  id="workStationDropdown" >
-                        <div  v-for="worktype in  workstationtype" :key="worktype.id">
+                        <div  v-for="worktype in  workstationtype" :key="worktype.id" >
                         <div class="rectangle1">
-                            <input type="radio" id="workstationtype" name="fav_language" value="workstationtype">
+                            <input type="radio" id="workstationtype" name="fav_language" value="workstationtype"  v-on:click="clickWorkStation(worktype.typeName)">
                             <label for="workstationtype">
                                 <div class="firstfont"> {{worktype.typeName}}<br></div>
                                 <div class="secondfont">WORKSTATION</div>
@@ -64,7 +64,7 @@
      <b-row align-v="space-around" class="footer">
       <b-col cols="6">
         <div>
-           <button id="next" type="button" class="buttonNext"  @click='jumpToNext'>Back
+           <button id="next" type="button" class="buttonNext"  @click='jumpToBack'>Back
         <font-awesome-icon icon="fa-solid fa-arrow-rotate-left" />
         </button>
     </div>
@@ -72,7 +72,7 @@
       <b-col cols="6">
       <div class="rightbutton">
         <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" v-model="checked">
-         <div> I agree to the</div>
+         <div id="conditionAgree"> I agree to the</div>
           <a id="conditionPage" @click='jumpToTerm'>&lt;Condition of Use&gt;</a>
         <button id="next" type="button" class="buttonNext2"  @click='jumpToNext'>Next
         <font-awesome-icon icon="fas fa-right-long"/>
@@ -81,17 +81,6 @@
       </b-col>
     </b-row>
      </b-container>
-    <!--<b-container fluid id="container3" class="controller clearfix">
-            <button type="button" class="button1">
-                <div class="containerbutton">
-                    <input type="checkbox" class="checkedboxstyle" v-model="checked">
-                    Condition of Use
-                </div>
-            </button>
-            <button type="button" class="button2" style="float: right;" @click='jumpToNext'>Accept and Continue
-                <font-awesome-icon icon="fas fa-right-long"/>
-            </button>
-    </b-container>-->
 </div>
 </div>
 </template>
@@ -131,23 +120,29 @@ export default {
     },
     selectedLibrary(){
         return this.$store.state.selectedLibrary
+    },
+    selectedWorkStationType(){
+       return this.$store.state.selectedWorkStationType
     }
   },
   methods: {
         async clickDistrict(districtId,districtname) {
            this.libraryResult=(await queryLibraryByDistrictId(districtId)).data.data;
            this.$store.commit('selectedDistrict',districtname);
-           this. selectedDistrictName=districtname
+           this.selectedDistrictName=districtname
         //    console.log(this.$store.state.selectedDistrict)
          },
         async clickLibraries(libraryName) {
             this.$store.commit('selectedLibrary',libraryName);
             this.selectedLibraryName=libraryName
             this.workstationtype=(await queryWorkstationByLibraryCode(123456)).data.data;
-            // console.log(this.$store.state.selectedLibrary)
-            console.log( this.workstationtype)
         },
-      
+        async clickWorkStation(workStationType) {
+            this.$store.commit('selectedWorkStationType',workStationType);
+            this.selectedWorkStation=workStationType //store  selectedWorkStationType
+            console.log( this.selectedWorkStation)
+            console.log(this.$store.state.selectedWorkStation)
+        },
         agreeToConditionOfUse() {
             let conditionOfUse = document.getElementById("conditionOfUse");
             let next = document.getElementById("next");
@@ -160,9 +155,10 @@ export default {
             
         },
         jumpToTerm() {
-                this.$router.push('/workstationbooking/TermPageH5');
-            
-            
+                this.$router.push('/workstationbooking/TermPageH5');      
+        },
+        jumpToBack() {
+                this.$router.push('/workstationbooking/HomeView');      
         },
   },
   async created(){
