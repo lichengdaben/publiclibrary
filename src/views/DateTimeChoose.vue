@@ -27,7 +27,6 @@
                         </li>
                     </ul>
                 </b-col>
-
                 <b-col cols="9" class="right-content">
                      <div ref="parentSidebar" id="parentx">
                             <vs-sidebar :parent="$refs.parentSidebar" default-index="1" 
@@ -54,7 +53,6 @@
                         </div>
                         <DateTimeChooseTable />
                     <div>
-
                     </div>
                 </b-col>
             </b-row>
@@ -92,7 +90,7 @@
             this.$store.state.selectedWorkStationLanguage=workstationLanguage
             console.log(this.$store.state.selectedWorkStationLanguage)
         },
-     async clickWorkStationFeature(workstationFeature) {
+       async clickWorkStationFeature(workstationFeature) {
             this.$store.commit('workstationFeature',workstationFeature);
             this.$store.state.selectedWorkStationFeature=workstationFeature
             console.log(this.$store.state.selectedWorkStationFeature)
@@ -102,6 +100,7 @@
     async created(){
     this.workstationLanguage = (await workstationLanguage()).data.data.records;
     this.workstationFeature = (await workstationFeature(11)).data.data.records;
+   
     console.log(this.workstationFeature)
          },
     }
@@ -128,6 +127,6 @@ font-weight: bold;
 .settingtitle{
 background:#C8C8C8;
 font-weight: bold;
-    color:black;  
+color:black;  
 }
 </style>

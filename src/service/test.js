@@ -1,10 +1,8 @@
 import request from '@/common/request'
 
-
-
  export async function getAllDistrict () {
          return request({
-             url: `/cfm-admin-service/open-api/library/selectAllDistrictVOS`,
+            url: `/cfm-admin-service/open-api/library/selectAllDistrictVOS`,
             method: 'get',
              // params: 
           })
@@ -45,6 +43,14 @@ export async function queryWorkstationByLibraryCode (libraryCardNumber) {
   export async function workstationFeature (typeId) {
     return request({
         url: `/cfm-admin-service/open-api/workstationFeature?typeId=`+typeId,
+        method: 'get', 
+        // params: 
+      })
+  }
+
+  export async function getDateOfUse (libraryId) {
+    return request({
+        url: `/cfm-admin-service/open-api/advancedBooking/getDateOfUse/`+libraryId,
         method: 'get', 
         // params: 
       })

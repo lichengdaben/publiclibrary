@@ -25,6 +25,9 @@ export default new Vuex.Store({
     selectedWorkStationFeature(state, val){
       state.selectedWorkStationFeature = val;
     },
+    selectedDateOfUse(state, val){
+      state.selectedDateOfUse = val;
+    },
     selectedWorkstationGroup (state, val){
       state.selectedWorkstationGroup = val;
     }
