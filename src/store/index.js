@@ -19,6 +19,12 @@ export default new Vuex.Store({
     selectedWorkStationType (state, val){
       state.selectedWorkStation = val;
     },
+    selectedWorkStationLanguage(state, val){
+      state.selectedWorkStationLanguage = val;
+    },
+    selectedWorkStationFeature(state, val){
+      state.selectedWorkStationFeature = val;
+    },
     selectedWorkstationGroup (state, val){
       state.selectedWorkstationGroup = val;
     }

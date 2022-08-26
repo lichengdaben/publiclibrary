@@ -35,6 +35,20 @@ export async function queryWorkstationByLibraryCode (libraryCardNumber) {
       })
   }
 
+  export async function workstationLanguage () {
+    return request({
+        url: `/cfm-admin-service/open-api/workstationLanguage`,
+        method: 'get', 
+        // params: 
+      })
+  }
+  export async function workstationFeature (typeId) {
+    return request({
+        url: `/cfm-admin-service/open-api/workstationFeature?typeId=`+typeId,
+        method: 'get', 
+        // params: 
+      })
+  }
 //let districtList=[
 //        {"id":1,"Name":"CENTRAL AND WESTERN DISTRICT"},
 //        {"id":2,"Name":"WAN CHAI DISTRICT"},

@@ -7,7 +7,7 @@
                         </b-button-group> -->
                 <div class="firstHeader">
                     <div class="firstfont">DATE OF USE</div>
-                   <div class="secondfont">{{currentDateTime()}}</div>-->
+                   <div class="secondfont">{{currentDateTime()}}</div>
                 </div>
                 <b-button-group class="Calendar-group">
                     <b-button class="Calendar-primary" variant="primary">
