@@ -55,6 +55,75 @@ export async function queryWorkstationByLibraryCode (libraryCardNumber) {
         // params: 
       })
   }
+
+export async function queryGroup(advancedBookingDate, featureIds, languageId, libraryId, session1Time, session2Time, typeId, walkInBookingChooseTimeVO) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/queryGroup`,
+    method: 'post',
+    data: {
+      "advancedBookingDate": advancedBookingDate,
+      "featureIds": featureIds,
+      "languageId": languageId,
+      "libraryId": libraryId,
+      "session1Time": session1Time,
+      "session2Time": session2Time,
+      "typeId": typeId,
+      "walkInBookingChooseTimeVO": walkInBookingChooseTimeVO
+    }
+  });
+}
+
+export async function queryDefaultWorkstation(advancedBookingDate, featureIds, languageId, libraryId, session1GroupId, session1Time, session2GroupId, session2Time, typeId) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/queryDefaultWorkstation`,
+    method: 'post',
+    data: {
+      "advancedBookingDate": advancedBookingDate,
+      "featureIds": featureIds,
+      "languageId": languageId,
+      "libraryId": libraryId,
+      "session1GroupId": session1GroupId,
+      "session1Time": session1Time,
+      "session2GroupId": session2GroupId,
+      "session2Time": session2Time,
+      "typeId": typeId
+    }
+  });
+}
+
+export async function queryWorkstationList(groupId, typeId, advancedBookingDate, sessionTime) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/queryWorkstationList`,
+    method: 'post',
+    data: {
+      "groupId": groupId,
+      "typeId": typeId,
+      "advancedBookingDate": advancedBookingDate,
+      "sessionTime": sessionTime
+    }
+  });
+}
+
+export async function confirm(advancedBookingDate, bookingSource, featureIds, hour, languageId, libraryCardNumber, libraryId, session1Time, session1WorkstationId, session2Time, session2WorkstationId, typeId) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/confirm`,
+    method: 'post',
+    data: {
+      "advancedBookingDate": advancedBookingDate,
+      "bookingSource": bookingSource,
+      "featureIds": featureIds,
+      "hour": hour,
+      "languageId": languageId,
+      "libraryCardNumber": libraryCardNumber,
+      "libraryId": libraryId,
+      "session1Time": session1Time,
+      "session1WorkstationId": session1WorkstationId,
+      "session2Time": session2Time,
+      "session2WorkstationId": session2WorkstationId,
+      "typeId": typeId
+    }
+  });
+}
 //let districtList=[
 //        {"id":1,"Name":"CENTRAL AND WESTERN DISTRICT"},
 //        {"id":2,"Name":"WAN CHAI DISTRICT"},
