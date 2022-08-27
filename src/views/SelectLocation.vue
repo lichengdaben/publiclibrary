@@ -8,6 +8,7 @@
 </div>
 <div v-else>
 <b-container class="container2">
+<NavBar/>
         <b-row>
             <b-col>
                 <div class="dropdown">
@@ -87,13 +88,14 @@
 
 <script >
 import { mixins } from '@/common/mixins'
+import NavBar from '@/components/NavBar.vue'
 import  {getAllDistrict,queryLibraryByDistrictId,queryWorkstationByLibraryCode} from '@/service/test.js'
 import SelectLocationH5 from './SelectLocationH5.vue'
 import SelectLocationT from './SelectLocationT.vue'
 
 export default {
   name: 'SelectLocation',
-  components: { SelectLocationH5,SelectLocationT },
+  components: { SelectLocationH5,SelectLocationT,NavBar },
   data(){
     return {
         districtList:null,
