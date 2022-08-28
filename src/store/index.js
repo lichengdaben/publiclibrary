@@ -28,8 +28,23 @@ export default new Vuex.Store({
     selectedDateOfUse(state, val){
       state.selectedDateOfUse = val;
     },
-    selectedWorkstationGroup (state, val){
-      state.selectedWorkstationGroup = val;
+    selectedSession1Time(state, val){
+      state.selectedSession1Time = val;
+    },
+    selectedSession1Group(state, val){
+      state.selectedSession1Group = val;
+    },
+    selectedSession1Workstation(state, val){
+      state.selectedSession1Workstation = val;
+    },
+    selectedSession2Time(state, val){
+      state.selectedSession2Time = val;
+    },
+    selectedSession2Group(state, val){
+      state.selectedSession2Group = val;
+    },
+    selectedSession2Workstation(state, val){
+      state.selectedSession2Workstation = val;
     }
   },
   actions: {

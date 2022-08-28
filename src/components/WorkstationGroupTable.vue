@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div class="workStationGroupFieldTitle" id="workstationGroupSessionTime">SESSION 1 : 10:00-11:00</div>
+  <div v-if="this.groupList">
+    <div class="workStationGroupFieldTitle" id="workstationGroupSessionTime">SESSION 1 : {{ this.$store.state.selectedSession1Time }}</div>
 
     <b-container class="bv-example-row" fluid>
       <b-row>
         <b-col cols="12">
-          <table id="workstationGroupSessionDetails">
+          <table class="workstationGroupSessionDetails">
             <thead>
               <tr>
                 <th></th>
@@ -13,23 +13,38 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="session1Group in this.groupList.session1Group" :key="session1Group.groupId" v-bind:id="'session1Group' + session1Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location" @click="setWorkstationGroup('G/F UE Hall Workstation')" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location1" @click="setWorkstationGroup1(session1Group)" />
                 </td>
-                <td>G/F UE Hall Workstation</td>
+                <td>{{ session1Group.floorNum + ' ' + session1Group.groupName }}</td>
               </tr>
+            </tbody>
+          </table>
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <div style="padding: 10px;"></div>
+
+    <div class="workStationGroupFieldTitle" id="workstationGroupSessionTime">SESSION 2 : {{ this.$store.state.selectedSession2Time }}</div>
+
+    <b-container class="bv-example-row" fluid>
+      <b-row>
+        <b-col cols="12">
+          <table class="workstationGroupSessionDetails">
+            <thead>
               <tr>
-                <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location" @click="setWorkstationGroup('2/F Chlildren\'s Library Workstation')" />
-                </td>
-                <td>2/F Chlildren's Library Workstation</td>
+                <th></th>
+                <th>WORKSTATION GROUP</th>
               </tr>
-              <tr>
+            </thead>
+            <tbody>
+              <tr v-for="session2Group in this.groupList.session2Group" :key="session2Group.groupId" v-bind:id="'session2Group' + session2Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location" @click="setWorkstationGroup('3/F Adult Lending Library Workstation')" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location2" @click="setWorkstationGroup2(session2Group)" />
                 </td>
-                <td>3/F Adult Lending Library Workstation</td>
+                <td>{{ session2Group.floorNum + ' ' + session2Group.groupName }}</td>
               </tr>
             </tbody>
           </table>
@@ -43,14 +58,51 @@
 </template>
 
 <script>
+  import { queryGroup } from '@/service/test.js'
+
   export default {
     name: 'WorkstationGroupTable',
-    methods: {
-      setWorkstationGroup(workStationGroup) {
-        this.$store.commit('selectedWorkstationGroup', workStationGroup);
-        document.getElementById("pageFooterNextLink").classList.remove("btn");
-        document.getElementById("pageFooterNextLink").classList.remove("disabled");
+    data() {
+      return {
+        advancedBookingDate: "27 August 2022",
+        featureIds: [],
+        languageId: 9,
+        libraryId: 42,
+        typeId: 11,
+        walkInBookingChooseTimeVO: {},
+        
+        groupList: null
       }
+    },
+    methods: {
+      setWorkstationGroup1(session1Group) {
+        this.$store.commit('selectedSession1Group', session1Group);
+        if (this.$store.state.selectedSession2Group) {
+          document.getElementById("pageFooterNextLink").classList.remove("btn");
+          document.getElementById("pageFooterNextLink").classList.remove("disabled");
+        }
+      },
+      
+      setWorkstationGroup2(session2Group) {
+        this.$store.commit('selectedSession2Group', session2Group);
+        if (this.$store.state.selectedSession1Group) {
+          document.getElementById("pageFooterNextLink").classList.remove("btn");
+          document.getElementById("pageFooterNextLink").classList.remove("disabled");
+        }
+      }
+    },
+    async created() {
+      this.$store.commit('selectedSession1Time', "12:00-13:00"); // 臨時代碼
+      this.$store.commit('selectedSession2Time', "14:00-15:00"); // 臨時代碼
+      this.groupList = (await queryGroup(this.advancedBookingDate,
+                                         this.featureIds,
+                                         this.languageId,
+                                         this.libraryId,
+                                         this.$store.state.selectedSession1Time,
+                                         this.$store.state.selectedSession2Time,
+                                         this.typeId,
+                                         this.walkInBookingChooseTimeVO)  
+                       ).data.data;
     }
   }
 
@@ -107,36 +159,36 @@
     padding-bottom: 5px;
 }
 
-#workstationGroupSessionDetails {
+.workstationGroupSessionDetails {
     width: 100%;
 }
 
-#workstationGroupSessionDetails tr {
+.workstationGroupSessionDetails tr {
     height: 30px;
 }
 
-#workstationGroupSessionDetails tr:nth-child(odd) {
+.workstationGroupSessionDetails tr:nth-child(odd) {
     background-color: white;
 }
 
-#workstationGroupSessionDetails tr:nth-child(even) {
+.workstationGroupSessionDetails tr:nth-child(even) {
     background-color: #F3F3F3;
 }
 
-#workstationGroupSessionDetails th {
+.workstationGroupSessionDetails th {
     background-color: #676767;
     color: white;
     padding-left: 0px;
     padding-right: 0px;
 }
 
-#workstationGroupSessionDetails td {
+.workstationGroupSessionDetails td {
     font-weight: bold;
     vertical-align: middle;
     border-bottom: 1px dotted #BBBBBB;
 }
 
-#workstationGroupSessionDetails td:nth-child(odd) {
+.workstationGroupSessionDetails td:nth-child(odd) {
     width: 50px;
 }
 

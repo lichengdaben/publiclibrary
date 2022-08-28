@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bookingDetailsFieldTitle" id="bookingDetailsSessionTime">SESSION 1 : 10:00-11:00</div>
+    <div class="bookingDetailsFieldTitle" id="bookingDetailsSessionTime">SESSION 1 : {{ this.$store.state.selectedSession1Time }}</div>
 
     <b-button v-b-toggle.info-details class="bookingDetailsItem" style="">
       <b-row align-v="center">
@@ -12,9 +12,9 @@
           <div class="bookingDetailsInfoCenter">
             <ul>
               <li class="bookingDetailsFieldTitle">WORKSTATION GROUP :</li>
-              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedWorkstationGroup }}</li>
+              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedSession1Group.floorNum + ' ' + this.$store.state.selectedSession1Group.groupName }}</li>
               <li class="bookingDetailsFieldTitle">WORKSTATION NO. :</li>
-              <li class="bookingDetailsFieldValue">2F15</li>
+              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedSession1Workstation }}</li>
             </ul>
           </div>
         </b-col>
@@ -40,9 +40,61 @@
           <li>
             <ol>
               <li>Workstation Group :</li>
-              <li>666</li>
+              <li>{{ this.$store.state.selectedSession1Group.floorNum + ' ' + this.$store.state.selectedSession1Group.groupName }}</li>
               <li>Workstation no. :</li>
-              <li>2F15</li>
+              <li>{{ this.$store.state.selectedSession1Workstation }}</li>
+            </ol>
+          </li>
+          <li><b-button v-b-toggle.toggle-item></b-button></li>
+        </ul>
+      </b-card>
+    </b-collapse>
+
+    <div style="padding: 10px;"></div>
+
+    <div class="bookingDetailsFieldTitle" id="bookingDetailsSessionTime">SESSION 2 : {{ this.$store.state.selectedSession2Time }}</div>
+
+    <b-button v-b-toggle.info-details class="bookingDetailsItem" style="">
+      <b-row align-v="center">
+        <b-col cols="10">
+          <div class="bookingDetailsInfoLeft">
+            <img src="../assets/img/wg-img.png" class="bookingDetailsImage">
+          </div>
+
+          <div class="bookingDetailsInfoCenter">
+            <ul>
+              <li class="bookingDetailsFieldTitle">WORKSTATION GROUP :</li>
+              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedSession2Group.floorNum + ' ' + this.$store.state.selectedSession2Group.groupName }}</li>
+              <li class="bookingDetailsFieldTitle">WORKSTATION NO. :</li>
+              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedSession2Workstation }}</li>
+            </ul>
+          </div>
+        </b-col>
+
+        <b-col cols="2">
+          <div class="bookingDetailsInfoRight">
+            <div class="bookingDetailsInfoRightUpper">
+              <img src="../assets/img/click-icon.png" class="bookingDetailsIcon" />
+              <div>N , SELECT WORKSTATION</div>
+            </div>
+            <div class="bookingDetailsInfoRightLower">
+              <font-awesome-icon icon="fa-solid fa-angle-down" />
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </b-button>
+
+    <b-collapse id="info-details" class="info-details">
+      <b-card>
+        <ul>
+          <li></li>
+          <li>
+            <ol>
+              <li>Workstation Group :</li>
+              <li>{{ this.$store.state.selectedSession2Group.floorNum + ' ' + this.$store.state.selectedSession2Group.groupName }}</li>
+              <li>Workstation no. :</li>
+              <li>{{ this.$store.state.selectedSession2Workstation }}</li>
             </ol>
           </li>
           <li><b-button v-b-toggle.toggle-item></b-button></li>
@@ -56,8 +108,61 @@
 </template>
 
 <script>
+  import { queryDefaultWorkstation, queryWorkstationList, confirm } from '@/service/test.js'
+
   export default {
-    name: 'BookingDetailsTable'
+    name: 'BookingDetailsTable',
+    data() {
+      return {
+        advancedBookingDate: "27 August 2022",
+        featureIds: [],
+        languageId: 10,
+        libraryId: 42,
+        session1GroupId: 71,
+        session2GroupId: 71,
+        typeId: 11,
+
+        groupId: 68,
+
+        bookingSource: 1,
+        hour: 1,
+        libraryCardNumber: "123456",
+        session1WorkstationId: 71,
+        session2WorkstationId: 71,
+
+        defaultWorkstation: null,
+        workstationList: null,
+        confirm: null
+      }
+    },
+    async created() {
+      this.defaultWorkstation = (await queryDefaultWorkstation(this.advancedBookingDate,
+                                                               this.featureIds,
+                                                               this.languageId,
+                                                               this.libraryId,
+                                                               this.session1GroupId,
+                                                               this.$store.state.selectedSession1Time,
+                                                               this.session2GroupId,
+                                                               this.$store.state.selectedSession2Time,
+                                                               this.typeId)
+                                ).data.data;
+
+      this.workstationList = (await queryWorkstationList(this.groupId, this.typeId, this.advancedBookingDate, this.$store.state.selectedSession1Time)).data.data;
+      
+      this.confirm = (await confirm(this.advancedBookingDate,
+                                    this.bookingSource,
+                                    this.featureIds,
+                                    this.hour,
+                                    this.languageId,
+                                    this.libraryCardNumber,
+                                    this.libraryId,
+                                    this.session1Time,
+                                    this.session1WorkstationId,
+                                    this.session2Time,
+                                    this.session2WorkstationId,
+                                    this.typeId)
+                     ).data.data;
+    }
   }
 </script>
 
