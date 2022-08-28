@@ -16,7 +16,7 @@
                      <div>
                          <div v-if="data.close"  class="secondHeader">Close</div>
                         <div v-if="!data.holiday" class="secondHeader">Holiday</div>
-                        <div v-show="data.isShow" class="secondHeader">Selected</div>
+                        <div v-show="chooseDate.includes(data.dayAndWeek)" class="secondHeader">Selected</div>
                     </div>
                     </b-button>
                 </b-button-group>
@@ -86,7 +86,8 @@
             return {
                 active: false,
                 dateOfUse: null,
-                isShow:false
+                isShow:false,
+                chooseDate: []
             }
         },
         props: {
@@ -95,12 +96,15 @@
         methods: {
             click(dayAndWeek){
                 console.log(dayAndWeek)
-            //   this.isShow=!this.isShow;
-            this.dateOfUse.forEach(item => {
-    if(item.dayAndWeek === dayAndWeek) {
-        item.isShow = true
-    }
-})
+                if (!this.chooseDate.includes(dayAndWeek)) {
+                    this.chooseDate.push(dayAndWeek)
+                }
+                else {
+                    let index = this.chooseDate.indexOf(dayAndWeek);
+                    if (index !== -1) {
+                        this.chooseDate.splice(index, 1);
+                    }
+                }
             },
             currentDateTime() {
                 const current = new Date();
