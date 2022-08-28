@@ -124,6 +124,32 @@ export async function confirm(advancedBookingDate, bookingSource, featureIds, ho
     }
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //let districtList=[
 //        {"id":1,"Name":"CENTRAL AND WESTERN DISTRICT"},
 //        {"id":2,"Name":"WAN CHAI DISTRICT"},
