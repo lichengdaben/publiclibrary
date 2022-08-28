@@ -5,16 +5,23 @@
                 <div class="firstfont">DATE OF USE</div>
                 <div class="secondfont">{{currentDateTime()}}</div>
             </div>
+            <div class="dateOfTime">
             <div v-for="data in this.dateOfUse" :key="data.yearAndMonth">
-                <b-button-group class="Calendar-group" style="    margin: 10px;">
-                    <b-button class="Calendar-primary">
+                <b-button-group class="Calendar-group" style="margin: 10px;">
+                    <b-button class="Calendar-primary" @click="click(data.dayAndWeek)">
+                    <div>
                         <span class="Cal-Month">{{data.currentDay}}</span>
-                        <!--{{date.yearAndMonth}}-->
-                        <span class="Cal-Date">{{data.yearAndMonth}}</span>
-                        <span Class="Cal-Status">Full Booking</span>
+                        <span class="Cal-Date">{{data.dayAndWeek}}</span>
+                    </div>
+                     <div>
+                         <div v-if="data.close"  class="secondHeader">Close</div>
+                        <div v-if="!data.holiday" class="secondHeader">Holiday</div>
+                        <div v-show="data.isShow" class="secondHeader">Selected</div>
+                    </div>
                     </b-button>
                 </b-button-group>
             </div>
+             </div>
         </div>
         <div class="p-order">
             <div class="firstHeader">
@@ -79,13 +86,22 @@
             return {
                 active: false,
                 dateOfUse: null,
-                aaaa: null
+                isShow:false
             }
         },
         props: {
             msg: String
         },
         methods: {
+            click(dayAndWeek){
+                console.log(dayAndWeek)
+            //   this.isShow=!this.isShow;
+            this.dateOfUse.forEach(item => {
+    if(item.dayAndWeek === dayAndWeek) {
+        item.isShow = true
+    }
+})
+            },
             currentDateTime() {
                 const current = new Date();
                 const date = current.getDate() + '-' + (current.getMonth() + 1) + '-' + current.getFullYear();
@@ -167,4 +183,29 @@ import {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.btn{
+    display: flex;
+    align-items:center;
+    flex-direction:row;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.dateOfTime{
+    width:60px;
+    display: flex;
+    align-items:center;
+    flex-direction:row;
+}
 </style>
