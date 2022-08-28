@@ -1,10 +1,11 @@
 <template>
     <div class="WorkstationGroup">
         <div v-if="isMobile()">
-            <WorkstationGroupH5 />
+           
         </div>
         <div v-else>
             <b-container class="bv-example-row" id="container-DTC" fluid>
+           <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
                         <WorkstationGroupLeftMenu />
@@ -34,20 +35,21 @@
 </template>
 
 <script>
-    import WorkstationGroupH5 from './WorkstationGroupH5.vue'
-    import WorkstationGroupLeftMenu from '../components/WorkstationGroupLeftMenu.vue'
-    import WorkstationGroupTable from '../components/WorkstationGroupTable.vue'
-    import PageFooter from '../components/PageFooter.vue'
-
+   
+    import WorkstationGroupLeftMenu from '/src/components/WorkstationGroupLeftMenu.vue'
+    import WorkstationGroupTable from '/src/components/WorkstationGroupTable.vue'
+    import PageFooter from '/src/components/PageFooter.vue'
+    import NavBar from '@/components/NavBar.vue'
     import { mixins } from '@/common/mixins'
 
     export default {
         name: 'WorkstationGroup',
         components: {
-            WorkstationGroupH5,
+           
             WorkstationGroupLeftMenu,
             WorkstationGroupTable,
             PageFooter,
+            NavBar
         },
         data() {
             return {

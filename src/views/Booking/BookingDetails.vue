@@ -5,6 +5,7 @@
         </div>
         <div v-else>
             <b-container class="bv-example-row" id="container-DTC" fluid>
+            <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
                         <BookingDetailsLeftMenu />
@@ -20,20 +21,20 @@
 </template>
 
 <script>
-    import WorkstationGroupH5 from './WorkstationGroupH5.vue'
-    import BookingDetailsLeftMenu from '../components/BookingDetailsLeftMenu.vue'
-    import BookingDetailsTable from '../components/BookingDetailsTable.vue'
-    import PageFooter from '../components/PageFooter.vue'
+   
+    import BookingDetailsLeftMenu from '/src/components/BookingDetailsLeftMenu.vue'
+    import BookingDetailsTable from '/src/components/BookingDetailsTable.vue'
+    import PageFooter from '/src/components/PageFooter.vue'
     
     import { mixins } from '@/common/mixins'
-
+ import NavBar from '@/components/NavBar.vue'
     export default {
         name: 'BookingDetails',
         components: {
-            WorkstationGroupH5,
             BookingDetailsLeftMenu,
             BookingDetailsTable,
             PageFooter,
+            NavBar
         },
         data() {
             return {

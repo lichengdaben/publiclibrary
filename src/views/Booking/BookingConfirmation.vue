@@ -1,11 +1,11 @@
 <template>
     <div class="BookingConfirmation">
         <div v-if="isMobile()">
-            <WorkstationGroupH5/>
         </div>
 
         <div v-else ref="contentDesktop">
             <b-container class="bv-example-row" fluid>
+            <NavBar/>
                 <b-row>
                     <b-col cols="12">
                         <div class="bookingConfirmationWarning">*You need to claim your booking within <em>10 minutes</em> before to starts or within <em>50 minutes</em> after it begins</div>
@@ -110,7 +110,7 @@
                     <b-col cols="3">
                         <ul>
                             <li>
-                                <img id="bookingConfirmationImage" src="../assets/img/sample.png" />
+                                <img id="bookingConfirmationImage" src="/src/assets/img/sample.png" />
                             </li>
                             <li>
                                 <div>&nbsp;</div>
@@ -153,9 +153,12 @@
 <script>
     import { mixins } from '@/common/mixins'
     import html2pdf from 'html2pdf.js'
-
+    import NavBar from '@/components/NavBar.vue'
     export default {
         name: 'WorkstationGroup',
+         components: {
+            NavBar
+        },
         data() {
             return {
                 isShow: true,

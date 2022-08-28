@@ -1,6 +1,6 @@
 <template>
 <div>
-    <img src="../assets/portallogo.png" alt=""  id="titleimage"> 
+    <!--<img src="../assets/portallogo.png" alt=""  id="titleimage"> -->
 
     <b-container class="container2">
         <b-row>

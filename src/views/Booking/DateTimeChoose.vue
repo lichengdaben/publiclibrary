@@ -1,6 +1,7 @@
 <template>
     <div class="DateTimeChoose">
         <b-container class="bv-example-row" id="container-DTC" fluid>
+        <NavBar/>
             <b-row>
                 <b-col cols="3" class="left-menu">
                     <ul>
@@ -60,12 +61,13 @@
     </div>
 </template>
 <script>
-    import DateTimeChooseTable from '../components/DateTimeChooseTable.vue'
+    import DateTimeChooseTable from '/src/components/DateTimeChooseTable.vue'
     import  {workstationLanguage,workstationFeature} from '@/service/test.js'
+    import NavBar from '@/components/NavBar.vue'
     export default {
         name: 'DateTimeChoose',
         components: {
-            DateTimeChooseTable 
+            DateTimeChooseTable,NavBar 
         },
         data() {
             return {
