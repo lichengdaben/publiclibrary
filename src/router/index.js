@@ -41,7 +41,8 @@ const routes = [
   component: () => import(/* webpackChunkName: "about" */ '../views/TermPageH5.vue')
 },
 {
-  path: '/workstationbooking/BookingSystem',
+//  path: '/workstationbooking/BookingSystem',
+path: '/',
   name: 'BookingSystem',
   component: () => import(/* webpackChunkName: "about" */ '../views/BookingSystem.vue')
 }
