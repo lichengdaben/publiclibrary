@@ -4,7 +4,7 @@
             <WorkstationGroupH5/>
         </div>
 
-        <div v-else>
+        <div v-else ref="contentDesktop">
             <b-container class="bv-example-row" fluid>
                 <b-row>
                     <b-col cols="12">
@@ -57,7 +57,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedWorkstationGroup }}</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedWorkstationGroup1 }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -117,12 +117,12 @@
                             </li>
                             <li>
                                 <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationPrint">
+                                    <button id="bookingConfirmationPrint" @click="printPage()">
                                         <font-awesome-icon icon="fa-solid fa-print" />&nbsp;&nbsp;Print
                                     </button>
                                 </div>
                                 <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationSave">
+                                    <button id="bookingConfirmationSave" @click="savePage()">
                                         <font-awesome-icon icon="fa-regular fa-folder" />&nbsp;&nbsp;Save
                                     </button>
                                 </div>
@@ -152,6 +152,7 @@
 
 <script>
     import { mixins } from '@/common/mixins'
+    import html2pdf from 'html2pdf.js'
 
     export default {
         name: 'WorkstationGroup',
@@ -170,7 +171,24 @@
             msg: String
         },
         methods: {
+            printPage() {
+                window.print();
+            },
 
+            savePage() {
+                let rightNow = new Date();
+
+                html2pdf(this.$refs.contentDesktop, {
+					margin: 1,
+					filename: 'AdvancedBookingConfirmation_' +
+                              ("0000" + rightNow.getFullYear()).slice(-4) +
+                              ("00" + (rightNow.getMonth() + 1)).slice(-2) +
+                              ("00" + rightNow.getDate()).slice(-2) + '_' + '1024' + '.pdf',
+					image: { type: 'png', quality: 0.98 },
+					html2canvas: { dpi: 192, letterRendering: true },
+					jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+				})
+            }
         }
     }
 </script>
