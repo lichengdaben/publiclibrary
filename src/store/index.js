@@ -45,7 +45,13 @@ export default new Vuex.Store({
     },
     selectedSession2Workstation(state, val){
       state.selectedSession2Workstation = val;
-    }
+    },
+    selectedHour(state, val){
+      state.selectedHour= val;
+    },
+    selectedDate(state, val){
+      state.selectedDate= val;
+    },
   },
   actions: {
    

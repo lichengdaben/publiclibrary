@@ -135,6 +135,5 @@ font-weight:bold
 }
 .squaregroup{
 display:flex;
-
 }
 </style>

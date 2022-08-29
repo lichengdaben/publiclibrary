@@ -97,12 +97,12 @@
             this.$store.state.selectedWorkStationFeature=workstationFeature
             console.log(this.$store.state.selectedWorkStationFeature)
         },
+       
         },
 
     async created(){
     this.workstationLanguage = (await workstationLanguage()).data.data.records;
     this.workstationFeature = (await workstationFeature(11)).data.data.records;
-   
     console.log(this.workstationFeature)
          },
     }

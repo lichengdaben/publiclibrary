@@ -29,11 +29,11 @@
                 <div class="secondfont">Usage the thime</div>
             </div>
             <b-button-group class="Calendar-group">
-                <b-button cols="3" class="ChooseTime-primary" variant="primary">
+                <b-button cols="3" class="ChooseTime-primary" variant="primary"  @click="clickHour(1)">
                     <span class="Ct-Time">1 Hour</span>
                 </b-button>
-                <b-button class="ChooseTime-outline" variant="outline-dark">
-                    <span class="Ct-Time">2 Hour</span>
+                <b-button class="ChooseTime-outline" variant="outline-dark"  @click="clickHour(2)">
+                    <span class="Ct-Time" >2 Hour</span>
                 </b-button>
             </b-button-group>
         </div>
@@ -52,7 +52,7 @@
                             <input type="checkbox" checked="checked" class="checkedboxstyle">
                         </b-button>
                     </li>
-                    <!--<li>
+                    <li>
                         <div class="secondfont">Afternoon </div>
                         <b-button v-for='(product, index) in AfternoonPeriod' :key='product.id'
                             class="TimePeriod-outline" variant="outline-dark">
@@ -69,7 +69,7 @@
                                 </span>{{ product.name }}</span>
                             <input type="checkbox" checked="checked" class="checkedboxstyle ">
                         </b-button>
-                    </li>-->
+                    </li>
                 </ul>
             </b-button-group>
         </div>
@@ -87,26 +87,43 @@
                 active: false,
                 dateOfUse: null,
                 isShow:false,
-                chooseDate: []
+                chooseDate: [],
             }
         },
         props: {
             msg: String
         },
         methods: {
-            click(dayAndWeek){
-                console.log(dayAndWeek)
-                if (!this.chooseDate.includes(dayAndWeek)) {
-                    this.chooseDate.push(dayAndWeek)
-                }
-                else {
-                    let index = this.chooseDate.indexOf(dayAndWeek);
-                    if (index !== -1) {
-                        this.chooseDate.splice(index, 1);
+            async click(dayAndWeek) {
+                this.$store.commit('selectedDate',dayAndWeek);
+                this.$store.state.selectedDate=dayAndWeek
+                console.log( this.$store.state.selectedDate)
+                    if (!this.chooseDate.includes(dayAndWeek)) {
+                        this.chooseDate.push(dayAndWeek)
                     }
+                    else {
+                        let index = this.chooseDate.indexOf(dayAndWeek);
+                        if (index !== -1) {
+                            this.chooseDate.splice(index, 1);
+                        }
+                    }
+                },
+            async  clickHour(hourTime){
+                if(hourTime==1){
+                    this.$store.commit('selectedHour',hourTime);
+                    this.$store.state.selectedHour=hourTime
+                    console.log(this.$store.state.selectedHour)
+                }else if(hourTime==2){
+                    this.$store.commit('selectedHour',hourTime);
+                    this.$store.state.selectedHour=hourTime
+                    console.log(this.$store.state.selectedHour)
                 }
             },
-            currentDateTime() {
+            async clickDate(date){
+                this.$store.commit('selectedDate',date);
+                this.$store.state.selectedDate=date
+            },
+            async currentDateTime() {
                 const current = new Date();
                 const date = current.getDate() + '-' + (current.getMonth() + 1) + '-' + current.getFullYear();
                 const dateTime = date;
@@ -120,10 +137,11 @@
             // },
         },
         async created() {
+            console.log( 'aaaaaaa' )
             this.dateOfUse = (await getDateOfUse(1)).data.data;
-        },
+            console.log( this.dateOfUse )
+        }
     }
-    
 import {
             ref
         } from 'vue'
