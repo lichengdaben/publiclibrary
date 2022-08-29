@@ -6,25 +6,25 @@
                 <div class="secondfont" style="padding: 10px 0px 0px 0px; margin: 0px;">{{ currentDateTime }}</div>
             </div>
             <div class="dateOfTime">
-                <div v-for="data in this.dateOfUse" :key="data.yearAndMonth">
+                <div v-for="(data, index) in this.dateOfUse" :key="index">
                     <b-button-group class="Calendar-group" style="margin: 10px;">
                         <b-button v-if="data.close" class="Calendar-primary" style="margin: 0px 10px; background-color: #545B62; color: white;">
                             <div>
                                 <!--<span class="Cal-Month">{{ data.currentDay }}</span>-->
                                 <span class="Cal-Date">{{ data.dayAndWeek }}</span>
                             </div>
-                            <div>
+                            <div>   
                                 <div style="background-color: #545B62;">Closed</div>
                             </div>
                         </b-button>
-                        <b-button v-else-if="!data.close" class="Calendar-primary" @click="click(data.dayAndWeek)" style="margin: 0px 10px;">
+                        <b-button v-else-if="!data.close" class="Calendar-primary" @click="clickDate(data.dayAndWeek)" style="margin: 0px 10px;">
                             <div>
                                 <!--<span class="Cal-Month">{{ data.currentDay }}</span>-->
                                 <span class="Cal-Date">{{ data.dayAndWeek }}</span>
                             </div>
                             <div>
-                                <div v-if="chooseDate.includes(data.dayAndWeek)" class="secondHeader">Selected</div>
-                                <div v-else-if="data.holiday" class="secondHeader">Holiday</div>
+                                <div v-if="chooseDate == data.dayAndWeek" class="secondHeader">Selected</div>
+                                <div v-else-if="data.holiday" class="secondHeader" style="color: red;">Holiday</div>
                             </div>
                         </b-button>
                     </b-button-group>
@@ -56,7 +56,7 @@
                         <tr>
                             <th colspan="4">Morning</th>
                             <th colspan="5">Afternoon</th>
-                            <th colspan="5">Night</th>
+                            <th colspan="4">Night</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,19 +64,19 @@
                             <td v-for="time in morningPeriod" :key="time.id" v-bind:id="'timeRange' + time">
                                 <div class="timeRange">{{ time.name }}</div>
                                 <div align="center">
-                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" />
+                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
                                 </div>
                             </td>
                             <td v-for="time in afternoonPeriod" :key="time.id" v-bind:id="'timeRange' + time">
                                 <div class="timeRange">{{ time.name }}</div>
                                 <div align="center">
-                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" />
+                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
                                 </div>
                             </td>
                             <td v-for="time in nightPeriod" :key="time.id" v-bind:id="'timeRange' + time">
                                 <div class="timeRange">{{ time.name }}</div>
                                 <div align="center">
-                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" />
+                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
                                 </div>
                             </td>
                         </tr>
@@ -125,40 +125,91 @@
                 active: false,
                 dateOfUse: null,
                 isShow:false,
-                chooseDate: [],
+                chooseDate: null,
                 currentDateTime: null,
                 morningPeriod: null,
                 afternoonPeriod: null,
-                nightPeriod: null
+                nightPeriod: null,
+                selectedHours: []
             }
         },
         props: {
             msg: String
         },
         methods: {
-            async click(dayAndWeek) {
-                this.$store.commit('selectedDate',dayAndWeek);
-                this.$store.state.selectedDate=dayAndWeek
-                console.log(this.$store.state.selectedDate)
-                if (!this.chooseDate.includes(dayAndWeek)) {
-                    this.chooseDate.push(dayAndWeek)
-                } else {
-                    let index = this.chooseDate.indexOf(dayAndWeek);
-                    if (index !== -1) {
-                        this.chooseDate.splice(index, 1);
-                    }
+            async clickDate(dayAndWeek) {
+                this.$store.commit('selectedDate', dayAndWeek);
+                this.$store.commit('selectedSession1Time', null);
+                this.$store.commit('selectedSession2Time', null);
+                this.$store.state.selectedDate = dayAndWeek
+
+                if (this.chooseDate != dayAndWeek) {
+                    this.chooseDate = dayAndWeek;
+                }
+
+                this.selectedHours = [];
+
+                let checkboxes = document.getElementsByClassName('checkbox');
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = false;
+                    checkbox.disabled = false;
                 }
             },
 
             async clickHour(hourTime) {
                 this.$store.commit('selectedHour', hourTime);
-                //this.$store.state.selectedHour = hourTime;
-                //console.log(this.$store.state.selectedHour);
+                this.$store.commit('selectedSession1Time', null);
+                this.$store.commit('selectedSession2Time', null);
+
+                this.selectedHours = [];
+                
+                let checkboxes = document.getElementsByClassName('checkbox');
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = false;
+                    checkbox.disabled = false;
+                }
             },
 
-            async clickDate(date) {
-                this.$store.commit('selectedDate',date);
-                this.$store.state.selectedDate=date
+            addRemoveHour(time) {
+                let hour = parseInt(time.substring(0, 2));
+                let index = this.selectedHours.indexOf(hour);
+                let checkboxes = document.getElementsByClassName('checkbox');
+                let maxSelections = 3 - this.$store.state.selectedHour;
+
+                if (index == -1) {
+                    this.selectedHours.push(hour);
+                    if (this.selectedHours.length >= maxSelections) {
+                        for (let checkbox of checkboxes) {
+                            if (!checkbox.checked) {
+                                checkbox.disabled = true;
+                            }
+                        }
+                    }
+
+                    if (maxSelections == 1) {
+                        this.$store.commit('selectedSession1Time', ('0' + hour).slice(-2) + ':00-' + ('0' + (hour + 2)).slice(-2) + ':00');
+                    } else if (maxSelections == 2 && this.selectedHours.length == 1) {
+                        this.$store.commit('selectedSession1Time', ('0' + hour).slice(-2) + ':00-' + ('0' + (hour + 1)).slice(-2) + ':00');
+                    } else if (maxSelections == 2 && this.selectedHours.length == 2) {
+                        if (this.selectedHours[0] > this.selectedHours[1]) {
+                            [this.selectedHours[0], this.selectedHours[1]] = [this.selectedHours[1], this.selectedHours[0]];
+                        }
+                        this.$store.commit('selectedSession1Time', ('0' + this.selectedHours[0]).slice(-2) + ':00-' + ('0' + (this.selectedHours[0] + 1)).slice(-2) + ':00');
+                        this.$store.commit('selectedSession2Time', ('0' + this.selectedHours[1]).slice(-2) + ':00-' + ('0' + (this.selectedHours[1] + 1)).slice(-2) + ':00');
+                    }
+                } else {
+                    this.selectedHours.splice(index, 1);
+
+                    this.$store.commit('selectedSession1Time', null);
+                    this.$store.commit('selectedSession2Time', null);
+                    if (maxSelections == 2) {
+                        this.$store.commit('selectedSession1Time', ('0' + this.selectedHours[0]).slice(-2) + ':00-' + ('0' + (this.selectedHours[0] + 1)).slice(-2) + ':00');
+                    }
+
+                    for (let checkbox of checkboxes) {
+                        checkbox.disabled = false;
+                    }
+                }
             },
 
             getCurrentDateTime() {
@@ -176,14 +227,33 @@
         },
         async created() {
             this.dateOfUse = (await getDateOfUse(1)).data.data;
-            this.clickHour(1);
-            console.log(this.dateOfUse);
+
+            this.dateOfUse[1].close = false; // 臨時代碼
+            this.dateOfUse[2].close = false; // 臨時代碼
+            this.dateOfUse[3].close = false; // 臨時代碼
+            this.dateOfUse[4].close = false; // 臨時代碼
+            this.dateOfUse[5].close = false; // 臨時代碼
+
+            for (let i = 0; i < this.dateOfUse.length; i++) {
+                if (!this.dateOfUse[i].close) {
+                    this.$store.commit('selectedSession1Time', this.dateOfUse[i].dayAndWeek);
+                    break;
+                }
+            }
+            this.$store.commit('selectedSession2Time', 1);
+            this.$store.commit('selectedSession1Time', null);
+            this.$store.commit('selectedSession2Time', null);
         },
         async mounted() {
             this.currentDateTime = this.getCurrentDateTime();
             this.morningPeriod = MorningPeriod.value;
             this.afternoonPeriod = AfternoonPeriod.value;
             this.nightPeriod = NightPeriod.value;
+
+            let checkboxes = document.getElementsByClassName('checkbox');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = false;
+            }
         }
     }
 
@@ -192,7 +262,7 @@
     const MorningPeriod = ref([
         {
             id: 0,
-            name: '9:00'
+            name: '09:00'
         },
         {
             id: 1,
