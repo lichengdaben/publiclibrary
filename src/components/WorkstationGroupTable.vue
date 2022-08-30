@@ -15,7 +15,7 @@
             <tbody>
               <tr v-for="session1Group in this.groupList.session1Group" :key="session1Group.groupId" v-bind:id="'session1Group' + session1Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location1" @click="setWorkstationGroup1(session1Group)" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location1" @click="setWorkstationGroup('selectedSession1Group', session1Group)" />
                 </td>
                 <td>{{ session1Group.floorNum + ' ' + session1Group.groupName }}</td>
               </tr>
@@ -25,11 +25,11 @@
       </b-row>
     </b-container>
 
-    <div style="padding: 10px;"></div>
+    <div v-if="this.$store.state.selectedSession2Time" style="padding: 10px;"></div>
 
-    <div class="workStationGroupFieldTitle" id="workstationGroupSessionTime">SESSION 2 : {{ this.$store.state.selectedSession2Time }}</div>
+    <div v-if="this.$store.state.selectedSession2Time" class="workStationGroupFieldTitle" id="workstationGroupSessionTime">SESSION 2 : {{ this.$store.state.selectedSession2Time }}</div>
 
-    <b-container class="bv-example-row" fluid>
+    <b-container v-if="this.$store.state.selectedSession2Time" class="bv-example-row" fluid>
       <b-row>
         <b-col cols="12">
           <table class="workstationGroupSessionDetails">
@@ -42,7 +42,7 @@
             <tbody>
               <tr v-for="session2Group in this.groupList.session2Group" :key="session2Group.groupId" v-bind:id="'session2Group' + session2Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location2" @click="setWorkstationGroup2(session2Group)" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location2" @click="setWorkstationGroup('selectedSession2Group', session2Group)" />
                 </td>
                 <td>{{ session2Group.floorNum + ' ' + session2Group.groupName }}</td>
               </tr>
@@ -64,7 +64,6 @@
     name: 'WorkstationGroupTable',
     data() {
       return {
-        advancedBookingDate: "27 August 2022",
         featureIds: [],
         languageId: 9,
         libraryId: 42,
@@ -75,26 +74,35 @@
       }
     },
     methods: {
-      setWorkstationGroup1(session1Group) {
-        this.$store.commit('selectedSession1Group', session1Group);
-        if (this.$store.state.selectedSession2Group) {
-          document.getElementById("pageFooterNextLink").classList.remove("btn");
-          document.getElementById("pageFooterNextLink").classList.remove("disabled");
-        }
+      checkComplete() {
+          let isComplete = true;
+
+          if (!this.$store.state.selectedSession1Group) {
+            isComplete = false;
+          }
+
+          if (this.$store.state.selectedSession2Time) {
+            if (!this.$store.state.selectedSession2Group) {
+              isComplete = false;
+            }
+          }
+
+          if (isComplete) {
+              document.getElementById("pageFooterNextLink").classList.remove("btn");
+              document.getElementById("pageFooterNextLink").classList.remove("disabled");
+          } else {
+              document.getElementById("pageFooterNextLink").classList.add("btn");
+              document.getElementById("pageFooterNextLink").classList.add("disabled");
+          }
       },
-      
-      setWorkstationGroup2(session2Group) {
-        this.$store.commit('selectedSession2Group', session2Group);
-        if (this.$store.state.selectedSession1Group) {
-          document.getElementById("pageFooterNextLink").classList.remove("btn");
-          document.getElementById("pageFooterNextLink").classList.remove("disabled");
-        }
+
+      setWorkstationGroup(paramName, group) {
+        this.$store.commit(paramName, group);
+        this.checkComplete();
       }
     },
     async created() {
-      this.$store.commit('selectedSession1Time', "12:00-13:00"); // 臨時代碼
-      this.$store.commit('selectedSession2Time', "14:00-15:00"); // 臨時代碼
-      this.groupList = (await queryGroup(this.advancedBookingDate,
+      this.groupList = (await queryGroup(this.$store.state.selectedDateOfUse,
                                          this.featureIds,
                                          this.languageId,
                                          this.libraryId,
@@ -103,6 +111,12 @@
                                          this.typeId,
                                          this.walkInBookingChooseTimeVO)  
                        ).data.data;
+
+      var radio = document.getElementsByClassName('workstationGroupRadioButton');
+      radio.checked = false;
+
+      this.$store.commit('selectedSession1Group', null);
+      this.$store.commit('selectedSession2Group', null);
     }
   }
 

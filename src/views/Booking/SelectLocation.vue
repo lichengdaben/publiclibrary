@@ -163,11 +163,18 @@ export default {
                 this.$router.push('/workstationbooking/HomeView');      
         },
   },
-  async created(){
-    this.districtList = (await getAllDistrict()).data.data;
-  },
+    async created(){
+        this.districtList = (await getAllDistrict()).data.data;
 
-
+        this.$store.commit('selectedDateOfUse', null);
+        this.$store.commit('selectedHour', null);
+        this.$store.commit('selectedSession1Time', null);
+        this.$store.commit('selectedSession1Group', null);
+        this.$store.commit('selectedSession1Workstation', null);
+        this.$store.commit('selectedSession2Time', null);
+        this.$store.commit('selectedSession2Group', null);
+        this.$store.commit('selectedSession2Workstation', null);
+    },
 }   
 
 </script>
