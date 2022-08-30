@@ -6,7 +6,7 @@
       <b-row align-v="center">
         <b-col cols="10">
           <div class="bookingDetailsInfoLeft">
-            <img src="../assets/img/wg-img.png" class="bookingDetailsImage">
+            <img src="@/assets/img/wg-img.png" class="bookingDetailsImage">
           </div>
 
           <div class="bookingDetailsInfoCenter">
@@ -14,7 +14,7 @@
               <li class="bookingDetailsFieldTitle">WORKSTATION GROUP :</li>
               <li class="bookingDetailsFieldValue">{{ this.floorNum1 + ' ' + this.groupName1 }}</li>
               <li class="bookingDetailsFieldTitle">WORKSTATION NO. :</li>
-              <li class="bookingDetailsFieldValue">{{ this.defaultWorkstation.session1DefaultWktNo }}</li>
+              <li class="bookingDetailsFieldValue">{{ this.selectedWorkstation1 }}</li>
             </ul>
           </div>
         </b-col>
@@ -22,7 +22,7 @@
         <b-col cols="2">
           <div class="bookingDetailsInfoRight">
             <div class="bookingDetailsInfoRightUpper">
-              <img src="../assets/img/click-icon.png" class="bookingDetailsIcon" />
+              <img src="@/assets/img/click-icon.png" class="bookingDetailsIcon" />
               <div>FLOOR PLAN</div>
             </div>
             <div class="bookingDetailsInfoRightLower">
@@ -40,9 +40,9 @@
             <div>
               <table v-if="this.defaultWorkstation" style="width: 100%">
                 <tbody>
-                  <tr v-for="(row, rowNum) in workstationArray1" :key="rowNum" v-bind:id="'session1Row' + rowNum" style="height: 25px;">
+                  <tr v-for="(row, rowNum) in workstationArray1" :key="rowNum" v-bind:id="'session1Row' + rowNum">
                     <td v-for="(grid, colNum) in row" :key="colNum" v-bind:id="'session1Row' + rowNum + 'Col' + colNum"
-                      align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markSelected(1, colNum, rowNum, grid.name)">{{ grid.name }}</td>
+                      align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markHighlighted(1, colNum, rowNum, grid)">{{ grid.name }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -72,7 +72,7 @@
             <img src="CFM/20220701/0e49762f-0eac-4832-9a52-bb75099fcd30.png" />
 
             <div align="right">
-              <button class="bookingDetailsSelect">Select</button>
+              <button class="bookingDetailsSelect" @click="selectWorkstation(1)">Select</button>
             </div>
           </b-col>
         </b-row>
@@ -102,7 +102,7 @@
       <b-row align-v="center">
         <b-col cols="10">
           <div class="bookingDetailsInfoLeft">
-            <img src="../assets/img/wg-img.png" class="bookingDetailsImage">
+            <img src="@/assets/img/wg-img.png" class="bookingDetailsImage">
           </div>
 
           <div class="bookingDetailsInfoCenter">
@@ -110,7 +110,7 @@
               <li class="bookingDetailsFieldTitle">WORKSTATION GROUP :</li>
               <li class="bookingDetailsFieldValue">{{ this.floorNum2 + ' ' + this.groupName2 }}</li>
               <li class="bookingDetailsFieldTitle">WORKSTATION NO. :</li>
-              <li class="bookingDetailsFieldValue">{{ this.defaultWorkstation.session2DefaultWktNo }}</li>
+              <li class="bookingDetailsFieldValue">{{ this.selectedWorkstation2 }}</li>
             </ul>
           </div>
         </b-col>
@@ -118,7 +118,7 @@
         <b-col cols="2">
           <div class="bookingDetailsInfoRight">
             <div class="bookingDetailsInfoRightUpper">
-              <img src="../assets/img/click-icon.png" class="bookingDetailsIcon" />
+              <img src="@/assets/img/click-icon.png" class="bookingDetailsIcon" />
               <div>FLOOR PLAN</div>
             </div>
             <div class="bookingDetailsInfoRightLower">
@@ -136,9 +136,9 @@
             <div>
               <table v-if="this.defaultWorkstation" style="width: 100%">
                 <tbody>
-                  <tr v-for="(row, rowNum) in workstationArray2" :key="rowNum" v-bind:id="'session2Row' + rowNum" style="height: 25px;">
+                  <tr v-for="(row, rowNum) in workstationArray2" :key="rowNum" v-bind:id="'session2Row' + rowNum">
                     <td v-for="(grid, colNum) in row" :key="colNum" v-bind:id="'session2Row' + rowNum + 'Col' + colNum"
-                      align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markSelected(2, colNum, rowNum)">{{ grid.name }}</td>
+                      align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markHighlighted(2, colNum, rowNum, grid)">{{ grid.name }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -168,7 +168,7 @@
             <img src="CFM/20220701/0e49762f-0eac-4832-9a52-bb75099fcd30.png" />
 
             <div align="right">
-              <button class="bookingDetailsSelect">Select</button>
+              <button class="bookingDetailsSelect" @click="selectWorkstation(2)">Select</button>
             </div>
           </b-col>
         </b-row>
@@ -214,11 +214,20 @@
         selectedX1: null,
         selectedY1: null,
         selectedX2: null,
-        selectedY2: null
+        selectedY2: null,
+
+        selectedWorkstation1: null,
+        selectedWorkstation2: null,
+        highlightedName1: null,
+        highlightedName2: null
       }
     },
     methods: {
-      markSelected(session, x, y, workstationName) {
+      markHighlighted(session, x, y, workstation) {
+        if (workstation.status != 2) {
+          return;
+        }
+
         if (session == 1) {
           if (typeof this.selectedX1 !== 'undefined' && this.selectedX1 !== null && typeof this.selectedY1 !== 'undefined' && this.selectedY1 !== null) {
             document.getElementById('session1Row' + this.selectedY1 + 'Col' + this.selectedX1).classList.remove("selectedGrid");
@@ -226,8 +235,7 @@
           document.getElementById('session1Row' + y + 'Col' + x).classList.add("selectedGrid");
           this.selectedX1 = x;
           this.selectedY1 = y;
-
-          this.$store.commit('selectedSession1Workstation', workstationName);
+          this.highlightedName1 = workstation.name;
         } else if (session == 2) {
           if (typeof this.selectedX2 !== 'undefined' && this.selectedX2 !== null && typeof this.selectedY2 !== 'undefined' && this.selectedY2 !== null) {
             document.getElementById('session2Row' + this.selectedY2 + 'Col' + this.selectedX2).classList.remove("selectedGrid");
@@ -235,9 +243,18 @@
           document.getElementById('session2Row' + y + 'Col' + x).classList.add("selectedGrid");
           this.selectedX2 = x;
           this.selectedY2 = y;
-
-          this.$store.commit('selectedSession2Workstation', workstationName);
+          this.highlightedName2 = workstation.name;
         }
+      },
+
+      selectWorkstation(session) {
+        if (session == 1) {
+          this.selectedWorkstation1 = this.highlightedName1;
+          this.$store.commit('selectedSession1Workstation', this.highlightedName1);
+        } else if (session == 2) {
+          this.selectedWorkstation2 = this.highlightedName2;
+          this.$store.commit('selectedSession2Workstation', this.highlightedName2);
+        }console.log(session);console.log(this.highlightedName1);console.log(this.$store.state.selectedSession1Workstation);
       }
     },
     async created() {
@@ -258,6 +275,11 @@
                                                                this.$store.state.selectedSession2Time,
                                                                this.typeId)
                                 ).data.data;
+      
+      this.selectedWorkstation1 = this.defaultWorkstation.session1DefaultWktId;
+      this.selectedWorkstation2 = this.defaultWorkstation.session2DefaultWktId;
+      this.$store.commit('selectedSession1Workstation', this.defaultWorkstation.session1DefaultWktId); // 臨時代碼
+      this.$store.commit('selectedSession2Workstation', this.defaultWorkstation.session2DefaultWktId); // 臨時代碼
       
       if (this.$store.state.selectedSession1Group) {
         this.workstationList1 = (await queryWorkstationList(groupId1,
@@ -340,8 +362,11 @@ dl {
 }
 
 #info-details1, #info-details2 {
-    width: 100%;
-    position: relative;
+  width: 100%;
+}
+
+#info-details1 tr, #info-details2 tr {
+  height: 25px;
 }
 
 .info-details > div {
@@ -461,11 +486,11 @@ dl {
   border: 1px solid black;
   background-color: #548DD4;
   color: #C6D9F1;
-  cursor: pointer;
 }
 
 .selectedGrid {
-  border: 4px solid red;
+  background-clip: content-box; /* <---- */
+  box-shadow: inset 0 0 0 3px red; /* <-- 10px spread radius */
 }
 
 #paletteAssigned {

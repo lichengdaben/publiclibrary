@@ -35,7 +35,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">Wan Chai District</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDistrict }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -46,7 +46,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">Hong Kong Central Library</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedLibrary }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -57,7 +57,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedWorkstationGroup1 }}</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession1Group.floorNum + ' ' + this.$store.state.selectedSession1Group.groupName }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -79,7 +79,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">4 Oct 2021</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDateOfUse }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -90,7 +90,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">1 Hour : 10:00-11:00</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedHour + ' Hour : ' + this.$store.state.selectedSession1Time }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -101,7 +101,7 @@
                                     <div class="bookingConfirmationFieldColon">:</div>
                                 </div>
                                 <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">6F48</div>
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession1Workstation }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -110,7 +110,127 @@
                     <b-col cols="3">
                         <ul>
                             <li>
-                                <img id="bookingConfirmationImage" src="/src/assets/img/sample.png" />
+                                <img id="bookingConfirmationImage" src="@/assets/img/sample.png" />
+                            </li>
+                            <li>
+                                <div>&nbsp;</div>
+                            </li>
+                            <li>
+                                <div class="bookingConfirmationButtons">
+                                    <button id="bookingConfirmationPrint" @click="printPage()">
+                                        <font-awesome-icon icon="fa-solid fa-print" />&nbsp;&nbsp;Print
+                                    </button>
+                                </div>
+                                <div class="bookingConfirmationButtons">
+                                    <button id="bookingConfirmationSave" @click="savePage()">
+                                        <font-awesome-icon icon="fa-regular fa-folder" />&nbsp;&nbsp;Save
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </b-col>
+                </b-row>
+            </b-container>
+
+            <div v-if="this.$store.state.selectedSession2Group" style="padding: 10px;"></div>
+
+            <b-container v-if="this.$store.state.selectedSession2Group" class="bv-example-row" id="containerBookingConfirmation" fluid>
+                <b-row class="bookingConfirmationRow">
+                    <b-col cols="9" class="bookingConfirmationCol">
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">BOOKING REFERENCE ID</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">HKCL-P-20211109-1025</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">DISTRICT</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDistrict }}</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">LIBRARY</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedLibrary }}</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">WORKSTATION GROUP</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession2Group.floorNum + ' ' + this.$store.state.selectedSession2Group.groupName }}</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">CHOOSE COMPUTER</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">+ Visually Impaired Software<br/>+ Adobe CC<br/>+ English workstation</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">DATE OF USE</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDateOfUse }}</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">TIME OF USE</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedHour + ' Hour : ' + this.$store.state.selectedSession2Time }}</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldTitle">WORKSTATION NO.</div>
+                                    <div class="bookingConfirmationFieldColon">:</div>
+                                </div>
+                                <div class="bookingConfirmationGrid">
+                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession2Workstation }}</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </b-col>
+
+                    <b-col cols="3">
+                        <ul>
+                            <li>
+                                <img id="bookingConfirmationImage" src="@/assets/img/sample.png" />
                             </li>
                             <li>
                                 <div>&nbsp;</div>
@@ -137,10 +257,14 @@
                     <b-col cols="3">
                     </b-col>
                     <b-col cols="3">
-                        <button id="bookingConfirmationOK">OK</button>
+                        <router-link :to="'/workstationbooking/Home'">
+                            <button id="bookingConfirmationOK">OK</button>
+                        </router-link>
                     </b-col>
                     <b-col cols="3">
-                        <button id="bookingConfirmationAnotherBooking">Another Booking</button>
+                        <router-link :to="'/workstationbooking/SelectLocation'">
+                            <button id="bookingConfirmationAnotherBooking">Another Booking</button>
+                        </router-link>
                     </b-col>
                     <b-col cols="3">
                     </b-col>
@@ -191,6 +315,10 @@
 					jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
 				})
             }
+        },
+        created() {
+            console.log(this.$store.state.selectedSession1Group);
+            console.log(this.$store.state.selectedSession2Group);
         }
     }
 </script>
