@@ -167,6 +167,7 @@ export default {
     this.districtList = (await getAllDistrict()).data.data;
   },
 
+
 }   
 
 </script>
