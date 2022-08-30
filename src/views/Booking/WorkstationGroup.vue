@@ -5,6 +5,7 @@
         </div>
         <div v-else>
             <b-container class="bv-example-row" id="container-DTC" fluid>
+            <MenuBar/>
            <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
@@ -40,6 +41,7 @@
     import WorkstationGroupTable from '/src/components/WorkstationGroupTable.vue'
     import PageFooter from '/src/components/PageFooter.vue'
     import NavBar from '@/components/NavBar.vue'
+     import MenuBar from '@/components/MenuBar.vue'
     import { mixins } from '@/common/mixins'
 
     export default {
@@ -49,7 +51,8 @@
             WorkstationGroupLeftMenu,
             WorkstationGroupTable,
             PageFooter,
-            NavBar
+            NavBar,
+            MenuBar
         },
         data() {
             return {

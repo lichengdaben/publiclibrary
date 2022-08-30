@@ -5,6 +5,7 @@
 
         <div v-else ref="contentDesktop">
             <b-container class="bv-example-row" fluid>
+            <MenuBar/>
             <NavBar/>
                 <b-row>
                     <b-col cols="12">
@@ -154,10 +155,11 @@
     import { mixins } from '@/common/mixins'
     import html2pdf from 'html2pdf.js'
     import NavBar from '@/components/NavBar.vue'
+    import MenuBar from '@/components/MenuBar.vue'
     export default {
         name: 'WorkstationGroup',
          components: {
-            NavBar
+            NavBar,MenuBar
         },
         data() {
             return {

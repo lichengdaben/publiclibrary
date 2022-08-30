@@ -6,6 +6,7 @@
     <div v-else>
     </div>
     <div>
+    <MenuBar/>
         <b-container class="bv-example-row">
         <p>電腦設施網上預約系統</p>
          <p>COMPUTER FACILITIES ONLINE BOOKING SYSTEM</p>
@@ -54,13 +55,14 @@
 
 <script>
     import BookingSystemH5 from './BookingSystemH5.vue'
-    
+    import MenuBar from '@/components/MenuBar.vue'
     import {  mixins } from '@/common/mixins'
 
     export default {
         name: 'BookingSystem',
         components: {
-           BookingSystemH5
+           BookingSystemH5,
+           MenuBar
         },
         data() {
             return {

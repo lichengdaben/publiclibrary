@@ -5,6 +5,7 @@
         </div>
         <div v-else>
             <b-container class="bv-example-row" id="container-DTC" fluid>
+            <MenuBar/>
             <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
@@ -28,13 +29,15 @@
     
     import { mixins } from '@/common/mixins'
  import NavBar from '@/components/NavBar.vue'
+ import MenuBar from '@/components/MenuBar.vue'
     export default {
         name: 'BookingDetails',
         components: {
             BookingDetailsLeftMenu,
             BookingDetailsTable,
             PageFooter,
-            NavBar
+            NavBar,
+            MenuBar
         },
         data() {
             return {

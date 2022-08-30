@@ -1,6 +1,6 @@
 <template>
 <div class="TermPageH5">
-<div>i am term</div>
+<MenuBar/>
  <b-container class="bv-example-row" id="container-DTC" fluid>
         <b-row>
             <b-col class="titlediv">

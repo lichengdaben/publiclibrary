@@ -8,6 +8,7 @@
 </div>
 <div v-else>
 <b-container class="container2">
+<MenuBar/>
 <NavBar/>
         <b-row>
             <b-col>
@@ -92,10 +93,11 @@ import NavBar from '@/components/NavBar.vue'
 import  {getAllDistrict,queryLibraryByDistrictId,queryWorkstationByLibraryCode} from '@/service/test.js'
 import SelectLocationH5 from './SelectLocationH5.vue'
 import SelectLocationT from './SelectLocationT.vue'
+import MenuBar from '@/components/MenuBar.vue'
 
 export default {
   name: 'SelectLocation',
-  components: { SelectLocationH5,SelectLocationT,NavBar },
+  components: { SelectLocationH5,SelectLocationT,NavBar,MenuBar },
   data(){
     return {
         districtList:null,
