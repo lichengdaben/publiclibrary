@@ -6,7 +6,8 @@ module.exports = {
         changeOrigin: true
       },
     }
-  }
+  },
+publicPath:'/app/'
 }
 
 
