@@ -64,19 +64,19 @@
                             <td v-for="time in morningPeriod" :key="time.id" v-bind:id="'timeRange' + time">
                                 <div class="timeRange">{{ time.name }}</div>
                                 <div align="center">
-                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
+                                    <input ref='checkboxTag' type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
                                 </div>
                             </td>
                             <td v-for="time in afternoonPeriod" :key="time.id" v-bind:id="'timeRange' + time">
                                 <div class="timeRange">{{ time.name }}</div>
                                 <div align="center">
-                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
+                                    <input ref='checkboxTag' type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
                                 </div>
                             </td>
                             <td v-for="time in nightPeriod" :key="time.id" v-bind:id="'timeRange' + time">
                                 <div class="timeRange">{{ time.name }}</div>
                                 <div align="center">
-                                    <input type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
+                                    <input ref='checkboxTag' type="checkbox" :name="time.name" :value="time.name" class="checkbox" @change="addRemoveHour(time.name)" />
                                 </div>
                             </td>
                         </tr>
@@ -130,7 +130,8 @@
                 morningPeriod: null,
                 afternoonPeriod: null,
                 nightPeriod: null,
-                selectedHours: []
+                selectedHours: [],
+                checkbox:null
             }
         },
         props: {
@@ -171,8 +172,9 @@
                 }
 
                 this.selectedHours = [];
-
-                let checkboxes = document.getElementsByClassName('checkbox');
+                 
+                // let checkboxes = document.getElementsByClassName('checkbox');
+                let checkboxes=this.$refs.checkboxTag
                 for (let checkbox of checkboxes) {
                     checkbox.checked = false;
                     checkbox.disabled = false;

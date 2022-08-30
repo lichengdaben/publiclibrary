@@ -1,7 +1,7 @@
 <template>
     <div class="DateTimeChoose">
         <b-container class="bv-example-row" id="container-DTC" fluid>
-            <MenuBar/>
+        <MenuBar/>
         <NavBar/>
             <b-row>
                 <b-col cols="3" class="left-menu">
@@ -21,7 +21,7 @@
                         <li style="border-bottom: 1px dotted #BBBBBB;">
                         <vs-button @click="active=!active" 
                                         class="SettingButton" type="filled">Setting
-                                </vs-button>
+                        </vs-button>
                             <div class="firstHeader">
                                 <div class="firstfont">FEATURE & LANGUAGE</div>
                                 <div class="secondfont">Item name</div>
