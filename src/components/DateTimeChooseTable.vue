@@ -8,16 +8,16 @@
             <div class="dateOfTime">
                 <div v-for="(data, index) in this.dateOfUse" :key="index">
                     <b-button-group class="Calendar-group" style="margin: 10px;">
-                        <b-button v-if="data.close" class="Calendar-primary" style="margin: 0px 10px; background-color: #545B62; color: white;">
+                        <b-button v-if="data.close" class="Calendar-primary" :id="'date' + data.dayAndWeek" style="margin: 0px 10px; background-color: #545B62; color: white;">
                             <div>
                                 <!--<span class="Cal-Month">{{ data.currentDay }}</span>-->
                                 <span class="Cal-Date">{{ data.dayAndWeek }}</span>
                             </div>
                             <div>   
-                                <div style="background-color: #545B62;">Closed</div>
+                                <div class="secondHeader" style="background-color: #545B62; color: white;">Closed</div>
                             </div>
                         </b-button>
-                        <b-button v-else-if="!data.close" class="Calendar-primary" @click="clickDate(data.dayAndWeek)" style="margin: 0px 10px;">
+                        <b-button v-else-if="!data.close" class="Calendar-primary" :id="'date' + data.dayAndWeek" @click="clickDate(data.dayAndWeek)" style="margin: 0px 10px;">
                             <div>
                                 <!--<span class="Cal-Month">{{ data.currentDay }}</span>-->
                                 <span class="Cal-Date">{{ data.dayAndWeek }}</span>
@@ -141,7 +141,6 @@
                 this.$store.commit('selectedDate', dayAndWeek);
                 this.$store.commit('selectedSession1Time', null);
                 this.$store.commit('selectedSession2Time', null);
-                this.$store.state.selectedDate = dayAndWeek
 
                 if (this.chooseDate != dayAndWeek) {
                     this.chooseDate = dayAndWeek;
@@ -218,12 +217,6 @@
                 const date = monthArray[current.getMonth()] + ' ' + current.getFullYear();
                 return date;
             },
-            // currentHour() {
-            //     const current = new Hour();
-            //     const date = current.getDate() + '-' + (current.getMonth() + 1) + '-' + current.getFullYear();
-            //     const dateTime = date;
-            //     return dateTime;
-            // },
         },
         async created() {
             this.dateOfUse = (await getDateOfUse(1)).data.data;
@@ -233,22 +226,28 @@
             this.dateOfUse[3].close = false; // 臨時代碼
             this.dateOfUse[4].close = false; // 臨時代碼
             this.dateOfUse[5].close = false; // 臨時代碼
+            this.dateOfUse[3].holiday = true; // 臨時代碼
 
             for (let i = 0; i < this.dateOfUse.length; i++) {
                 if (!this.dateOfUse[i].close) {
-                    this.$store.commit('selectedSession1Time', this.dateOfUse[i].dayAndWeek);
+                    this.$store.commit('selectedDate', this.dateOfUse[i].dayAndWeek);
                     break;
                 }
             }
-            this.$store.commit('selectedSession2Time', 1);
+            this.$store.commit('selectedHour', 1);
             this.$store.commit('selectedSession1Time', null);
             this.$store.commit('selectedSession2Time', null);
+
+            this.chooseDate = this.$store.state.selectedDate;
         },
         async mounted() {
             this.currentDateTime = this.getCurrentDateTime();
             this.morningPeriod = MorningPeriod.value;
             this.afternoonPeriod = AfternoonPeriod.value;
             this.nightPeriod = NightPeriod.value;
+
+            //let dateButton = document.getElementById('date' + this.$store.state.selectedDate);
+            //dateButton.style.color = var(--primary);
 
             let checkboxes = document.getElementsByClassName('checkbox');
             for (var checkbox of checkboxes) {
