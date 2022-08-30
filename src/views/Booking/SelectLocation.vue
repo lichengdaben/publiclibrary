@@ -166,7 +166,6 @@ export default {
   async created(){
     this.districtList = (await getAllDistrict()).data.data;
   },
-  
 
 }   
 
