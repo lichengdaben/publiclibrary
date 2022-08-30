@@ -51,9 +51,6 @@
         </b-col>
       </b-row>
     </b-container>
-
-    <!--<vue-good-table :columns="columns" :rows="rows" :options="options" >
-    </vue-good-table>-->
   </div>
 </template>
 
