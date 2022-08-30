@@ -12,7 +12,7 @@
           <div class="bookingDetailsInfoCenter">
             <ul>
               <li class="bookingDetailsFieldTitle">WORKSTATION GROUP :</li>
-              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedSession1Group.floorNum + ' ' + this.$store.state.selectedSession1Group.groupName }}</li>
+              <li class="bookingDetailsFieldValue">{{ this.floorNum1 + ' ' + this.groupName1 }}</li>
               <li class="bookingDetailsFieldTitle">WORKSTATION NO. :</li>
               <li class="bookingDetailsFieldValue">{{ this.defaultWorkstation.session1DefaultWktNo }}</li>
             </ul>
@@ -42,7 +42,7 @@
                 <tbody>
                   <tr v-for="(row, rowNum) in workstationArray1" :key="rowNum" v-bind:id="'session1Row' + rowNum" style="height: 25px;">
                     <td v-for="(grid, colNum) in row" :key="colNum" v-bind:id="'session1Row' + rowNum + 'Col' + colNum"
-                      align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markSelected(1, colNum, rowNum)">{{ grid.name }}</td>
+                      align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markSelected(1, colNum, rowNum, grid.name)">{{ grid.name }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -84,7 +84,7 @@
           <li>
             <ol>
               <li>Workstation Group :</li>
-              <li>{{ this.$store.state.selectedSession1Group.floorNum + ' ' + this.$store.state.selectedSession1Group.groupName }}</li>
+              <li>{{ this.floorNum + ' ' + this.$store.state.selectedSession1Group.groupName }}</li>
               <li>Workstation no. :</li>
               <li>{{ this.$store.state.selectedSession1Workstation }}</li>
             </ol>
@@ -94,11 +94,11 @@
       </b-card>-->
     </b-collapse>
 
-    <div style="padding: 10px;"></div>
+    <div v-if="this.$store.state.selectedSession2Time" style="padding: 10px;"></div>
 
-    <div class="bookingDetailsFieldTitle" id="bookingDetailsSessionTime">SESSION 2 : {{ this.$store.state.selectedSession2Time }}</div>
+    <div v-if="this.$store.state.selectedSession2Time" class="bookingDetailsFieldTitle" id="bookingDetailsSessionTime">SESSION 2 : {{ this.$store.state.selectedSession2Time }}</div>
 
-    <b-button v-b-toggle.info-details2 class="bookingDetailsItem" style="">
+    <b-button v-if="this.$store.state.selectedSession2Time" v-b-toggle.info-details2 class="bookingDetailsItem" style="">
       <b-row align-v="center">
         <b-col cols="10">
           <div class="bookingDetailsInfoLeft">
@@ -108,7 +108,7 @@
           <div class="bookingDetailsInfoCenter">
             <ul>
               <li class="bookingDetailsFieldTitle">WORKSTATION GROUP :</li>
-              <li class="bookingDetailsFieldValue">{{ this.$store.state.selectedSession2Group.floorNum + ' ' + this.$store.state.selectedSession2Group.groupName }}</li>
+              <li class="bookingDetailsFieldValue">{{ this.floorNum2 + ' ' + this.groupName2 }}</li>
               <li class="bookingDetailsFieldTitle">WORKSTATION NO. :</li>
               <li class="bookingDetailsFieldValue">{{ this.defaultWorkstation.session2DefaultWktNo }}</li>
             </ul>
@@ -129,7 +129,7 @@
       </b-row>
     </b-button>
 
-    <b-collapse id="info-details2" class="info-details">
+    <b-collapse v-if="this.$store.state.selectedSession2Time" id="info-details2" class="info-details">
       <b-card>
         <b-row align-v="center">
           <b-col cols="9">
@@ -189,16 +189,12 @@
     name: 'BookingDetailsTable',
     data() {
       return {
-        advancedBookingDate: "27 August 2022",
         featureIds: [],
         languageId: 10,
         libraryId: 42,
-        session1GroupId: 71,
-        session2GroupId: 71,
         typeId: 11,
 
         bookingSource: 1,
-        hour: 1,
         libraryCardNumber: "123456",
         session1WorkstationId: 71,
         session2WorkstationId: 71,
@@ -206,6 +202,9 @@
         defaultWorkstation: null,
         workstationList: null,
         confirm: null,
+
+        floorNum: null,
+        groupName: null,
 
         numRows: null,
         numCols: null,
@@ -219,7 +218,7 @@
       }
     },
     methods: {
-      markSelected(session, x, y) {
+      markSelected(session, x, y, workstationName) {
         if (session == 1) {
           if (typeof this.selectedX1 !== 'undefined' && this.selectedX1 !== null && typeof this.selectedY1 !== 'undefined' && this.selectedY1 !== null) {
             document.getElementById('session1Row' + this.selectedY1 + 'Col' + this.selectedX1).classList.remove("selectedGrid");
@@ -227,6 +226,8 @@
           document.getElementById('session1Row' + y + 'Col' + x).classList.add("selectedGrid");
           this.selectedX1 = x;
           this.selectedY1 = y;
+
+          this.$store.commit('selectedSession1Workstation', workstationName);
         } else if (session == 2) {
           if (typeof this.selectedX2 !== 'undefined' && this.selectedX2 !== null && typeof this.selectedY2 !== 'undefined' && this.selectedY2 !== null) {
             document.getElementById('session2Row' + this.selectedY2 + 'Col' + this.selectedX2).classList.remove("selectedGrid");
@@ -234,57 +235,78 @@
           document.getElementById('session2Row' + y + 'Col' + x).classList.add("selectedGrid");
           this.selectedX2 = x;
           this.selectedY2 = y;
+
+          this.$store.commit('selectedSession2Workstation', workstationName);
         }
       }
     },
     async created() {
-      this.defaultWorkstation = (await queryDefaultWorkstation(this.advancedBookingDate,
+      let groupId1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupId : null;
+      let groupId2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.groupId : null;
+      this.floorNum1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.floorNum : null;
+      this.floorNum2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.floorNum : null;
+      this.groupName1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupName : null;
+      this.groupName2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.groupName : null;
+
+      this.defaultWorkstation = (await queryDefaultWorkstation(this.$store.state.selectedDateOfUse,
                                                                this.featureIds,
                                                                this.languageId,
                                                                this.libraryId,
-                                                               this.session1GroupId,
+                                                               groupId1,
                                                                this.$store.state.selectedSession1Time,
-                                                               this.session2GroupId,
+                                                               groupId2,
                                                                this.$store.state.selectedSession2Time,
                                                                this.typeId)
                                 ).data.data;
-      this.workstationList1 = (await queryWorkstationList(this.$store.state.selectedSession1Group.groupId, this.typeId, this.advancedBookingDate, this.$store.state.selectedSession1Time)).data.data;
-      this.workstationList2 = (await queryWorkstationList(this.$store.state.selectedSession2Group.groupId, this.typeId, this.advancedBookingDate, this.$store.state.selectedSession2Time)).data.data;
+      
+      if (this.$store.state.selectedSession1Group) {
+        this.workstationList1 = (await queryWorkstationList(groupId1,
+                                                            this.typeId,
+                                                            this.$store.state.selectedDateOfUse,
+                                                            this.$store.state.selectedSession1Time)).data.data;
 
-      for (let x = 0; x < this.defaultWorkstation.session1GroupMaxAbscissa; x++) {
-        this.workstationArray1.push([ ]);
-        for (let y = 0; y < this.defaultWorkstation.session1GroupMaxOrdinate; y++) {
-          this.workstationArray1[x].push({ 'name': ' ', 'status': '0' });
+        for (let x = 0; x < this.defaultWorkstation.session1GroupMaxAbscissa; x++) {
+          this.workstationArray1.push([ ]);
+          for (let y = 0; y < this.defaultWorkstation.session1GroupMaxOrdinate; y++) {
+            this.workstationArray1[x].push({ 'name': ' ', 'status': '0' });
+          }
         }
-      }
 
-      for (let x = 0; x < this.defaultWorkstation.session2GroupMaxAbscissa; x++) {
-        this.workstationArray2.push([ ]);
-        for (let y = 0; y < this.defaultWorkstation.session2GroupMaxOrdinate; y++) {
-          this.workstationArray2[x].push({ 'name': ' ', 'status': '0' });
+        for (let i = 0; i < this.workstationList1.length; i++) {
+          this.workstationArray1[this.workstationList1[i].x][this.workstationList1[i].y].name = this.workstationList1[i].workstationId;
+          this.workstationArray1[this.workstationList1[i].x][this.workstationList1[i].y].status = this.workstationList1[i].status;
         }
-      }
-
-      for (let i = 0; i < this.workstationList1.length; i++) {
-        this.workstationArray1[this.workstationList1[i].x][this.workstationList1[i].y].name = this.workstationList1[i].workstationId;
-        this.workstationArray1[this.workstationList1[i].x][this.workstationList1[i].y].status = this.workstationList1[i].status;
-      }
-
-      for (let i = 0; i < this.workstationList2.length; i++) {
-        this.workstationArray2[this.workstationList2[i].x][this.workstationList2[i].y].name = this.workstationList2[i].workstationId;
-        this.workstationArray2[this.workstationList2[i].x][this.workstationList2[i].y].status = this.workstationList2[i].status;
       }
       
-      this.confirm = (await confirm(this.advancedBookingDate,
+      if (this.$store.state.selectedSession2Group) {
+        this.workstationList2 = (await queryWorkstationList(groupId2,
+                                                            this.typeId,
+                                                            this.$store.state.selectedDateOfUse,
+                                                            this.$store.state.selectedSession2Time)).data.data;
+
+        for (let x = 0; x < this.defaultWorkstation.session2GroupMaxAbscissa; x++) {
+          this.workstationArray2.push([ ]);
+          for (let y = 0; y < this.defaultWorkstation.session2GroupMaxOrdinate; y++) {
+            this.workstationArray2[x].push({ 'name': ' ', 'status': '0' });
+          }
+        } 
+
+        for (let i = 0; i < this.workstationList2.length; i++) {
+          this.workstationArray2[this.workstationList2[i].x][this.workstationList2[i].y].name = this.workstationList2[i].workstationId;
+          this.workstationArray2[this.workstationList2[i].x][this.workstationList2[i].y].status = this.workstationList2[i].status;
+        }
+      }
+
+      this.confirm = (await confirm(this.$store.state.selectedDateOfUse,
                                     this.bookingSource,
                                     this.featureIds,
-                                    this.hour,
+                                    this.$store.state.selectedHour,
                                     this.languageId,
                                     this.libraryCardNumber,
                                     this.libraryId,
-                                    this.session1Time,
+                                    this.$store.state.selectedSession1Time,
                                     this.session1WorkstationId,
-                                    this.session2Time,
+                                    this.$store.state.selectedSession2Time,
                                     this.session2WorkstationId,
                                     this.typeId)
                      ).data.data;

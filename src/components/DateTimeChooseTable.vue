@@ -17,7 +17,7 @@
                                 <div class="secondHeader" style="background-color: #545B62; color: white;">Closed</div>
                             </div>
                         </b-button>
-                        <b-button v-else-if="!data.close" class="Calendar-primary" :id="'date' + data.dayAndWeek" @click="clickDate(data.dayAndWeek)" style="margin: 0px 10px;">
+                        <b-button v-else-if="!data.close" class="Calendar-primary" :id="'date' + data.dayAndWeek" @click="clickDate(data.dayAndWeek, data.yearAndMonth)" style="margin: 0px 10px;">
                             <div>
                                 <!--<span class="Cal-Month">{{ data.currentDay }}</span>-->
                                 <span class="Cal-Date">{{ data.dayAndWeek }}</span>
@@ -137,8 +137,32 @@
             msg: String
         },
         methods: {
-            async clickDate(dayAndWeek) {
-                this.$store.commit('selectedDate', dayAndWeek);
+            checkComplete() {
+                let isComplete = true;
+
+                if (!this.$store.state.selectedDateOfUse) {
+                    isComplete = false;
+                }
+
+                if (!this.$store.state.selectedHour) {
+                    isComplete = false;
+                }
+
+                if (!this.$store.state.selectedSession1Time) {
+                    isComplete = false;
+                }
+
+                if (isComplete) {
+                    document.getElementById("pageFooterNextLink").classList.remove("btn");
+                    document.getElementById("pageFooterNextLink").classList.remove("disabled");
+                } else {
+                    document.getElementById("pageFooterNextLink").classList.add("btn");
+                    document.getElementById("pageFooterNextLink").classList.add("disabled");
+                }
+            },
+
+            async clickDate(dayAndWeek, yearAndMonth) {
+                this.$store.commit('selectedDateOfUse', dayAndWeek.substring(4) + ' ' + yearAndMonth);
                 this.$store.commit('selectedSession1Time', null);
                 this.$store.commit('selectedSession2Time', null);
 
@@ -153,6 +177,8 @@
                     checkbox.checked = false;
                     checkbox.disabled = false;
                 }
+
+                this.checkComplete();
             },
 
             async clickHour(hourTime) {
@@ -167,6 +193,8 @@
                     checkbox.checked = false;
                     checkbox.disabled = false;
                 }
+
+                this.checkComplete();
             },
 
             addRemoveHour(time) {
@@ -201,7 +229,7 @@
 
                     this.$store.commit('selectedSession1Time', null);
                     this.$store.commit('selectedSession2Time', null);
-                    if (maxSelections == 2) {
+                    if (maxSelections == 2 && this.selectedHours.length > 0) {
                         this.$store.commit('selectedSession1Time', ('0' + this.selectedHours[0]).slice(-2) + ':00-' + ('0' + (this.selectedHours[0] + 1)).slice(-2) + ':00');
                     }
 
@@ -209,6 +237,8 @@
                         checkbox.disabled = false;
                     }
                 }
+
+                this.checkComplete();
             },
 
             getCurrentDateTime() {
@@ -230,15 +260,14 @@
 
             for (let i = 0; i < this.dateOfUse.length; i++) {
                 if (!this.dateOfUse[i].close) {
-                    this.$store.commit('selectedDate', this.dateOfUse[i].dayAndWeek);
+                    this.$store.commit('selectedDateOfUse', (this.dateOfUse[i].dayAndWeek).substring(4) + ' ' + this.dateOfUse[i].yearAndMonth);
+                    this.chooseDate = this.dateOfUse[i].dayAndWeek;
                     break;
                 }
             }
             this.$store.commit('selectedHour', 1);
             this.$store.commit('selectedSession1Time', null);
             this.$store.commit('selectedSession2Time', null);
-
-            this.chooseDate = this.$store.state.selectedDate;
         },
         async mounted() {
             this.currentDateTime = this.getCurrentDateTime();
@@ -246,7 +275,7 @@
             this.afternoonPeriod = AfternoonPeriod.value;
             this.nightPeriod = NightPeriod.value;
 
-            //let dateButton = document.getElementById('date' + this.$store.state.selectedDate);
+            //let dateButton = document.getElementById('date' + this.$store.state.selectedDateOfUse);
             //dateButton.style.color = var(--primary);
 
             let checkboxes = document.getElementsByClassName('checkbox');

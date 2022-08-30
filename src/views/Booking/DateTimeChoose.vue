@@ -109,6 +109,11 @@
         async created() {
             this.workstationLanguage = (await workstationLanguage()).data.data.records;
             this.workstationFeature = (await workstationFeature(11)).data.data.records;
+
+            this.$store.commit('selectedSession1Group', null);
+            this.$store.commit('selectedSession1Workstation', null);
+            this.$store.commit('selectedSession2Group', null);
+            this.$store.commit('selectedSession2Workstation', null);
         },
     }
 </script>

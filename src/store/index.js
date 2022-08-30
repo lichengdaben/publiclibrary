@@ -19,6 +19,9 @@ export default new Vuex.Store({
     selectedWorkStationType (state, val){
       state.selectedWorkStation = val;
     },
+    readTerm (state, val){
+      state.readTerm = val;
+    },
     selectedWorkStationLanguage(state, val){
       state.selectedWorkStationLanguage = val;
     },
@@ -27,6 +30,9 @@ export default new Vuex.Store({
     },
     selectedDateOfUse(state, val){
       state.selectedDateOfUse = val;
+    },
+    selectedHour(state, val){
+      state.selectedHour= val;
     },
     selectedSession1Time(state, val){
       state.selectedSession1Time = val;
@@ -45,12 +51,6 @@ export default new Vuex.Store({
     },
     selectedSession2Workstation(state, val){
       state.selectedSession2Workstation = val;
-    },
-    selectedHour(state, val){
-      state.selectedHour= val;
-    },
-    selectedDate(state, val){
-      state.selectedDate= val;
     },
   },
   actions: {
