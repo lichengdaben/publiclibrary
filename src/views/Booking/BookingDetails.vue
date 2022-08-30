@@ -22,14 +22,12 @@
 </template>
 
 <script>
-   
     import BookingDetailsLeftMenu from '/src/components/BookingDetailsLeftMenu.vue'
     import BookingDetailsTable from '/src/components/BookingDetailsTable.vue'
     import PageFooter from '/src/components/PageFooter.vue'
-    
     import { mixins } from '@/common/mixins'
- import NavBar from '@/components/NavBar.vue'
- import MenuBar from '@/components/MenuBar.vue'
+    import NavBar from '@/components/NavBar.vue'
+    import MenuBar from '@/components/MenuBar.vue'
     export default {
         name: 'BookingDetails',
         components: {

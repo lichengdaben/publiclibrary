@@ -2,7 +2,6 @@
     <div class="BookingConfirmation">
         <div v-if="isMobile()">
         </div>
-
         <div v-else ref="contentDesktop">
             <b-container class="bv-example-row" fluid>
             <MenuBar/>
@@ -179,10 +178,8 @@
             printPage() {
                 window.print();
             },
-
             savePage() {
                 let rightNow = new Date();
-
                 html2pdf(this.$refs.contentDesktop, {
 					margin: 1,
 					filename: 'AdvancedBookingConfirmation_' +
