@@ -36,7 +36,7 @@
             <thead>
               <tr>
                 <th></th>
-                <th>WORKSTATION GROUP</th>
+                <th>WORKSTATION GROUP</th>a
               </tr>
             </thead>
             <tbody>
