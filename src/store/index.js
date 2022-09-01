@@ -17,10 +17,10 @@ export default new Vuex.Store({
       state.selectedLibrary = val;
     },
     selectedWorkStationType (state, val){
-      state.selectedWorkStation = val;
+      state.selectedWorkStationType = val;
     },
-    readTerm (state, val){
-      state.readTerm = val;
+    isReadTerm (state, val){
+      state.isReadTerm = val;
     },
     selectedWorkStationLanguage(state, val){
       state.selectedWorkStationLanguage = val;

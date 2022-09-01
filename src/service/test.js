@@ -8,26 +8,25 @@ import request from '@/common/request'
           })
  }
  
-
-//  export async function getAllLibraries () {
-//    return request({
-//        url: `/cfm-admin-service/open-api/library/selectAllLibrariesVOS`,
-//        method: 'get',
-//        // params: 
-//      })
-//  }
-
- export async function queryLibraryByDistrictId (districtId) {
+/*export async function getAllLibraries () {
   return request({
-      url: `/cfm-admin-service/open-api/library/queryLibraryByDistrictId/` + districtId,
-      method: 'get',
-      // params: 
-    })
+    url: `/cfm-admin-service/open-api/library/`,
+    method: 'get',
+    // params: 
+  })
+}*/
+
+export async function queryLibraryByDistrictId (districtId) {
+  return request({
+    url: `/cfm-admin-service/open-api/library/queryLibraryByDistrictId/` + districtId,
+    method: 'get',
+    // params: 
+  })
 }
 
-export async function queryWorkstationByLibraryCode (libraryCardNumber) {
+export async function queryWorkstationByLibraryCode (libraryId, libraryCardNumber) {
     return request({
-        url: `/cfm-admin-service/open-api/advancedBooking/getBookingType/`+libraryCardNumber,
+        url: `/cfm-admin-service/open-api/advancedBooking/getBookingType?libraryId=` + libraryId + `&libraryCardNumber=` + libraryCardNumber,
         method: 'get', 
         // params: 
       })

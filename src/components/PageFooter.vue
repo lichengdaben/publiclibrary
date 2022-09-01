@@ -3,16 +3,23 @@
     <b-container fluid id="pageFooter">
       <b-row>
         <b-col cols="1" class="left-menu">
-          <button id="pageFooterResetButton" v-if="isShowReset">Reset&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-rotate-right" /></button>
+          <button id="pageFooterResetButton" v-if="isShowReset" @click="reset()">Reset&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-rotate-right" /></button>
         </b-col>
         <b-col cols="1" class="left-menu">
-          <router-link id="pageFooterBackLink" :to="'/workstationbooking/' + this.listOfPages[this.currentPage - 1]">
+          <router-link id="pageFooterBackLink" :to="this.prefix + this.listOfPages[this.currentPage - 1]">
             <button id="pageFooterBackButton">Back&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-reply" /></button>
           </router-link>
         </b-col>
-        <b-col cols="10" class="left-menu">
-          <router-link class="btn disabled" id="pageFooterNextLink" :to="'/workstationbooking/' + this.listOfPages[this.currentPage + 1]">
-            <button id="pageFooterNextButton">{{ this.nextText }}&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-circle-right" /></button>
+        <b-col cols="8" class="left-menu" align-self="center">
+          <div v-if="this.listOfPages.indexOf(this.$route.name) == 1" class="rightbutton">
+            <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" ref="cou" @change="readCOU()" v-model="checked">
+            <div id="conditionAgree"> I agree to the&nbsp;</div>
+            <div id="conditionPage" @click="jumpToTerm()">Condition of Use</div>
+          </div>
+        </b-col>
+        <b-col cols="2" class="left-menu">
+          <router-link class="btn disabled" id="pageFooterNextLink" ref="pageFooterNextLink" :to="'/workstationbooking/' + this.listOfPages[this.currentPage + 1]">
+            <button id="pageFooterNextButton">{{ this.nextText }}&nbsp;&nbsp;<font-awesome-icon icon="fas fa-right-long"/></button>
           </router-link>
         </b-col>
       </b-row>
@@ -25,19 +32,77 @@
     name: 'PageFooter',
     data() {
       return {
-        listOfPages: [ 'Home', 'SelectLocation', 'DateTimeChoose', 'WorkstationGroup', 'BookingDetails', 'BookingConfirmation' ],
+        prefix: null,
+        listOfPages: [ '', 'SelectLocation', 'DateTimeChoose', 'WorkstationGroup', 'BookingDetails', 'BookingConfirmation' ],
         currentPage: null,
         isShowReset: false,
         nextText: null
       }
     },
+    props: [ 'pageFooterSection' ],
+    methods: {
+      checkComplete(page) {
+        let isComplete = true;
+
+        if (page == 'selectionLocationPage') {
+          if (!this.$store.state.selectedDistrict) {
+            isComplete = false;
+          }
+
+          if (!this.$store.state.selectedLibrary) {
+            isComplete = false;
+          }
+
+          if (!this.$store.state.selectedWorkStationType) {
+            isComplete = false;
+          }
+
+          if (!this.$store.state.isReadTerm) {
+            isComplete = false;
+          }
+        } else if (page == 'dateTimeChoosePage') {
+          if (!this.$store.state.selectedDateOfUse) {
+            isComplete = false;
+          }
+
+          if (!this.$store.state.selectedHour) {
+            isComplete = false;
+          }
+
+          if (!this.$store.state.selectedSession1Time) {
+            isComplete = false;
+          }
+        }
+        
+        if (isComplete) {
+          this.$refs.pageFooterNextLink.$el.classList.remove('btn');
+          this.$refs.pageFooterNextLink.$el.classList.remove('disabled');
+        } else {
+          this.$refs.pageFooterNextLink.$el.classList.add('btn');
+          this.$refs.pageFooterNextLink.$el.classList.add('disabled');
+        }
+      },
+      
+      readCOU() {
+        this.$store.commit("isReadTerm", this.$refs.cou.checked);
+        this.checkComplete('selectionLocationPage');
+      },
+
+      reset() {
+        if (this.listOfPages.indexOf(this.$route.name) == 2) {
+          this.$emit('resetDateTimeChoosePage');
+        } else if (this.listOfPages.indexOf(this.$route.name) == 3) {
+          this.$emit('resetWorkstationGroupPage');
+        }
+      },
+
+      jumpToTerm() {
+        this.$router.push('/workstationbooking/TermPageH5');
+      },
+    },
     created() {
-      this.currentPage = window.location.href.includes(this.listOfPages[0]) ? 0 :
-                         window.location.href.includes(this.listOfPages[1]) ? 1 :
-                         window.location.href.includes(this.listOfPages[2]) ? 2 :
-                         window.location.href.includes(this.listOfPages[3]) ? 3 :
-                         window.location.href.includes(this.listOfPages[4]) ? 4 :
-                         window.location.href.includes(this.listOfPages[5]) ? 5 : -1;
+      this.prefix = this.listOfPages.indexOf(this.$route.name) != 1 ? '/workstationbooking/' : '/',
+      this.currentPage = this.listOfPages.indexOf(this.$route.name);
       this.isShowReset = [ 2, 3 ].includes(this.currentPage);
       this.nextText = this.currentPage == 4 ? 'Confirm' : 'Next';
     }

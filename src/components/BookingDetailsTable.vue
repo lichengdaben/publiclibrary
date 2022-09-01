@@ -41,7 +41,7 @@
               <table v-if="this.defaultWorkstation" style="width: 100%">
                 <tbody>
                   <tr v-for="(row, rowNum) in workstationArray1" :key="rowNum" v-bind:id="'session1Row' + rowNum">
-                    <td v-for="(grid, colNum) in row" :key="colNum" v-bind:id="'session1Row' + rowNum + 'Col' + colNum"
+                    <td v-for="(grid, colNum) in row" :key="colNum" v-bind:id="'session1Row' + rowNum + 'Col' + colNum" :ref="'session1Row' + rowNum + 'Col' + colNum"
                       align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markHighlighted(1, colNum, rowNum, grid)">{{ grid.name }}</td>
                   </tr>
                 </tbody>
@@ -230,6 +230,7 @@
 
         if (session == 1) {
           if (typeof this.selectedX1 !== 'undefined' && this.selectedX1 !== null && typeof this.selectedY1 !== 'undefined' && this.selectedY1 !== null) {
+            this.$refs['session1Row' + this.selectedY1 + 'Col' + this.selectedX1]
             document.getElementById('session1Row' + this.selectedY1 + 'Col' + this.selectedX1).classList.remove("selectedGrid");
           }
           document.getElementById('session1Row' + y + 'Col' + x).classList.add("selectedGrid");

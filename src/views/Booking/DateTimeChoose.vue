@@ -52,12 +52,12 @@
                             </div>
                         </vs-sidebar>
                     </div>
-                    <DateTimeChooseTable />
+                    <DateTimeChooseTable ref="dateTimeChoosePage" @checkComplete="checkComplete" />
                     <div></div>
                 </b-col>
             </b-row>
         </b-container>
-        <PageFooter />
+        <PageFooter ref="pageFooterSection" @resetDateTimeChoosePage="resetDateTimeChoosePage" />
     </div>
 </template>
 
@@ -87,24 +87,33 @@
             msg: String
         },
         methods: {
-       currentDateTime() {
-      const current = new Date();
-      const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
-      const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-      const dateTime = date +' '+ time;
-      return dateTime;
-    },
-      async clickWorkStationLanguage(workstationLanguage) {
-            this.$store.commit('workstationLanguage',workstationLanguage);
-            this.$store.state.selectedWorkStationLanguage=workstationLanguage
-            console.log(this.$store.state.selectedWorkStationLanguage)
-        },
-       async clickWorkStationFeature(workstationFeature) {
-            this.$store.commit('workstationFeature',workstationFeature);
-            this.$store.state.selectedWorkStationFeature=workstationFeature
-            console.log(this.$store.state.selectedWorkStationFeature)
-        },
-       
+            currentDateTime() {
+                const current = new Date();
+                const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
+                const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+                const dateTime = date +' '+ time;
+                return dateTime;
+            },
+
+            async clickWorkStationLanguage(workstationLanguage) {
+                this.$store.commit('workstationLanguage',workstationLanguage);
+                this.$store.state.selectedWorkStationLanguage=workstationLanguage
+                console.log(this.$store.state.selectedWorkStationLanguage)
+            },
+
+            async clickWorkStationFeature(workstationFeature) {
+                this.$store.commit('workstationFeature',workstationFeature);
+                this.$store.state.selectedWorkStationFeature=workstationFeature
+                console.log(this.$store.state.selectedWorkStationFeature)
+            },
+
+            resetDateTimeChoosePage() {
+                this.$refs.dateTimeChoosePage.resetPage();
+            },
+
+            checkComplete() {
+                this.$refs.pageFooterSection.checkComplete('dateTimeChoosePage');
+            },
         },
         async created() {
             this.workstationLanguage = (await workstationLanguage()).data.data.records;

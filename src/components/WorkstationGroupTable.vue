@@ -15,7 +15,7 @@
             <tbody>
               <tr v-for="session1Group in this.groupList.session1Group" :key="session1Group.groupId" v-bind:id="'session1Group' + session1Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location1" @click="setWorkstationGroup('selectedSession1Group', session1Group)" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location1" ref="radio" @click="setWorkstationGroup('selectedSession1Group', session1Group)" />
                 </td>
                 <td>{{ session1Group.floorNum + ' ' + session1Group.groupName }}</td>
               </tr>
@@ -42,7 +42,7 @@
             <tbody>
               <tr v-for="session2Group in this.groupList.session2Group" :key="session2Group.groupId" v-bind:id="'session2Group' + session2Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location2" @click="setWorkstationGroup('selectedSession2Group', session2Group)" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location2" ref="radio" @click="setWorkstationGroup('selectedSession2Group', session2Group)" />
                 </td>
                 <td>{{ session2Group.floorNum + ' ' + session2Group.groupName }}</td>
               </tr>
@@ -70,6 +70,7 @@
         groupList: null
       }
     },
+    props: [ 'workstationGroupPage' ],
     methods: {
       checkComplete() {
           let isComplete = true;
@@ -96,6 +97,16 @@
       setWorkstationGroup(paramName, group) {
         this.$store.commit(paramName, group);
         this.checkComplete();
+      },
+
+      resetPage() {
+        for (let radio of this.$refs.radio) {
+          radio.checked = false;
+        }
+      
+        this.$store.commit('selectedSession1Group', null);
+        this.$store.commit('selectedSession2Group', null);
+        this.checkComplete();
       }
     },
     async created() {
@@ -109,12 +120,8 @@
                                          this.walkInBookingChooseTimeVO)  
                        ).data.data;
 
-      var radio = document.getElementsByClassName('workstationGroupRadioButton');
-      radio.checked = false;
-
-      this.$store.commit('selectedSession1Group', null);
-      this.$store.commit('selectedSession2Group', null);
-    }
+      this.resetPage();
+    },
   }
 
 /*export default {

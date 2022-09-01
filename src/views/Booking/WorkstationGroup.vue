@@ -26,12 +26,12 @@
                                             </div>
                             </vs-sidebar>
                         </div>-->
-                        <WorkstationGroupTable />
+                        <WorkstationGroupTable ref="workstationGroupPage" />
                     </b-col>
                 </b-row>
             </b-container>
         </div>
-        <PageFooter />
+        <PageFooter @resetWorkstationGroupPage="resetWorkstationGroupPage" />
     </div>
 </template>
 
@@ -41,7 +41,7 @@
     import WorkstationGroupTable from '/src/components/WorkstationGroupTable.vue'
     import PageFooter from '/src/components/PageFooter.vue'
     import NavBar from '@/components/NavBar.vue'
-     import MenuBar from '@/components/MenuBar.vue'
+    import MenuBar from '@/components/MenuBar.vue'
     import { mixins } from '@/common/mixins'
 
     export default {
@@ -65,6 +65,9 @@
             msg: String
         },
         methods: {
+            resetWorkstationGroupPage() {
+                this.$refs.workstationGroupPage.resetPage();
+            }
         }
     }
 </script>

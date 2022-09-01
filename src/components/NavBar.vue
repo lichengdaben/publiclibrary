@@ -1,12 +1,12 @@
 <template>
     <nav>
-      <b-container  class=" cataloguebutton" fluid>
+      <b-container  class="cataloguebutton" fluid>
         <b-row>
           <b-col cols="4" id="title">
             <h1 class="app_header">PLACE WORKSTATION BOOKING</h1>
             <h2 class="app_title">SELECT LOCATION</h2>
           </b-col>
-          <b-col class="cataloguebutton" id="catalogue">
+          <b-col class="cfm_nav_pagestep">
             <ul>
               <li>
                 <router-link to="/workstationbooking/BookingConfirmation" class="cataloguebutton">BOOKING<br>CONFIRMATION</router-link>
@@ -18,13 +18,13 @@
                 <router-link to="/workstationbooking/WorkstationGroup" class="cataloguebutton">WORKSTATION<br>GROUP</router-link>
               </li>
               <li>
-                <router-link to="/workstationbooking/DateTimeChoose" class="cataloguebutton">DATE/TIME<br>CHOOSE </router-link>
+                <router-link to="/workstationbooking/DateTimeChoose" class="cataloguebutton">DATE/TIME<br>CHOOSE</router-link>
               </li>
               <li>
-                <router-link to="/workstationbooking/SelectLocation" class="cataloguebutton">SELECT<br>LOCATION </router-link>
+                <router-link to="/workstationbooking/SelectLocation" class="cataloguebutton">SELECT<br>LOCATION</router-link>
               </li>
               <li>
-                <router-link to="/workstationbooking/Home" class="cataloguebutton">
+                <router-link to="/" class="cataloguebutton">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house"
                     viewBox="0 0 16 16">
                     <path fill-rule="evenodd"

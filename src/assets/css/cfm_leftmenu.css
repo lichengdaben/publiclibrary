@@ -28,7 +28,7 @@
 
   }
 
-  .left-menu{ background-color:#ffffff; position: absolute;
+  .left-menu{ background-color:#ffffff; 
+    position: absolute;
     z-index: 100000;}
   .vs-sidebar{margin-left: 15px !important;  }
-  

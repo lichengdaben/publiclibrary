@@ -317,8 +317,6 @@
             }
         },
         created() {
-            console.log(this.$store.state.selectedSession1Group);
-            console.log(this.$store.state.selectedSession2Group);
         }
     }
 </script>

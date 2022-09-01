@@ -1,16 +1,65 @@
 #container-DTC {width:100%;}
-#container-DTC .left-menu {width: 30% !important; float: left; border: 1px dotted #BBBBBB; text-transform: uppercase;}
+#container-DTC .left-menu {    width: 30% !important;
+    float: left;
+    border: 1px dotted #BBBBBB;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    background: #ffffff;}
     
-#container-DTC .right-content {width: 100% !important; float: right;}
-.Calendar-group{width:100%;}
+#container-DTC .right-content {      width: 100% !important;
+    float: right;
+    padding: 0px;
+    position: relative;
+    z-index: 0;}
+.Calendar-group{ width: 100% !important; }
+.Calendar-primary {
+    background-color: #545B62; color: white;
+    border: 1px solid grey;  padding:6px 0px 10px 0px; margin:0 10px 0 0; width:14%;
+     }
+    .Cal-Day{position:relative; bottom: 0; float:left; font-size: 1em; line-height: 1.2em;  font-weight: bold;}
+    .Cal-Date{float: right;  font-size: 1em; line-height: 1em; font-weight: bold;  font-size: 1.4em;}
+    .Cal-Status{    float: left;
+        width: 100%;
+        /* font-size: 1em; */
+        /* line-height: 1.2em; */
+        font-weight: bold;
+        text-align: center; margin: 0 auto; width: 100%; 
+        text-align: center; margin-top: 5px;  line-height: 1.2em; font-size: 0.9em; height: 20px; }
+
+.Cal-btn-close{border: none; min-width: 110px; background-color: grey; color: white; border-radius: 2px;}
+.Cal-btn-selected{border: none; min-width: 110px; background-color: #1C7CD5; color:#ffffff; border-radius: 2px;}
+.Cal-btn-selected .Cal-Status{   }
+.Cal-btn-normal{min-width: 110px; background-color: #ffffff; color:#000000; border: 1px solid #C8C8C8;
+    border-radius: 2px;}
+
+.Cal-btn-time{min-width: 300px; background-color: #ffffff; color:#000000; border: 1px solid #C8C8C8;
+        border-radius: 2px; margin:0 20px 0 0;}
+.Cal-btn-time .Ct-Time{font-weight: bold; font-size: 1.2em;}
+
+button{ height: 70px;     padding: 5px 10px;}
+.dateOfTime{
+    padding: 0px;
+    margin: 0px 20px 0px 0px;
+    display: flex;
+    align-items:center;
+    flex-direction:row;
+    float: left;
+
+}
+
+
+/* .Calendar-group{width:100%;}
 .Calendar-primary {padding:6px 0px 10px 0px; margin:0 10px 0 0; width:15%; }
     .Calendar-primary span.Cal-Month{float:left; line-height: 2em;  font-weight: bold;}
     .Calendar-primary span.Cal-Date{float: right;  line-height: 1.6em; font-weight: bold;  font-size: 1.4em;}
     .Calendar-primary span.Cal-Status{float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;}
+
 .Calendar-light {padding:6px 0px 10px 0px; margin:0 10px 0 0;  width:15%;   color: #ffffff !important; background-color:#C8C8C8;}
     .Calendar-light span.Cal-Month{float:left; line-height: 2em;  font-weight: bold;}
     .Calendar-light span.Cal-Date{float: right;  line-height: 1.6em; font-weight: bold;  font-size: 1.4em;}
     .Calendar-light span.Cal-Status{float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;}
+
 .Calendar-outline {padding:6px 0px 10px 0px; margin:0 10px 0 0;   width:15%;   }
     .Calendar-outline span.Cal-Month{float:left; line-height: 2em;  font-weight: bold;}
     .Calendar-outline span.Cal-Date{float: right;  line-height: 1.6em; font-weight: bold;  font-size: 1.4em;}
@@ -20,13 +69,12 @@
     .ChooseTime-primary span.Ct-Msg{ float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;}
 .ChooseTime-outline {padding:6px 0px 10px 0px; margin:0 10px 0 0;   width:15%;  max-width: 300px; }
     .ChooseTime-outline span.Ct-Time{float:left; line-height: 2em;  font-weight: bold;}
-    .ChooseTime-outline span.Ct-Msg{float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;}
+    .ChooseTime-outline span.Ct-Msg{float: left; width:100%; font-size: 0.7em; font-weight: bold; text-align: left;} */
 
 .TimePeriod-outline {border:none; margin:0 4px 0 0; padding:5px 4px 10px 4px;  min-width:24px; 
     text-align: center; }
     .TimePeriod-outline span.Tp-Time {float:left; width:100%; line-height: 2em;  font-weight: bold;}
     .TimePeriod-outline span.Tp-Time input {float:left; text-align: center; clear:left; width:100%;}
-
 
 .left-menu ul li{border-top: 1px dotted #BBBBBB; padding:10px;}
 .p-order{border-bottom: 1px dotted #BBBBBB;padding-bottom: 10px; margin-bottom: 10px;}
@@ -34,11 +82,11 @@
 
 .TimePeriod-group ul li{float:left;}
 #container-DTC .right-content .firstHeader .firstfont
-{ padding-left: 0px; color:#096BCC; font-size: 1.5em;}
+{ padding-left: 0px; color:#096BCC; font-size: 1.2em;}
 
 #container-DTC .right-content .firstHeader .secondfont
 { padding-left: 0px; color:#000000; font-weight: bold; 
-    margin-bottom: 20px; font-size: 1.5em;}
+    margin-bottom: 10px; font-size: 1.2em; margin-top: 10px;}
 
 .TimePeriod-group .firstHeader .firstfont
 { padding-left: 0px; color:#096BCC; font-size: 1.5em;}
@@ -46,14 +94,87 @@
 .TimePeriod-group .secondfont
 {clear:left;  padding-left: 0px; color:#000000;   margin-bottom: 4px;}
 
-.SettingButton {width:70px; background-color:#ffffff; color:#4A4A4A; border:none; 
+.SettingButton {width:70px;  border:none; 
     font-size: 0.9em;  vertical-align: 100%; float:right; 
     background-image: url("../svg/right-icon.svg"); position:absolute;
-    right:20px; background-position: center right 5px; 
+    right:0px; background-position: center right 5px; 
     background-repeat:no-repeat;  background-size:7px 14px ;   height: auto;} 
 
 
+.header-sidebar > div{ padding: 10px;}
 
+/* .btn{
+    display: flex;
+    align-items:center;
+    flex-direction:row;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid grey; 
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+} */
+
+
+
+.btn{
+    display: flex;
+    align-items:center;
+    flex-direction: column;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem !important;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dateOfTime{
+    display: flex;
+    align-items:center;
+    flex-direction:row;
+}
+
+.TimePeriod-group table {
+    font-weight: bold;
+}
+
+.TimePeriod-group th {
+    padding: 10px 0px;
+    font-size: medium;
+}
+
+.TimePeriod-group td {
+    border-left: 1px solid grey;
+    border-right: 1px solid grey; 
+    padding: 0px 10px;
+}
+
+.timeRange {
+    padding: 10px 0px;
+}
+
+.checkbox {
+    accent-color: #096BCC;
+    width: 25px;
+    height: 25px;
+}
 
 
 
