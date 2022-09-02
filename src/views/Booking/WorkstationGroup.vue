@@ -5,54 +5,41 @@
         </div>
         <div v-else>
             <b-container class="bv-example-row" id="container-DTC" fluid>
-            <MenuBar/>
-           <NavBar/>
+                <MenuBar/>
+                <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
-                        <WorkstationGroupLeftMenu />
+                        <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" style="height: 10000px;" />
                     </b-col>
                     <b-col cols="9" id="WorkstationGroup" class="right-content">
-                        <!--<div ref="parentSidebar" id="parentx">
-                            <vs-sidebar :parent="$refs.parentSidebar" 
-                                        default-index="1" color="primary" class="sidebarx"
-                                        pacer v-model="active">
-                                            <div class="header-sidebar">
-                                                <h4>ajhfkajsfkjs</h4>
-                                                <h4>ajhfkajsfkjs</h4>
-                                                <h4>ajhfkajsfkjs</h4>
-                                                <h4>ajhfkajsfkjs</h4>
-                                                <h4>ajhfkajsfkjs</h4>
-                                                <h4>ajhfkajsfkjs</h4>
-                                            </div>
-                            </vs-sidebar>
-                        </div>-->
+                        <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
                         <WorkstationGroupTable ref="workstationGroupPage" />
                     </b-col>
                 </b-row>
             </b-container>
         </div>
-        <PageFooter @resetWorkstationGroupPage="resetWorkstationGroupPage" />
+        <PageFooter ref="pageFooterSection" @resetWorkstationGroupPage="resetWorkstationGroupPage" />
     </div>
 </template>
 
 <script>
-   
-    import WorkstationGroupLeftMenu from '/src/components/WorkstationGroupLeftMenu.vue'
+    import MenuBar from '@/components/MenuBar.vue'
+    import NavBar from '@/components/NavBar.vue'
+    import LeftMenu from '@/components/LeftMenu.vue'
+    import LeftMenuSettings from '@/components/LeftMenuSettings.vue'
     import WorkstationGroupTable from '/src/components/WorkstationGroupTable.vue'
     import PageFooter from '/src/components/PageFooter.vue'
-    import NavBar from '@/components/NavBar.vue'
-    import MenuBar from '@/components/MenuBar.vue'
     import { mixins } from '@/common/mixins'
 
     export default {
         name: 'WorkstationGroup',
         components: {
-           
-            WorkstationGroupLeftMenu,
-            WorkstationGroupTable,
-            PageFooter,
+            MenuBar,
             NavBar,
-            MenuBar
+            LeftMenu,
+            LeftMenuSettings,
+            WorkstationGroupTable,
+            PageFooter
         },
         data() {
             return {
@@ -65,8 +52,20 @@
             msg: String
         },
         methods: {
+            showLeftMenuSettings(isActive) {
+                this.$refs.leftMenuSettings.showLeftMenuSettings(isActive);
+            },
+
             resetWorkstationGroupPage() {
                 this.$refs.workstationGroupPage.resetPage();
+            },
+
+            selectFeature(selectedWorkstationFeature) {
+                this.$refs.leftMenu.selectFeature(selectedWorkstationFeature);
+            },
+
+            selectLanguage(selectedWorkstationFeature) {
+                this.$refs.leftMenu.selectLanguage(selectedWorkstationFeature);
             }
         }
     }

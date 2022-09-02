@@ -346,6 +346,11 @@ dl {
     margin-bottom: 0rem !important;
 }
 
+.btn{
+    flex-direction: row !important;
+    height: auto !important;
+}
+
 #bookingDetailsSessionTime {
     padding-left: 15px;
     padding-right: 15px;

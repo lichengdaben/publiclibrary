@@ -17,11 +17,11 @@
                                 <div class="firstHeader">
                                     <div>DISTRICT</div>
                                     <div v-if="selectedDistrictName" class="secondHeader">{{selectedDistrictName}}</div>
-                                    <div  v-else class="secondHeader" >Please choose the district that suits you</div>
+                                    <div v-else class="secondHeader" >Please choose the district that suits you</div>
                                 </div> 
                             </div>
                             <div v-if="districtList" id="districtDropdown" class="dropdown-content">
-                                <a v-for="district in districtList" :key="district.districtId" :ref="'district' + district.districtId" v-on:click="clickDistrict(district.districtId, district.districtName)">{{ district.districtName }}</a>            
+                                <a v-for="district in districtList" :key="district.districtId" :ref="'district' + district.districtId" v-on:click="clickDistrict(district.districtName, district.districtId)">{{ district.districtName }}</a>            
                             </div>
                         </div>
                     </b-col>
@@ -31,7 +31,7 @@
                                 <div class="firstHeader">
                                     <div>LIBRARY</div>
                                     <div v-if="selectedLibraryName" class="secondHeader">{{selectedLibraryName}}</div>
-                                    <div v-else class="secondHeader" >Please choose the library that suits you</div>
+                                    <div v-else class="secondHeader">Please choose the library that suits you</div>
                                 </div> 
                             </div>
                             <div id="libraryDropdown" class="dropdown-content">
@@ -46,16 +46,16 @@
                                     <div>WORKSTATION TYPE</div>
                                 </div>     
                             </div>
-                            <div v-show="isShow" id="workStationDropdown" >
-                                <div v-for="worktype in workstationtype" :key="worktype.id">
+                            <div v-show="isShow" id="workStationDropdown">
+                                <div v-for="worktype in workstationType" :key="worktype.typeId">
                                     <div class="rectangle1">
                                         <b-container>
                                             <b-row>
                                                 <b-col cols="1" align="center" style="padding: 0px;">
-                                                    <input type="radio" id="workstationtype" name="fav_language" :ref="worktype.typeName" v-on:click="clickWorkStation(worktype.typeName)" />
+                                                    <input type="radio" id="workstationType" name="fav_language" :ref="'workstationType' + worktype.typeId" v-on:click="clickWorkstation(worktype.typeName, worktype.typeId)" />
                                                 </b-col>
                                                 <b-col cols="10">
-                                                    <label for="workstationtype" style="padding: 0px;">
+                                                    <label for="workstationType" style="padding: 0px;">
                                                         <div class="firstfont">{{worktype.typeName}}<br></div>
                                                         <div class="secondfont">WORKSTATION</div>
                                                     </label>
@@ -122,7 +122,7 @@ export default {
         selectedDistrictName:null,
         selectedLibraryId: null,
         selectedLibraryName:null,
-        workstationtype:null,
+        workstationType:null,
         isShowD:true,
         isShowL:true,
         isShowW:true,
@@ -138,8 +138,8 @@ export default {
         selectedLibrary() {
             return this.$store.state.selectedLibrary
         },
-        selectedWorkStationType() {
-            return this.$store.state.selectedWorkStationType
+        selectedWorkstationType() {
+            return this.$store.state.selectedWorkstationType
         }
     },
     methods: {
@@ -147,44 +147,58 @@ export default {
             this.$refs.pageFooterSection.checkComplete('selectionLocationPage');
         },
 
-        async clickDistrict(districtId, districtname) {
+        async clickDistrict(districtname, districtId) {
             this.$store.commit('selectedDistrict', districtname);
+            this.$store.commit('selectedDistrictId', districtId);
             this.$store.commit('selectedLibrary', null);
-            this.$store.commit('selectedWorkStationType', null);
+            this.$store.commit('selectedLibraryId', null);
+            this.$store.commit('selectedWorkstationType', null);
+            this.$store.commit('selectedWorkstationTypeId', null);
+            this.$store.commit('selectedWorkstationFeature', null);
+            this.$store.commit('selectedWorkstationFeatureId', null);
             this.libraryResult = (await queryLibraryByDistrictId(districtId)).data.data;
+            
+            this.$store.commit('libraryList', this.libraryResult);
 
             if (this.selectedDistrictId) {
                 (this.$refs['district' + this.selectedDistrictId])[0].classList.remove('selectedDistrictLibrary');
             }
             (this.$refs['district' + districtId])[0].classList.add('selectedDistrictLibrary');
 
-            this.selectedDistrictId = districtId;
             this.selectedDistrictName = districtname;
+            this.selectedDistrictId = districtId;
 
             this.checkComplete();
         },
 
         async clickLibraries(libraryName, libraryId) {
             this.$store.commit('selectedLibrary', libraryName);
-            this.$store.commit('selectedWorkStationType', null);
-            this.workstationtype = (await queryWorkstationByLibraryCode(libraryId, 123456)).data.data;
+            this.$store.commit('selectedLibraryId', libraryId);
+            this.$store.commit('selectedWorkstationType', null);
+            this.$store.commit('selectedWorkstationTypeId', null);
+            this.$store.commit('selectedWorkstationFeature', null);
+            this.$store.commit('selectedWorkstationFeatureId', null);
+            this.workstationType = (await queryWorkstationByLibraryCode(libraryId, 123456)).data.data;
+            
+            this.$store.commit('workStationTypeList', this.workstationType);
 
             if (this.selectedLibraryId) {
                 (this.$refs['library' + this.selectedLibraryId])[0].classList.remove('selectedDistrictLibrary');
             }
             (this.$refs['library' + libraryId])[0].classList.add('selectedDistrictLibrary');
 
-            this.selectedLibraryId = libraryId;
             this.selectedLibraryName = libraryName;
+            this.selectedLibraryId = libraryId;
 
             this.checkComplete();
         },
 
-        async clickWorkStation(workStationType) {
-            this.$store.commit('selectedWorkStationType', workStationType);
-            this.selectedWorkStation = workStationType; //store  selectedWorkStationType
-
-            this.$refs[workStationType].checked = true;
+        async clickWorkstation(workstationType, workstationTypeId) {
+            this.$store.commit('selectedWorkstationType', workstationType);
+            this.$store.commit('selectedWorkstationTypeId', workstationTypeId);
+            this.$store.commit('selectedWorkstationFeature', null);
+            this.$store.commit('selectedWorkstationFeatureId', null);
+            this.selectedWorkstation = workstationType;
 
             this.checkComplete();
         },
@@ -208,19 +222,49 @@ export default {
         jumpToBack() {
             this.$router.push('/workstationbooking/HomeView');      
         },
-    },
-    async created(){
-        this.districtList = (await getAllDistrict()).data.data;
 
-        /*this.$store.commit('selectedDateOfUse', null);
+        initializePage() {
+            if (this.$store.state.selectedDistrictId) {
+                this.districtList = this.$store.state.districtList;
+
+                if (this.$store.state.selectedLibraryId) {
+                    this.libraryResult = this.$store.state.libraryList;
+
+                    if (this.$store.state.selectedWorkstationTypeId) {
+                        this.workstationType = this.$store.state.workStationTypeList;
+                        this.checkComplete();
+                    }
+                }
+            }
+
+            return Promise.resolve(null);
+        }
+    },
+    async created() {
+        if (!this.$store.state.selectedDistrictId) {
+            this.districtList = (await getAllDistrict()).data.data;
+            this.$store.commit('districtList', this.districtList);
+        }
+
+        this.$store.commit('selectedDateOfUse', null);
         this.$store.commit('selectedHour', null);
         this.$store.commit('selectedSession1Time', null);
         this.$store.commit('selectedSession1Group', null);
         this.$store.commit('selectedSession1Workstation', null);
         this.$store.commit('selectedSession2Time', null);
         this.$store.commit('selectedSession2Group', null);
-        this.$store.commit('selectedSession2Workstation', null);*/
+        this.$store.commit('selectedSession2Workstation', null);
     },
+    mounted() {
+        if (this.$store.state.selectedDistrictId) {
+            this.initializePage().then(val => {
+                console.log(val);
+                (this.$refs['district' + this.$store.state.selectedDistrictId])[0].classList.add('selectedDistrictLibrary');
+                (this.$refs['library' + this.$store.state.selectedLibraryId])[0].classList.add('selectedDistrictLibrary');
+                (this.$refs['workstationType' + this.$store.state.selectedWorkstationTypeId])[0].checked = true;
+            });
+        }
+    }
 }   
 
 </script>

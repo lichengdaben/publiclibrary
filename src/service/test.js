@@ -31,22 +31,22 @@ export async function queryWorkstationByLibraryCode (libraryId, libraryCardNumbe
         // params: 
       })
   }
-
-  export async function workstationLanguage () {
+  export async function workstationFeature(typeId, libraryId) {
     return request({
-        url: `/cfm-admin-service/open-api/workstationLanguage`,
-        method: 'get', 
-        // params: 
-      })
-  }
-  export async function workstationFeature (typeId) {
-    return request({
-        url: `/cfm-admin-service/open-api/workstationFeature?typeId=`+typeId,
+        url: `/cfm-admin-service/open-api/advancedBooking/getBookingFeature?typeId=` + typeId + '&libraryId=' + libraryId,
         method: 'get', 
         // params: 
       })
   }
 
+  export async function workstationLanguage(libraryId) {
+    return request({
+        url: `/cfm-admin-service/open-api/advancedBooking/getBookingLanguage?libraryId=` + libraryId,
+        method: 'get', 
+        // params: 
+      })
+  }
+  
   export async function getDateOfUse (libraryId) {
     return request({
         url: `/cfm-admin-service/open-api/advancedBooking/getDateOfUse/`+libraryId,

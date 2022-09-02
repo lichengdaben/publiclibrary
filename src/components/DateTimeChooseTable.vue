@@ -25,8 +25,8 @@
                                 <span class="Cal-Day">{{ data.day }}</span>
                             </div><!-- !data.closed && !data.holiday -->
                             <div class="Cal-Status">
-                                <div v-if="chooseDate == data.dayAndWeek" style="color: #ffffff " >Selected</div>
-                                <div v-else-if="data.holiday" style="color: red " >Holiday</div>
+                                <div v-if="chooseDate == data.dayAndWeek" style="color: #ffffff;">Selected</div>
+                                <div v-else-if="data.holiday" style="color: red;">Holiday</div>
                             </div>
                         </button>
                         
@@ -179,7 +179,7 @@
                     this.$store.commit('selectedSession2Time', null);
                     this.chooseDate = dayAndWeek;
                 }
-
+                
                 this.$emit('checkComplete');
             },
 

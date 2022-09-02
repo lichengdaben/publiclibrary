@@ -10,23 +10,53 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
-    selectedDistrict (state, val){
+    selectedDistrict(state, val) {
       state.selectedDistrict = val;
     },
-    selectedLibrary (state, val){
+    selectedDistrictId(state, val) {
+      state.selectedDistrictId = val;
+    },
+    districtList(state, val) {
+      state.districtList = val;
+    },
+    selectedLibrary(state, val) {
       state.selectedLibrary = val;
     },
-    selectedWorkStationType (state, val){
-      state.selectedWorkStationType = val;
+    selectedLibraryId(state, val) {
+      state.selectedLibraryId = val;
     },
-    isReadTerm (state, val){
+    libraryList(state, val) {
+      state.libraryList = val;
+    },
+    selectedWorkstationType(state, val) {
+      state.selectedWorkstationType = val;
+    },
+    selectedWorkstationTypeId(state, val) {
+      state.selectedWorkstationTypeId = val;
+    },
+    workStationTypeList(state, val) {
+      state.workStationTypeList = val;
+    },
+    isReadTerm(state, val) {
       state.isReadTerm = val;
     },
-    selectedWorkStationLanguage(state, val){
-      state.selectedWorkStationLanguage = val;
+    selectedWorkstationFeature(state, val) {
+      state.selectedWorkstationFeature = val;
     },
-    selectedWorkStationFeature(state, val){
-      state.selectedWorkStationFeature = val;
+    selectedWorkstationFeatureId(state, val) {
+      state.selectedWorkstationFeatureId = val;
+    },
+    featureList(state, val) {
+      state.featureList = val;
+    },
+    selectedWorkstationLanguage(state, val) {
+      state.selectedWorkstationLanguage = val;
+    },
+    selectedWorkstationLanguageId(state, val) {
+      state.selectedWorkstationLanguageId = val;
+    },
+    languageList(state, val) {
+      state.languageList = val;
     },
     selectedDateOfUse(state, val){
       state.selectedDateOfUse = val;

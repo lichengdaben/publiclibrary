@@ -4,24 +4,29 @@
         <b-row>
           <b-col cols="4" id="title">
             <h1 class="app_header">PLACE WORKSTATION BOOKING</h1>
-            <h2 class="app_title">SELECT LOCATION</h2>
+            <h2 class="app_title">{{ this.title }}</h2>
           </b-col>
           <b-col class="cfm_nav_pagestep">
             <ul>
               <li>
-                <router-link to="/workstationbooking/BookingConfirmation" class="cataloguebutton">BOOKING<br>CONFIRMATION</router-link>
+                <router-link to="/workstationbooking/BookingConfirmation" class="cataloguebutton"
+                  :style="{ 'color': this.currentPage == 5 ? '#096BCC !important' : 'black' }">BOOKING<br>CONFIRMATION</router-link>
               </li>
               <li>
-                <router-link to="/workstationbooking/BookingDetails" class="cataloguebutton">BOOKING<br>DETAILS </router-link>
+                <router-link to="/workstationbooking/BookingDetails" class="cataloguebutton"
+                  :style="{ 'color': this.currentPage == 4 ? '#096BCC !important' : 'black' }">BOOKING<br>DETAILS</router-link>
               </li>
               <li>
-                <router-link to="/workstationbooking/WorkstationGroup" class="cataloguebutton">WORKSTATION<br>GROUP</router-link>
+                <router-link to="/workstationbooking/WorkstationGroup" class="cataloguebutton"
+                  :style="{ 'color': this.currentPage == 3 ? '#096BCC !important' : 'black' }">WORKSTATION<br>GROUP</router-link>
               </li>
               <li>
-                <router-link to="/workstationbooking/DateTimeChoose" class="cataloguebutton">DATE/TIME<br>CHOOSE</router-link>
+                <router-link to="/workstationbooking/DateTimeChoose" class="cataloguebutton"
+                  :style="{ 'color': this.currentPage == 2 ? '#096BCC !important' : 'black' }">DATE/TIME<br>CHOOSE</router-link>
               </li>
               <li>
-                <router-link to="/workstationbooking/SelectLocation" class="cataloguebutton">SELECT<br>LOCATION</router-link>
+                <router-link to="/workstationbooking/SelectLocation" class="cataloguebutton"
+                  :style="{ 'color': this.currentPage == 1 ? '#096BCC !important' : 'black' }">SELECT<br>LOCATION</router-link>
               </li>
               <li>
                 <router-link to="/" class="cataloguebutton">
@@ -41,7 +46,23 @@
 </template>
 
 <script>
-export default {
-  name: 'NavBar',
-}
+  export default {
+    name: 'NavBar',
+    data() {
+      return {
+        listOfPages: [ '', 'SelectLocation', 'DateTimeChoose', 'WorkstationGroup', 'BookingDetails', 'BookingConfirmation' ],
+        title: null
+      }
+    },
+    created() {
+      this.currentPage = this.listOfPages.indexOf(this.$route.name);
+      switch (this.currentPage) {
+        case 1: this.title = 'SELECT LOCATION'; break;
+        case 2: this.title = 'DATE/TIME CHOOSE'; break;
+        case 3: this.title = 'WORKSTATION GROUP'; break;
+        case 4: this.title = 'BOOKING DETAILS'; break;
+        case 5: this.title = 'BOOKING CONFIRMATION'; break;
+      }
+    }
+  }
 </script>

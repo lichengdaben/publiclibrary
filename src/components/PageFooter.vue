@@ -45,15 +45,15 @@
         let isComplete = true;
 
         if (page == 'selectionLocationPage') {
-          if (!this.$store.state.selectedDistrict) {
+          if (!this.$store.state.selectedDistrictId) {
             isComplete = false;
           }
 
-          if (!this.$store.state.selectedLibrary) {
+          if (!this.$store.state.selectedLibraryId) {
             isComplete = false;
           }
 
-          if (!this.$store.state.selectedWorkStationType) {
+          if (!this.$store.state.selectedWorkstationTypeId) {
             isComplete = false;
           }
 
@@ -105,6 +105,9 @@
       this.currentPage = this.listOfPages.indexOf(this.$route.name);
       this.isShowReset = [ 2, 3 ].includes(this.currentPage);
       this.nextText = this.currentPage == 4 ? 'Confirm' : 'Next';
+    },
+    mounted() {
+      this.$refs.cou.checked = this.$store.state.isReadTerm;
     }
   }
 </script>

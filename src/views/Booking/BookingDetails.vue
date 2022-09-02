@@ -4,15 +4,16 @@
             <WorkstationGroupH5/>
         </div>
         <div v-else>
-            <b-container class="bv-example-row" id="container-DTC" fluid>
-            <MenuBar/>
-            <NavBar/>
+            <b-container class="bv-example-row" fluid>
+                <MenuBar/>
+                <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
-                        <BookingDetailsLeftMenu />
+                        <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" style="height: 10000px;" />
                     </b-col>
                     <b-col cols="9" class="right-content">
-                        <BookingDetailsTable />
+                        <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
+                        <BookingDetailsTable ref="dateTimeChoosePage" @checkComplete="checkComplete" />
                     </b-col>
                 </b-row>
             </b-container>
@@ -22,20 +23,23 @@
 </template>
 
 <script>
-    import BookingDetailsLeftMenu from '/src/components/BookingDetailsLeftMenu.vue'
+    import MenuBar from '@/components/MenuBar.vue'
+    import NavBar from '@/components/NavBar.vue'
+    import LeftMenu from '@/components/LeftMenu.vue'
+    import LeftMenuSettings from '@/components/LeftMenuSettings.vue'
     import BookingDetailsTable from '/src/components/BookingDetailsTable.vue'
     import PageFooter from '/src/components/PageFooter.vue'
     import { mixins } from '@/common/mixins'
-    import NavBar from '@/components/NavBar.vue'
-    import MenuBar from '@/components/MenuBar.vue'
+
     export default {
         name: 'BookingDetails',
         components: {
-            BookingDetailsLeftMenu,
-            BookingDetailsTable,
-            PageFooter,
+            MenuBar,
             NavBar,
-            MenuBar
+            LeftMenu,
+            LeftMenuSettings,
+            BookingDetailsTable,
+            PageFooter
         },
         data() {
             return {
@@ -48,6 +52,17 @@
             msg: String
         },
         methods: {
+            showLeftMenuSettings(isActive) {
+                this.$refs.leftMenuSettings.showLeftMenuSettings(isActive);
+            },
+
+            selectFeature(selectedWorkstationFeature) {
+                this.$refs.leftMenu.selectFeature(selectedWorkstationFeature);
+            },
+
+            selectLanguage(selectedWorkstationFeature) {
+                this.$refs.leftMenu.selectLanguage(selectedWorkstationFeature);
+            }
         },
         mounted() {
             document.getElementById("pageFooterNextLink").classList.remove("btn");
