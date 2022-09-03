@@ -56,8 +56,8 @@
                 this.$refs.leftMenuSettings.showLeftMenuSettings(isActive);
             },
 
-            checkComplete() {
-                this.$refs.pageFooterSection.checkComplete('dateTimeChoosePage');
+            checkComplete(pageName) {
+                this.$refs.pageFooterSection.checkComplete(pageName);
             },
 
             resetDateTimeChoosePage() {
@@ -71,13 +71,7 @@
             selectLanguage(selectedWorkstationFeature) {
                 this.$refs.leftMenu.selectLanguage(selectedWorkstationFeature);
             }
-        },
-        async created() {
-            this.$store.commit('selectedSession1Group', null);
-            this.$store.commit('selectedSession1Workstation', null);
-            this.$store.commit('selectedSession2Group', null);
-            this.$store.commit('selectedSession2Workstation', null);
-        },
+        }
     }
 </script>
 

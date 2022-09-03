@@ -47,7 +47,7 @@
                                 </div>     
                             </div>
                             <div v-show="isShow" id="workStationDropdown">
-                                <div v-for="worktype in workstationType" :key="worktype.typeId">
+                                <div v-for="worktype in workStationTypeList" :key="worktype.typeId">
                                     <div class="rectangle1">
                                         <b-container>
                                             <b-row>
@@ -73,32 +73,11 @@
                 </b-row>
             </b-container>
             <PageFooter ref="pageFooterSection" />
-            <!--<b-container>
-                <b-row align-v="space-around" class="footer">
-                    <b-col cols="6">
-                        <div>
-                            <button id="next" type="button" class="buttonNext"  @click='jumpToBack'>Back
-                                <font-awesome-icon icon="fa-solid fa-arrow-rotate-left" />
-                            </button>
-                        </div>
-                    </b-col>
-                    <b-col cols="6">
-                        <div class="rightbutton">
-                            <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" v-model="checked">
-                            <div id="conditionAgree"> I agree to the</div>
-                            <a id="conditionPage" @click='jumpToTerm'>&lt;Condition of Use&gt;</a>
-                            <button id="next" type="button" class="buttonNext2"  @click='jumpToNext'>Next
-                                <font-awesome-icon icon="fas fa-right-long"/>
-                            </button>
-                        </div>
-                    </b-col>
-                </b-row>
-            </b-container>-->
         </div>
     </div>
 </template>
 
-<script >
+<script>
 import { mixins } from '@/common/mixins'
 import NavBar from '@/components/NavBar.vue'
 import { getAllDistrict, queryLibraryByDistrictId, queryWorkstationByLibraryCode } from '@/service/test.js'
@@ -110,28 +89,24 @@ import MenuBar from '@/components/MenuBar.vue'
 export default {
   name: 'SelectLocation',
   components: { SelectLocationH5, SelectLocationT, NavBar, PageFooter, MenuBar },
-  data(){
+  data() {
     return {
-        districtList: null,
-        libraryList: [],
-        libraryResult: [],
-        isShow:true,
-        isShowMob:false,
+        isShow: true,
         checked: false,
+        selectedDistrictName: null,
         selectedDistrictId: null,
-        selectedDistrictName:null,
+        districtList: null,
+        selectedLibraryName: null,
         selectedLibraryId: null,
-        selectedLibraryName:null,
-        workstationType:null,
-        isShowD:true,
-        isShowL:true,
-        isShowW:true,
-        isShowWS:true,
+        libraryResult: null,
+        selectedWorkstationType: null,
+        selectedWorkstationTypeId: null,
+        workStationTypeList: null
     }
   },
   mixins: [mixins],
     props: [ 'selectionLocationPage' ],
-    computed: {
+    /*computed: {
         selectedDistrict() {
             return this.$store.state.selectedDistrict
         },
@@ -141,86 +116,140 @@ export default {
         selectedWorkstationType() {
             return this.$store.state.selectedWorkstationType
         }
-    },
+    },*/
     methods: {
         checkComplete() {
             this.$refs.pageFooterSection.checkComplete('selectionLocationPage');
         },
 
         async clickDistrict(districtname, districtId) {
-            this.$store.commit('selectedDistrict', districtname);
-            this.$store.commit('selectedDistrictId', districtId);
-            this.$store.commit('selectedLibrary', null);
-            this.$store.commit('selectedLibraryId', null);
-            this.$store.commit('selectedWorkstationType', null);
-            this.$store.commit('selectedWorkstationTypeId', null);
-            this.$store.commit('selectedWorkstationFeature', null);
-            this.$store.commit('selectedWorkstationFeatureId', null);
-            this.libraryResult = (await queryLibraryByDistrictId(districtId)).data.data;
-            
-            this.$store.commit('libraryList', this.libraryResult);
+            if (this.selectedDistrictId != districtId) {
+                this.$store.commit('selectedDistrict', districtname);
+                this.$store.commit('selectedDistrictId', districtId);
+                this.$store.commit('selectedLibrary', null);
+                this.$store.commit('selectedLibraryId', null);
+                this.$store.commit('libraryList', null);
+                this.$store.commit('selectedWorkstationType', null);
+                this.$store.commit('selectedWorkstationTypeId', null);
+                this.$store.commit('workStationTypeList', null);
+                this.$store.commit('isReadTerm', null);
+                this.$store.commit('selectedWorkstationFeature', null);
+                this.$store.commit('selectedWorkstationFeatureId', null);
+                this.$store.commit('featureList', null);
+                this.$store.commit('selectedWorkstationLanguage', null);
+                this.$store.commit('selectedWorkstationLanguageId', null);
+                this.$store.commit('languageList', null);
+                this.$store.commit('selectedDateOfUse', null);
+                this.$store.commit('dateOfUseList', null);
+                this.$store.commit('selectedHour', null);
+                this.$store.commit('sessionList', null);
+                this.$store.commit('selectedSession1Time', null);
+                this.$store.commit('selectedSession1Group', null);
+                this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession2Time', null);
+                this.$store.commit('selectedSession2Group', null);
+                this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('listGroup', null);
 
-            if (this.selectedDistrictId) {
-                (this.$refs['district' + this.selectedDistrictId])[0].classList.remove('selectedDistrictLibrary');
+                this.selectedLibraryName = null;
+                this.selectedLibraryId = null;
+                this.libraryResult = null;
+
+                this.selectedWorkstationType = null;
+                this.selectedWorkstationTypeId = null;
+                this.workStationTypeList = null;
+
+                this.libraryResult = (await queryLibraryByDistrictId(districtId)).data.data;
+                this.$store.commit('libraryList', this.libraryResult);
+
+                if (this.selectedDistrictId) {
+                    (this.$refs['district' + this.selectedDistrictId])[0].classList.remove('selectedDistrictLibrary');
+                }
+                (this.$refs['district' + districtId])[0].classList.add('selectedDistrictLibrary');
+
+                this.selectedDistrictName = districtname;
+                this.selectedDistrictId = districtId;
+
+                this.checkComplete();
             }
-            (this.$refs['district' + districtId])[0].classList.add('selectedDistrictLibrary');
-
-            this.selectedDistrictName = districtname;
-            this.selectedDistrictId = districtId;
-
-            this.checkComplete();
         },
 
         async clickLibraries(libraryName, libraryId) {
-            this.$store.commit('selectedLibrary', libraryName);
-            this.$store.commit('selectedLibraryId', libraryId);
-            this.$store.commit('selectedWorkstationType', null);
-            this.$store.commit('selectedWorkstationTypeId', null);
-            this.$store.commit('selectedWorkstationFeature', null);
-            this.$store.commit('selectedWorkstationFeatureId', null);
-            this.workstationType = (await queryWorkstationByLibraryCode(libraryId, 123456)).data.data;
-            
-            this.$store.commit('workStationTypeList', this.workstationType);
+            if (this.selectedLibraryId != libraryId) {
+                this.$store.commit('selectedLibrary', libraryName);
+                this.$store.commit('selectedLibraryId', libraryId);
+                this.$store.commit('selectedWorkstationType', null);
+                this.$store.commit('selectedWorkstationTypeId', null);
+                this.$store.commit('workStationTypeList', null);
+                this.$store.commit('isReadTerm', null);
+                this.$store.commit('selectedWorkstationFeature', null);
+                this.$store.commit('selectedWorkstationFeatureId', null);
+                this.$store.commit('featureList', null);
+                this.$store.commit('selectedWorkstationLanguage', null);
+                this.$store.commit('selectedWorkstationLanguageId', null);
+                this.$store.commit('languageList', null);
+                this.$store.commit('selectedDateOfUse', null);
+                this.$store.commit('dateOfUseList', null);
+                this.$store.commit('selectedHour', null);
+                this.$store.commit('sessionList', null);
+                this.$store.commit('selectedSession1Time', null);
+                this.$store.commit('selectedSession1Group', null);
+                this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession2Time', null);
+                this.$store.commit('selectedSession2Group', null);
+                this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('listGroup', null);
 
-            if (this.selectedLibraryId) {
-                (this.$refs['library' + this.selectedLibraryId])[0].classList.remove('selectedDistrictLibrary');
+                if (this.selectedWorkstationTypeId) {
+                    (this.$refs['workstationType' + this.selectedWorkstationTypeId])[0].checked = false;
+                }
+                this.selectedWorkstationType = null;
+                this.selectedWorkstationTypeId = null;
+                this.workStationTypeList = null;
+
+                this.workStationTypeList = (await queryWorkstationByLibraryCode(libraryId, 123456)).data.data;
+                this.$store.commit('workStationTypeList', this.workStationTypeList);
+
+                if (this.selectedLibraryId) {
+                    (this.$refs['library' + this.selectedLibraryId])[0].classList.remove('selectedDistrictLibrary');
+                }
+                (this.$refs['library' + libraryId])[0].classList.add('selectedDistrictLibrary');
+                
+                this.selectedLibraryName = libraryName;
+                this.selectedLibraryId = libraryId;
+
+                this.checkComplete();
             }
-            (this.$refs['library' + libraryId])[0].classList.add('selectedDistrictLibrary');
-
-            this.selectedLibraryName = libraryName;
-            this.selectedLibraryId = libraryId;
-
-            this.checkComplete();
         },
 
-        async clickWorkstation(workstationType, workstationTypeId) {
-            this.$store.commit('selectedWorkstationType', workstationType);
-            this.$store.commit('selectedWorkstationTypeId', workstationTypeId);
-            this.$store.commit('selectedWorkstationFeature', null);
-            this.$store.commit('selectedWorkstationFeatureId', null);
-            this.selectedWorkstation = workstationType;
+        clickWorkstation(workstationType, workstationTypeId) {
+            if (this.selectedWorkstationTypeId != workstationTypeId) {
+                this.$store.commit('selectedWorkstationType', workstationType);
+                this.$store.commit('selectedWorkstationTypeId', workstationTypeId);
+                this.$store.commit('isReadTerm', null);
+                this.$store.commit('selectedWorkstationFeature', null);
+                this.$store.commit('selectedWorkstationFeatureId', null);
+                this.$store.commit('featureList', null);
+                this.$store.commit('selectedWorkstationLanguage', null);
+                this.$store.commit('selectedWorkstationLanguageId', null);
+                this.$store.commit('languageList', null);
+                this.$store.commit('selectedDateOfUse', null);
+                this.$store.commit('dateOfUseList', null);
+                this.$store.commit('selectedHour', null);
+                this.$store.commit('sessionList', null);
+                this.$store.commit('selectedSession1Time', null);
+                this.$store.commit('selectedSession1Group', null);
+                this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession2Time', null);
+                this.$store.commit('selectedSession2Group', null);
+                this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('listGroup', null);
+                
+                this.selectedWorkstationType = workstationType;
+                this.selectedWorkstationTypeId = workstationTypeId;
 
-            this.checkComplete();
-        },
-
-        agreeToConditionOfUse() {
-            let conditionOfUse = document.getElementById("conditionOfUse");
-            let next = document.getElementById("next");
-            next.disabled = !conditionOfUse.checked;
-        },
-
-        jumpToNext() {
-            if (this.checked) {
-                this.$router.push('/workstationbooking/DateTimeChoose');
+                this.checkComplete();
             }
-        },
-
-        jumpToTerm() {
-            this.$router.push('/workstationbooking/TermPageH5');      
-        },
-
-        jumpToBack() {
-            this.$router.push('/workstationbooking/HomeView');      
         },
 
         initializePage() {
@@ -231,13 +260,13 @@ export default {
                     this.libraryResult = this.$store.state.libraryList;
 
                     if (this.$store.state.selectedWorkstationTypeId) {
-                        this.workstationType = this.$store.state.workStationTypeList;
+                        this.workStationTypeList = this.$store.state.workStationTypeList;
                         this.checkComplete();
                     }
                 }
             }
 
-            return Promise.resolve(null);
+            return Promise.resolve('');
         }
     },
     async created() {
@@ -246,22 +275,28 @@ export default {
             this.$store.commit('districtList', this.districtList);
         }
 
-        this.$store.commit('selectedDateOfUse', null);
-        this.$store.commit('selectedHour', null);
-        this.$store.commit('selectedSession1Time', null);
-        this.$store.commit('selectedSession1Group', null);
-        this.$store.commit('selectedSession1Workstation', null);
-        this.$store.commit('selectedSession2Time', null);
-        this.$store.commit('selectedSession2Group', null);
-        this.$store.commit('selectedSession2Workstation', null);
+        if (this.$store.state.libraryList) {
+            this.libraryResult = this.$store.state.libraryList;
+        }
+
+        if (this.$store.state.workStationTypeList) {
+            this.workStationTypeList = this.$store.state.workStationTypeList;
+        }
     },
     mounted() {
         if (this.$store.state.selectedDistrictId) {
             this.initializePage().then(val => {
                 console.log(val);
+
                 (this.$refs['district' + this.$store.state.selectedDistrictId])[0].classList.add('selectedDistrictLibrary');
-                (this.$refs['library' + this.$store.state.selectedLibraryId])[0].classList.add('selectedDistrictLibrary');
-                (this.$refs['workstationType' + this.$store.state.selectedWorkstationTypeId])[0].checked = true;
+
+                if (this.$store.state.selectedLibraryId) {
+                    (this.$refs['library' + this.$store.state.selectedLibraryId])[0].classList.add('selectedDistrictLibrary');
+
+                    if (this.$store.state.selectedWorkstationTypeId) {
+                        (this.$refs['workstationType' + this.$store.state.selectedWorkstationTypeId])[0].checked = true;
+                    }
+                }
             });
         }
     }

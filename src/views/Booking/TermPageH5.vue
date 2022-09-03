@@ -37,17 +37,17 @@ Users may print out materials from files produced by themselves or save these fi
 Copying of a copyright work is an act restricted by the Copyright Ordinance.  Users shall make sure there is no infringement of copyright or other intellectual property rights when using the computer facilities for printing, downloading and browsing the Internet and MMIS materials.  Please contact the library staff for the full text of the Copyright Ordin.
 </li>
 </ol>
-                </div>
-            </b-col>
-        </b-row>
-        <b-row align-v="space-around" class="footer">
-            <b-col cols="12">
-                <button type="button"  class="buttonNextCou"  style="float: right;"
-                 @click='jumpToAccept'>Accept and Continue
-                    <font-awesome-icon icon="fas fa-right-long" />
-                </button>
-            </b-col>
-        </b-row>
+                    </div>
+                </b-col>
+            </b-row>
+            <b-row align-v="space-around" class="footer">
+                <b-col cols="12">
+                    <button type="button" class="buttonNextCou" style="float: right;" @click='jumpToAccept()'>
+                        Accept and Continue
+                        <font-awesome-icon icon="fas fa-right-long" />
+                    </button>
+                </b-col>
+            </b-row>
         </b-container>
         <PageFooter />
     </div>
@@ -78,6 +78,7 @@ Copying of a copyright work is an act restricted by the Copyright Ordinance.  Us
         computed: {},
         methods: {
             jumpToAccept() {
+                this.$store.commit('isReadTerm', true);
                 this.$router.push('/workstationbooking/SelectLocation');
             },
 

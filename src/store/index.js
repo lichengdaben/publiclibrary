@@ -67,6 +67,9 @@ export default new Vuex.Store({
     selectedHour(state, val) { // DATE/TIME CHOOSE
       state.selectedHour = val;
     },
+    sessionList(state, val) { // DATE/TIME CHOOSE
+      state.sessionList = val;
+    },
     selectedSession1Time(state, val) { // DATE/TIME CHOOSE
       state.selectedSession1Time = val;
     },
@@ -84,6 +87,9 @@ export default new Vuex.Store({
     },
     selectedSession2Workstation(state, val) { // BOOKING DETAILS
       state.selectedSession2Workstation = val;
+    },
+    listGroup(state, val) { // WORKSTATION GROUP
+      state.listGroup = val;
     },
   },
   actions: {

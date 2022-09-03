@@ -75,17 +75,13 @@
             },
 
             initializeFeature() {
-                if (this.$store.state.selectedWorkstationFeatureId.length > 0) {
-                    this.workstationFeature = this.$store.state.featureList;
-                }
+                this.workstationFeature = this.$store.state.featureList;
 
                 return Promise.resolve('');
             },
 
             initializeLanguage() {
-                if (this.$store.state.selectedWorkstationLanguageId) {
-                    this.workstationLanguage = this.$store.state.languageList;
-                }
+                this.workstationLanguage = this.$store.state.languageList;
 
                 return Promise.resolve('');
             }
@@ -110,7 +106,7 @@
             }
         },
         mounted() {
-            if (this.$store.state.selectedWorkstationFeatureId.length > 0) {
+            if (this.$store.state.featureList) {
                 this.selectedWorkstationFeature = this.$store.state.selectedWorkstationFeature;
                 this.selectedWorkstationFeatureId = this.$store.state.selectedWorkstationFeatureId;
                 this.initializeFeature().then(val => {
@@ -121,7 +117,7 @@
                 });
             }
 
-            if (this.$store.state.selectedWorkstationLanguageId) {
+            if (this.$store.state.languageList) {
                 this.initializeLanguage().then(val => {
                     console.log(val);
                     (this.$refs['language' + this.$store.state.selectedWorkstationLanguageId])[0].checked = true;

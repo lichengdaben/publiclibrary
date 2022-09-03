@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.groupList">
+  <div v-if="this.listGroup">
     <div class="workStationGroupFieldTitle" id="workstationGroupSessionTime">SESSION 1 : {{ this.$store.state.selectedSession1Time }}</div>
 
     <b-container class="bv-example-row" fluid>
@@ -13,9 +13,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="session1Group in this.groupList.session1Group" :key="session1Group.groupId" v-bind:id="'session1Group' + session1Group.groupId">
+              <tr v-for="session1Group in this.listGroup.session1Group" :key="session1Group.groupId" v-bind:id="'session1Group' + session1Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location1" ref="radio" @click="setWorkstationGroup('selectedSession1Group', session1Group)" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location1" :ref="'session1Group' + session1Group.groupId" @click="setSession1WorkstationGroup(session1Group.groupId)" />
                 </td>
                 <td>{{ session1Group.floorNum + ' ' + session1Group.groupName }}</td>
               </tr>
@@ -40,9 +40,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="session2Group in this.groupList.session2Group" :key="session2Group.groupId" v-bind:id="'session2Group' + session2Group.groupId">
+              <tr v-for="session2Group in this.listGroup.session2Group" :key="session2Group.groupId" v-bind:id="'session2Group' + session2Group.groupId">
                 <td align="center">
-                  <input type="radio" class="workstationGroupRadioButton" name="location2" ref="radio" @click="setWorkstationGroup('selectedSession2Group', session2Group)" />
+                  <input type="radio" class="workstationGroupRadioButton" name="location2" :ref="'session2Group' + session2Group.groupId" @click="setSession2WorkstationGroup(session2Group.groupId)" />
                 </td>
                 <td>{{ session2Group.floorNum + ' ' + session2Group.groupName }}</td>
               </tr>
@@ -61,67 +61,85 @@
     name: 'WorkstationGroupTable',
     data() {
       return {
-        featureIds: [],
-        languageId: 9,
-        libraryId: 42,
-        typeId: 11,
         walkInBookingChooseTimeVO: {},
-        
-        groupList: null
+        listGroup: null
       }
     },
     props: [ 'workstationGroupPage' ],
     methods: {
-      checkComplete() {
-          let isComplete = true;
-
-          if (!this.$store.state.selectedSession1Group) {
-            isComplete = false;
+      setSession1WorkstationGroup(groupId) {
+        for (let i = 0; i < this.listGroup.session1Group.length; i++) {
+          if (this.listGroup.session1Group[i].groupId == groupId) {
+            this.$store.commit('selectedSession1Group', this.listGroup.session1Group[i]);
+            break;
           }
+        }
 
-          if (this.$store.state.selectedSession2Time) {
-            if (!this.$store.state.selectedSession2Group) {
-              isComplete = false;
-            }
-          }
-
-          if (isComplete) {
-              document.getElementById("pageFooterNextLink").classList.remove("btn");
-              document.getElementById("pageFooterNextLink").classList.remove("disabled");
-          } else {
-              document.getElementById("pageFooterNextLink").classList.add("btn");
-              document.getElementById("pageFooterNextLink").classList.add("disabled");
-          }
+        this.$emit('checkComplete', 'workstationGroupPage');
       },
 
-      setWorkstationGroup(paramName, group) {
-        this.$store.commit(paramName, group);
-        this.checkComplete();
+      setSession2WorkstationGroup(groupId) {
+        for (let i = 0; i < this.listGroup.session2Group.length; i++) {
+          if (this.listGroup.session2Group[i].groupId == groupId) {
+            this.$store.commit('selectedSession2Group', this.listGroup.session2Group[i]);
+            break;
+          }
+        }
+        
+        this.$emit('checkComplete', 'workstationGroupPage');
       },
 
       resetPage() {
-        for (let radio of this.$refs.radio) {
-          radio.checked = false;
+        if (this.$store.state.selectedSession1Group) {
+          (this.$refs['session1Group' + this.$store.state.selectedSession1Group.groupId])[0].checked = false;
         }
-      
+        if (this.$store.state.selectedSession2Group) {
+          (this.$refs['session2Group' + this.$store.state.selectedSession2Group.groupId])[0].checked = false;
+        }
+
         this.$store.commit('selectedSession1Group', null);
         this.$store.commit('selectedSession2Group', null);
-        this.checkComplete();
+                        
+        this.$emit('checkComplete', 'workstationGroupPage');
+      },
+
+      initializePage() {
+        this.$emit('checkComplete', 'workstationGroupPage');
+
+        return Promise.resolve('');
       }
     },
     async created() {
-      this.groupList = (await queryGroup(this.$store.state.selectedDateOfUse,
-                                         this.featureIds,
-                                         this.languageId,
-                                         this.libraryId,
-                                         this.$store.state.selectedSession1Time,
-                                         this.$store.state.selectedSession2Time,
-                                         this.typeId,
-                                         this.walkInBookingChooseTimeVO)  
-                       ).data.data;
-
-      this.resetPage();
+      if (!this.$store.state.listGroup) {
+        this.listGroup = (await queryGroup(this.$store.state.selectedDateOfUse,
+                                           [],
+                                           this.$store.state.selectedWorkstationLanguageId,
+                                           42, // this.$store.state.selectedLibraryId,
+                                           this.$store.state.selectedSession1Time,
+                                           this.$store.state.selectedSession2Time,
+                                           this.$store.state.selectedWorkstationTypeId,
+                                           this.walkInBookingChooseTimeVO)  
+                         ).data.data;
+        this.$store.commit('listGroup', this.listGroup);
+      } else {
+        this.listGroup = this.$store.state.listGroup;
+      }
     },
+    mounted() {
+      if (this.$store.state.selectedSession1Group || this.$store.state.selectedSession2Group) {
+        this.initializePage().then(val => {
+          console.log(val);
+
+          if (this.$store.state.selectedSession1Group) {
+            (this.$refs['session1Group' + this.$store.state.selectedSession1Group.groupId])[0].checked = true;
+          }
+
+          if (this.$store.state.selectedSession2Group) {
+            (this.$refs['session2Group' + this.$store.state.selectedSession2Group.groupId])[0].checked = true;
+          }
+        });
+      }
+    }
   }
 
 /*export default {

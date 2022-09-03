@@ -13,7 +13,7 @@
                     </b-col>
                     <b-col cols="9" id="WorkstationGroup" class="right-content">
                         <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
-                        <WorkstationGroupTable ref="workstationGroupPage" />
+                        <WorkstationGroupTable ref="workstationGroupPage" @checkComplete="checkComplete" />
                     </b-col>
                 </b-row>
             </b-container>
@@ -54,6 +54,10 @@
         methods: {
             showLeftMenuSettings(isActive) {
                 this.$refs.leftMenuSettings.showLeftMenuSettings(isActive);
+            },
+
+            checkComplete(pageName) {
+                this.$refs.pageFooterSection.checkComplete(pageName);
             },
 
             resetWorkstationGroupPage() {

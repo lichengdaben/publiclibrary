@@ -72,6 +72,18 @@
           if (!this.$store.state.selectedSession1Time) {
             isComplete = false;
           }
+        } else if (page == 'workstationGroupPage') {
+          if (!this.$store.state.selectedSession1Group) {
+            if (this.$store.state.listGroup.session1Group) {
+              isComplete = false;
+            }
+          }
+
+          if (!this.$store.state.selectedSession2Group) {
+            if (this.$store.state.listGroup.session2Group) {
+              isComplete = false;
+            }
+          }
         }
         
         if (isComplete) {
