@@ -47,6 +47,12 @@
             },
 
             async clickWorkStationFeature(workstationFeature) {
+                this.$store.commit('selectedSession1Group', null);
+                this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession2Group', null);
+                this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('listGroup', null);
+
                 if (this.selectedWorkstationFeature.indexOf(workstationFeature.featureName) == -1) {
                     this.selectedWorkstationFeature.push(workstationFeature.featureName);
                 } else {
@@ -67,6 +73,11 @@
             async clickWorkStationLanguage(workstationLanguage) {
                 this.$store.commit('selectedWorkstationLanguage', workstationLanguage.languageName);
                 this.$store.commit('selectedWorkstationLanguageId', workstationLanguage.languageId);
+                this.$store.commit('selectedSession1Group', null);
+                this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession2Group', null);
+                this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('listGroup', null);
 
                 this.selectedWorkstationLanguage = workstationLanguage.languageName;
                 this.selectedWorkstationLanguageId = workstationLanguage.languageId;
@@ -120,7 +131,9 @@
             if (this.$store.state.languageList) {
                 this.initializeLanguage().then(val => {
                     console.log(val);
-                    (this.$refs['language' + this.$store.state.selectedWorkstationLanguageId])[0].checked = true;
+                    if (this.$store.state.selectedWorkstationLanguageId) {
+                        (this.$refs['language' + this.$store.state.selectedWorkstationLanguageId])[0].checked = true;
+                    }
                 });
             }
         }

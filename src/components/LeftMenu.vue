@@ -13,7 +13,7 @@
             </div>
         </li>
         <li>
-            <vs-button @click="showLeftMenuSettings()" class="SettingButton" type="filled">{{ active ? 'Close' : 'More' }}</vs-button>
+            <vs-button v-if="this.$route.name == 'DateTimeChoose'" @click="showLeftMenuSettings()" class="SettingButton" type="filled">{{ active ? 'Close' : 'More' }}</vs-button>
             <div class="firstHeader">
                 <div class="firstfont">FEATURE & LANGUAGE</div>
                 <div v-for="workstationFeature in selectedWorkstationFeature" :key="workstationFeature" class="secondfont">+ {{ workstationFeature }}</div>

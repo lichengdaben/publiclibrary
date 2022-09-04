@@ -132,7 +132,6 @@ export default {
                 this.$store.commit('selectedWorkstationType', null);
                 this.$store.commit('selectedWorkstationTypeId', null);
                 this.$store.commit('workStationTypeList', null);
-                this.$store.commit('isReadTerm', null);
                 this.$store.commit('selectedWorkstationFeature', null);
                 this.$store.commit('selectedWorkstationFeatureId', null);
                 this.$store.commit('featureList', null);
@@ -181,7 +180,6 @@ export default {
                 this.$store.commit('selectedWorkstationType', null);
                 this.$store.commit('selectedWorkstationTypeId', null);
                 this.$store.commit('workStationTypeList', null);
-                this.$store.commit('isReadTerm', null);
                 this.$store.commit('selectedWorkstationFeature', null);
                 this.$store.commit('selectedWorkstationFeatureId', null);
                 this.$store.commit('featureList', null);
@@ -226,7 +224,6 @@ export default {
             if (this.selectedWorkstationTypeId != workstationTypeId) {
                 this.$store.commit('selectedWorkstationType', workstationType);
                 this.$store.commit('selectedWorkstationTypeId', workstationTypeId);
-                this.$store.commit('isReadTerm', null);
                 this.$store.commit('selectedWorkstationFeature', null);
                 this.$store.commit('selectedWorkstationFeatureId', null);
                 this.$store.commit('featureList', null);

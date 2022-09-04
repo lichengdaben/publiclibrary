@@ -84,6 +84,8 @@
               isComplete = false;
             }
           }
+        } else if (page == 'BookingDetails') {
+          isComplete = true;
         }
         
         if (isComplete) {

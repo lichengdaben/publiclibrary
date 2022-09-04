@@ -186,6 +186,7 @@
                     this.$store.commit('selectedSession2Time', null);
                     this.$store.commit('selectedSession2Group', null);
                     this.$store.commit('selectedSession2Workstation', null);
+                    this.$store.commit('listGroup', null);
 
                     this.chooseDate = dayAndWeek.substring(4) + ' ' + yearAndMonth;
                     this.resetCheckboxes();
@@ -203,6 +204,7 @@
                     this.$store.commit('selectedSession2Time', null);
                     this.$store.commit('selectedSession2Group', null);
                     this.$store.commit('selectedSession2Workstation', null);
+                    this.$store.commit('listGroup', null);
 
                     this.numOfHours = numOfHours;
                     this.resetCheckboxes();
@@ -215,6 +217,7 @@
                 this.$store.commit('selectedSession1Workstation', null);
                 this.$store.commit('selectedSession2Group', null);
                 this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('listGroup', null);
 
                 let hour = parseInt(time.substring(0, 2));
                 let index = this.selectedHours.indexOf(hour);

@@ -56,6 +56,10 @@
                 this.$refs.leftMenuSettings.showLeftMenuSettings(isActive);
             },
 
+            checkComplete(pageName) {
+                this.$refs.pageFooterSection.checkComplete(pageName);
+            },
+
             selectFeature(selectedWorkstationFeature) {
                 this.$refs.leftMenu.selectFeature(selectedWorkstationFeature);
             },
@@ -63,10 +67,6 @@
             selectLanguage(selectedWorkstationFeature) {
                 this.$refs.leftMenu.selectLanguage(selectedWorkstationFeature);
             }
-        },
-        mounted() {
-            document.getElementById("pageFooterNextLink").classList.remove("btn");
-            document.getElementById("pageFooterNextLink").classList.remove("disabled");
         }
     }
 </script>

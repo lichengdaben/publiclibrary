@@ -68,6 +68,8 @@
     props: [ 'workstationGroupPage' ],
     methods: {
       setSession1WorkstationGroup(groupId) {
+        this.$store.commit('selectedSession1Workstation', null);
+
         for (let i = 0; i < this.listGroup.session1Group.length; i++) {
           if (this.listGroup.session1Group[i].groupId == groupId) {
             this.$store.commit('selectedSession1Group', this.listGroup.session1Group[i]);
@@ -79,6 +81,8 @@
       },
 
       setSession2WorkstationGroup(groupId) {
+        this.$store.commit('selectedSession2Workstation', null);
+
         for (let i = 0; i < this.listGroup.session2Group.length; i++) {
           if (this.listGroup.session2Group[i].groupId == groupId) {
             this.$store.commit('selectedSession2Group', this.listGroup.session2Group[i]);
@@ -112,9 +116,9 @@
     async created() {
       if (!this.$store.state.listGroup) {
         this.listGroup = (await queryGroup(this.$store.state.selectedDateOfUse,
-                                           [],
+                                           this.$store.state.selectedWorkstationFeatureId,
                                            this.$store.state.selectedWorkstationLanguageId,
-                                           42, // this.$store.state.selectedLibraryId,
+                                           this.$store.state.selectedLibraryId,
                                            this.$store.state.selectedSession1Time,
                                            this.$store.state.selectedSession2Time,
                                            this.$store.state.selectedWorkstationTypeId,

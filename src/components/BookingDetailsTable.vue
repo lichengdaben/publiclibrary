@@ -333,6 +333,8 @@
                                     this.session2WorkstationId,
                                     this.typeId)
                      ).data.data;
+
+      this.$emit('checkComplete', 'BookingDetails');
     }
   }
 </script>
