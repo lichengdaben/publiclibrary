@@ -6,21 +6,17 @@
           <button id="pageFooterResetButton" v-if="isShowReset" @click="reset()">Reset&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-rotate-right" /></button>
         </b-col>
         <b-col cols="1" class="left-menu">
-          <router-link id="pageFooterBackLink" :to="this.prefix + this.listOfPages[this.currentPage - 1]">
-            <button id="pageFooterBackButton">Back&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-reply" /></button>
-          </router-link>
+          <button id="pageFooterBackButton" @click="moveToPreviousPage()">Back&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-reply" /></button>
         </b-col>
         <b-col cols="8" class="left-menu" align-self="center">
           <div v-if="this.listOfPages.indexOf(this.$route.name) == 1" class="rightbutton">
             <input id="conditionOfUse" type="checkbox" class="checkedboxstyle" ref="cou" @change="readCOU()" v-model="checked">
-            <div id="conditionAgree"> I agree to the&nbsp;</div>
+            <div id="conditionAgree">I agree to the&nbsp;</div>
             <div id="conditionPage" @click="jumpToTerm()">Condition of Use</div>
           </div>
         </b-col>
         <b-col cols="2" class="left-menu">
-          <router-link class="btn disabled" id="pageFooterNextLink" ref="pageFooterNextLink" :to="'/workstationbooking/' + this.listOfPages[this.currentPage + 1]">
-            <button id="pageFooterNextButton">{{ this.nextText }}&nbsp;&nbsp;<font-awesome-icon icon="fas fa-right-long"/></button>
-          </router-link>
+          <button id="pageFooterNextButton" ref="pageFooterNextButton" :disabled="true" @click="moveToNextPage()">{{ this.nextText }}&nbsp;&nbsp;<font-awesome-icon icon="fas fa-right-long"/></button>
         </b-col>
       </b-row>
     </b-container>
@@ -28,6 +24,8 @@
 </template>
 
 <script>
+  import { queryGroup } from '@/service/test.js'
+
   export default {
     name: 'PageFooter',
     data() {
@@ -36,7 +34,9 @@
         listOfPages: [ '', 'SelectLocation', 'DateTimeChoose', 'WorkstationGroup', 'BookingDetails', 'BookingConfirmation' ],
         currentPage: null,
         isShowReset: false,
-        nextText: null
+        nextPage: null,
+        nextText: null,
+        isDisabled: null
       }
     },
     props: [ 'pageFooterSection' ],
@@ -88,18 +88,95 @@
           isComplete = true;
         }
         
-        if (isComplete) {
-          this.$refs.pageFooterNextLink.$el.classList.remove('btn');
-          this.$refs.pageFooterNextLink.$el.classList.remove('disabled');
-        } else {
-          this.$refs.pageFooterNextLink.$el.classList.add('btn');
-          this.$refs.pageFooterNextLink.$el.classList.add('disabled');
-        }
+        this.$refs.pageFooterNextButton.disabled = !isComplete;
       },
       
       readCOU() {
         this.$store.commit("isReadTerm", this.$refs.cou.checked);
         this.checkComplete('selectionLocationPage');
+      },
+
+      async isSkipWorkstationGroup(currentPage) {
+        let listGroup;
+
+        if (!this.$store.state.listGroup) {
+          listGroup = (await queryGroup(this.$store.state.selectedDateOfUse,
+                                        this.$store.state.selectedWorkstationFeatureId,
+                                        this.$store.state.selectedWorkstationLanguageId,
+                                        this.$store.state.selectedLibraryId,
+                                        this.$store.state.selectedSession1Time,
+                                        this.$store.state.selectedSession2Time,
+                                        this.$store.state.selectedWorkstationTypeId,
+                                        this.walkInBookingChooseTimeVO)  
+                          ).data.data;
+          this.$store.commit('listGroup', listGroup);
+        } else {
+          listGroup = this.$store.state.listGroup;
+        }
+
+        let redirectPage = 3;
+
+        if (listGroup.session1Group.length == 0) {
+          alert('Session ' + this.$store.state.selectedSession1Time + ' is already full.');
+          redirectPage = null;
+        }
+        
+        if (this.$store.state.selectedHour == 1 && listGroup.session2Group.length == 0) {
+          alert('Session ' + this.$store.state.selectedSession2Time + ' is already full.');
+          redirectPage = null;
+        }
+
+        if (listGroup.session1Group) {
+          if (listGroup.session1Group.length == 1) {
+            this.$store.commit('selectedSession1Group', listGroup.session1Group[0]);
+            redirectPage = (currentPage == 2 ? 4 : 2);
+          }
+        }
+
+        if (listGroup.session2Group) {
+          if (listGroup.session2Group.length == 1) {
+            this.$store.commit('selectedSession2Group', listGroup.session2Group[0]);
+            redirectPage = (currentPage == 2 ? 4 : 2);
+          }
+        }
+
+        if (typeof listGroup.session1Group !== 'undefined' && listGroup.session1Group !== null) {
+          if (listGroup.session1Group.length > 1) {
+            redirectPage = 3;
+          }
+        }
+
+        if (typeof listGroup.session2Group !== 'undefined' && listGroup.session2Group !== null) {
+          if (listGroup.session2Group.length > 1) {
+            redirectPage = 3;
+          }
+        }
+
+        return Promise.resolve(redirectPage);
+      },
+
+      moveToPreviousPage() {
+        if (this.listOfPages.indexOf(this.$route.name) == 4) {
+          this.isSkipWorkstationGroup(4).then(redirectPage => {
+            if (redirectPage) {
+              this.$router.push(this.listOfPages[redirectPage]);
+            }
+          });
+        } else {
+          this.$router.push(this.listOfPages[this.currentPage - 1]);
+        }
+      },
+
+      moveToNextPage() {
+        if (this.listOfPages.indexOf(this.$route.name) == 2) {
+          this.isSkipWorkstationGroup(2).then(redirectPage => {
+            if (redirectPage) {
+              this.$router.push(this.listOfPages[redirectPage]);
+            }
+          });
+        } else {
+          this.$router.push(this.listOfPages[this.currentPage + 1]);
+        }
       },
 
       reset() {
@@ -169,11 +246,19 @@
     min-width: 174px;
 }
 
-#pageFooter .btn {
+#pageFooterNextButton:disabled {
     float: right;
-    border: 0px !important;
-    padding: 0px !important;
-    width: 100%;
+    background-image: linear-gradient(#6BAAE3, #5B9BD7);
+    color: white;
+    width: 14.5%;
+    min-width: 174px;
+}
+
+#pageFooter .btn{
+  float: right;
+  border: 0px !important;
+  padding: 0px !important;
+  width: 100%;
 }
 
 </style>

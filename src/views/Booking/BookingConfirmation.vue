@@ -315,9 +315,22 @@
 					jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
 				})
             }
-        },
+        }/*,
         created() {
-        }
+            this.confirm = (await confirm(this.$store.state.selectedDateOfUse,
+                            this.bookingSource,
+                            this.featureIds,
+                            this.$store.state.selectedHour,
+                            this.languageId,
+                            this.libraryCardNumber,
+                            this.libraryId,
+                            this.$store.state.selectedSession1Time,
+                            this.$store.state.session1WorkstationId,
+                            this.$store.state.selectedSession2Time,
+                            this.$store.state.session2WorkstationId,
+                            this.$store.state.selectedWorkstationTypeId)
+            ).data.data;
+        }*/
     }
 </script>
 

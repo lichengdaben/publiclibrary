@@ -79,6 +79,12 @@ export default new Vuex.Store({
     selectedSession1Workstation(state, val) { // BOOKING DETAILS
       state.selectedSession1Workstation = val;
     },
+    selectedSession1WorkstationId(state, val) { // BOOKING DETAILS
+      state.selectedSession1WorkstationId = val;
+    },
+    selectedSession1WorkstationGrid(state, val) { // BOOKING DETAILS
+      state.selectedSession1WorkstationGrid = val;
+    },
     selectedSession2Time(state, val) { // DATE/TIME CHOOSE
       state.selectedSession2Time = val;
     },
@@ -88,8 +94,17 @@ export default new Vuex.Store({
     selectedSession2Workstation(state, val) { // BOOKING DETAILS
       state.selectedSession2Workstation = val;
     },
+    selectedSession2WorkstationId(state, val) { // BOOKING DETAILS
+      state.selectedSession2WorkstationId = val;
+    },
+    selectedSession2WorkstationGrid(state, val) { // BOOKING DETAILS
+      state.selectedSession2WorkstationGrid = val;
+    },
     listGroup(state, val) { // WORKSTATION GROUP
       state.listGroup = val;
+    },
+    defaultWorkstation(state, val) { // WORKSTATION GROUP
+      state.defaultWorkstation = val;
     },
   },
   actions: {

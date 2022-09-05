@@ -1,12 +1,12 @@
 <template>
-  <div v-if="this.defaultWorkstation">
+  <div v-if="this.defaultWorkstation" v-scroll="handleScroll">
     <div class="bookingDetailsFieldTitle" id="bookingDetailsSessionTime">SESSION 1 : {{ this.$store.state.selectedSession1Time }}</div>
 
     <b-button v-b-toggle.info-details1 class="bookingDetailsItem" style="">
       <b-row align-v="center">
         <b-col cols="10">
           <div class="bookingDetailsInfoLeft">
-            <img src="@/assets/img/wg-img.png" class="bookingDetailsImage">
+            <img :src="require(`@/${this.defaultWorkstation.session1GroupImagePath}`)" class="bookingDetailsImage" />
           </div>
 
           <div class="bookingDetailsInfoCenter">
@@ -36,8 +36,8 @@
     <b-collapse id="info-details1" class="info-details">
       <b-card>
         <b-row align-v="center">
-          <b-col cols="9">
-            <div>
+          <b-col cols="9" align="center">
+            <div v-if="!isEnlargeFloorPlan1">
               <table v-if="this.defaultWorkstation" style="width: 100%">
                 <tbody>
                   <tr v-for="(row, rowNum) in workstationArray1" :key="rowNum" v-bind:id="'session1Row' + rowNum">
@@ -47,6 +47,7 @@
                 </tbody>
               </table>
             </div>
+            <img v-if="isEnlargeFloorPlan1" :src="require(`@/${this.defaultWorkstation.session1FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = false" />
           </b-col>
 
           <b-col cols="3">
@@ -69,7 +70,7 @@
               </tbody>
             </table>
 
-            <img src="CFM/20220701/0e49762f-0eac-4832-9a52-bb75099fcd30.png" />
+            <img v-if="!isEnlargeFloorPlan1" :src="require(`@/${this.defaultWorkstation.session1FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = true" />
 
             <div align="right">
               <button class="bookingDetailsSelect" @click="selectWorkstation(1)">Select</button>
@@ -102,7 +103,7 @@
       <b-row align-v="center">
         <b-col cols="10">
           <div class="bookingDetailsInfoLeft">
-            <img src="@/assets/img/wg-img.png" class="bookingDetailsImage">
+            <img :src="require(`@/${this.defaultWorkstation.session2GroupImagePath}`)" class="bookingDetailsImage">
           </div>
 
           <div class="bookingDetailsInfoCenter">
@@ -132,17 +133,18 @@
     <b-collapse v-if="this.$store.state.selectedSession2Time" id="info-details2" class="info-details">
       <b-card>
         <b-row align-v="center">
-          <b-col cols="9">
-            <div>
+          <b-col cols="9" align="center">
+            <div v-if="!isEnlargeFloorPlan2">
               <table v-if="this.defaultWorkstation" style="width: 100%">
                 <tbody>
                   <tr v-for="(row, rowNum) in workstationArray2" :key="rowNum" v-bind:id="'session2Row' + rowNum">
-                    <td v-for="(grid, colNum) in row" :key="colNum" v-bind:id="'session2Row' + rowNum + 'Col' + colNum"
+                    <td v-for="(grid, colNum) in row" :key="colNum" v-bind:id="'session2Row' + rowNum + 'Col' + colNum" :ref="'session2Row' + rowNum + 'Col' + colNum"
                       align="center" :class="'status' + grid.status" :style="{ 'width': (100 / row.length) + '%' }" @click="markHighlighted(2, colNum, rowNum, grid)">{{ grid.name }}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <img v-if="isEnlargeFloorPlan2" :src="require(`@/${this.defaultWorkstation.session2FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = false" />
           </b-col>
           
           <b-col cols="3">
@@ -165,7 +167,7 @@
               </tbody>
             </table>
 
-            <img src="CFM/20220701/0e49762f-0eac-4832-9a52-bb75099fcd30.png" />
+            <img v-if="!isEnlargeFloorPlan2" :src="require(`@/${this.defaultWorkstation.session2FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = true" />
 
             <div align="right">
               <button class="bookingDetailsSelect" @click="selectWorkstation(2)">Select</button>
@@ -183,25 +185,20 @@
 </template>
 
 <script>
-  import { queryDefaultWorkstation, queryWorkstationList, confirm } from '@/service/test.js'
+  import { queryDefaultWorkstation, queryWorkstationList } from '@/service/test.js'
 
   export default {
     name: 'BookingDetailsTable',
     data() {
       return {
-        featureIds: [],
-        languageId: 10,
-        libraryId: 42,
-        typeId: 11,
-
         bookingSource: 1,
         libraryCardNumber: "123456",
-        session1WorkstationId: 71,
-        session2WorkstationId: 71,
+
+        isEnlargeFloorPlan1: false,
+        isEnlargeFloorPlan2: false,
 
         defaultWorkstation: null,
         workstationList: null,
-        confirm: null,
 
         floorNum: null,
         groupName: null,
@@ -211,10 +208,15 @@
         workstationArray1: [],
         workstationArray2: [],
 
-        selectedX1: null,
-        selectedY1: null,
-        selectedX2: null,
-        selectedY2: null,
+        originalSelectedX1: null,
+        originalSelectedY1: null,
+        originalSelectedX2: null,
+        originalSelectedY2: null,
+
+        newSelectedX1: null,
+        newSelectedY1: null,
+        newSelectedX2: null,
+        newSelectedY2: null,
 
         selectedWorkstation1: null,
         selectedWorkstation2: null,
@@ -224,115 +226,166 @@
     },
     methods: {
       markHighlighted(session, x, y, workstation) {
-        if (workstation.status != 2) {
+        if (workstation.status != 1 && workstation.status != 2) {
           return;
         }
 
         if (session == 1) {
-          if (typeof this.selectedX1 !== 'undefined' && this.selectedX1 !== null && typeof this.selectedY1 !== 'undefined' && this.selectedY1 !== null) {
-            this.$refs['session1Row' + this.selectedY1 + 'Col' + this.selectedX1]
-            document.getElementById('session1Row' + this.selectedY1 + 'Col' + this.selectedX1).classList.remove("selectedGrid");
+          if (typeof this.newSelectedX1 !== 'undefined' && this.newSelectedX1 !== null && typeof this.newSelectedY1 !== 'undefined' && this.newSelectedY1 !== null) {
+            this.$refs['session1Row' + this.newSelectedY1 + 'Col' + this.newSelectedX1][0].classList.remove("selectedGrid");
           }
-          document.getElementById('session1Row' + y + 'Col' + x).classList.add("selectedGrid");
-          this.selectedX1 = x;
-          this.selectedY1 = y;
+          this.$refs['session1Row' + y + 'Col' + x][0].classList.add("selectedGrid");
+
+          this.newSelectedX1 = x;
+          this.newSelectedY1 = y;
           this.highlightedName1 = workstation.name;
         } else if (session == 2) {
-          if (typeof this.selectedX2 !== 'undefined' && this.selectedX2 !== null && typeof this.selectedY2 !== 'undefined' && this.selectedY2 !== null) {
-            document.getElementById('session2Row' + this.selectedY2 + 'Col' + this.selectedX2).classList.remove("selectedGrid");
+          if (typeof this.newSelectedX2 !== 'undefined' && this.newSelectedX2 !== null && typeof this.newSelectedY2 !== 'undefined' && this.newSelectedY2 !== null) {
+            this.$refs['session2Row' + this.newSelectedY2 + 'Col' + this.newSelectedX2][0].classList.remove("selectedGrid");
           }
-          document.getElementById('session2Row' + y + 'Col' + x).classList.add("selectedGrid");
-          this.selectedX2 = x;
-          this.selectedY2 = y;
+          this.$refs['session2Row' + y + 'Col' + x][0].classList.add("selectedGrid");
+
+          this.newSelectedX2 = x;
+          this.newSelectedY2 = y;
           this.highlightedName2 = workstation.name;
         }
       },
 
       selectWorkstation(session) {
         if (session == 1) {
-          this.selectedWorkstation1 = this.highlightedName1;
           this.$store.commit('selectedSession1Workstation', this.highlightedName1);
+          this.$store.commit('selectedSession1WorkstationId', this.highlightedName1);
+
+          this.selectedWorkstation1 = this.highlightedName1;
+          this.workstationArray1[this.oldSelectedY1][this.oldSelectedX1].status = 2;
+          this.workstationArray1[this.newSelectedY1][this.newSelectedX1].status = 1;
+          this.oldSelectedX1 = this.newSelectedX1;
+          this.oldSelectedY1 = this.newSelectedY1;
         } else if (session == 2) {
-          this.selectedWorkstation2 = this.highlightedName2;
           this.$store.commit('selectedSession2Workstation', this.highlightedName2);
-        }console.log(session);console.log(this.highlightedName1);console.log(this.$store.state.selectedSession1Workstation);
+          this.$store.commit('selectedSession2WorkstationId', this.highlightedName2);
+
+          this.selectedWorkstation2 = this.highlightedName2;
+          this.workstationArray2[this.oldSelectedY2][this.oldSelectedX2].status = 2;
+          this.workstationArray2[this.newSelectedY2][this.newSelectedX2].status = 1;
+          this.oldSelectedX2 = this.newSelectedX2;
+          this.oldSelectedY2 = this.newSelectedY2;
+        }
       }
     },
     async created() {
       let groupId1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupId : null;
-      let groupId2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.groupId : null;
       this.floorNum1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.floorNum : null;
-      this.floorNum2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.floorNum : null;
       this.groupName1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupName : null;
+
+      let groupId2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.groupId : null;
+      this.floorNum2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.floorNum : null;
       this.groupName2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.groupName : null;
 
-      this.defaultWorkstation = (await queryDefaultWorkstation(this.$store.state.selectedDateOfUse,
-                                                               this.featureIds,
-                                                               this.languageId,
-                                                               this.libraryId,
-                                                               groupId1,
-                                                               this.$store.state.selectedSession1Time,
-                                                               groupId2,
-                                                               this.$store.state.selectedSession2Time,
-                                                               this.typeId)
-                                ).data.data;
-      
-      this.selectedWorkstation1 = this.defaultWorkstation.session1DefaultWktId;
-      this.selectedWorkstation2 = this.defaultWorkstation.session2DefaultWktId;
-      this.$store.commit('selectedSession1Workstation', this.defaultWorkstation.session1DefaultWktId); // 臨時代碼
-      this.$store.commit('selectedSession2Workstation', this.defaultWorkstation.session2DefaultWktId); // 臨時代碼
-      
-      if (this.$store.state.selectedSession1Group) {
+      if (!this.$store.state.defaultWorkstation) {
+        this.defaultWorkstation = (await queryDefaultWorkstation(this.$store.state.selectedDateOfUse,
+                                                                 this.$store.state.selectedWorkstationFeatureId,
+                                                                 this.$store.state.selectedWorkstationLanguageId,
+                                                                 this.$store.state.selectedLibraryId,
+                                                                 groupId1,
+                                                                 this.$store.state.selectedSession1Time,
+                                                                 groupId2,
+                                                                 this.$store.state.selectedSession2Time,
+                                                                 this.$store.state.selectedWorkstationTypeId)
+                                  ).data.data;
+        
+        this.$store.commit('defaultWorkstation', this.defaultWorkstation); // 臨時代碼
+      } else {
+        this.defaultWorkstation = this.$store.state.defaultWorkstation;
+      }
+
+      if (!this.$store.state.selectedSession1WorkstationId) {
+        this.selectedWorkstation1 = this.defaultWorkstation.session1DefaultWktId;
+        this.$store.commit('selectedSession1Workstation', this.selectedWorkstation1); // 臨時代碼
+        this.$store.commit('selectedSession1WorkstationId', this.selectedWorkstation1);
+      } else {
+        this.selectedWorkstation1 = this.$store.state.selectedSession1WorkstationId;
+      }
+
+      if (!this.$store.state.selectedSession2WorkstationId) {
+        this.selectedWorkstation2 = this.defaultWorkstation.session2DefaultWktId;
+        this.$store.commit('selectedSession2Workstation', this.selectedWorkstation2); // 臨時代碼
+        this.$store.commit('selectedSession2WorkstationId', this.selectedWorkstation2);
+      } else {
+        this.selectedWorkstation2 = this.$store.state.selectedSession2WorkstationId;
+      }
+
+      if (!this.$store.state.selectedSession1WorkstationGrid) {
         this.workstationList1 = (await queryWorkstationList(groupId1,
-                                                            this.typeId,
+                                                            this.$store.state.selectedWorkstationTypeId,
                                                             this.$store.state.selectedDateOfUse,
                                                             this.$store.state.selectedSession1Time)).data.data;
 
-        for (let x = 0; x < this.defaultWorkstation.session1GroupMaxAbscissa; x++) {
-          this.workstationArray1.push([ ]);
-          for (let y = 0; y < this.defaultWorkstation.session1GroupMaxOrdinate; y++) {
-            this.workstationArray1[x].push({ 'name': ' ', 'status': '0' });
-          }
-        }
-
-        for (let i = 0; i < this.workstationList1.length; i++) {
-          this.workstationArray1[this.workstationList1[i].x][this.workstationList1[i].y].name = this.workstationList1[i].workstationId;
-          this.workstationArray1[this.workstationList1[i].x][this.workstationList1[i].y].status = this.workstationList1[i].status;
-        }
+        this.$store.commit('selectedSession1WorkstationGrid', this.workstationList1);
+      } else {
+        this.workstationList1 = this.$store.state.selectedSession1WorkstationGrid;
       }
-      
-      if (this.$store.state.selectedSession2Group) {
+
+      if (!this.$store.state.selectedSession2WorkstationGrid) {
         this.workstationList2 = (await queryWorkstationList(groupId2,
-                                                            this.typeId,
+                                                            this.$store.state.selectedWorkstationTypeIdd,
                                                             this.$store.state.selectedDateOfUse,
                                                             this.$store.state.selectedSession2Time)).data.data;
 
-        for (let x = 0; x < this.defaultWorkstation.session2GroupMaxAbscissa; x++) {
-          this.workstationArray2.push([ ]);
-          for (let y = 0; y < this.defaultWorkstation.session2GroupMaxOrdinate; y++) {
-            this.workstationArray2[x].push({ 'name': ' ', 'status': '0' });
-          }
-        } 
+        this.$store.commit('selectedSession2WorkstationGrid', this.workstationList2);
+      } else {
+        this.workstationList2 = this.$store.state.selectedSession2WorkstationGrid;
+      }
 
-        for (let i = 0; i < this.workstationList2.length; i++) {
-          this.workstationArray2[this.workstationList2[i].x][this.workstationList2[i].y].name = this.workstationList2[i].workstationId;
-          this.workstationArray2[this.workstationList2[i].x][this.workstationList2[i].y].status = this.workstationList2[i].status;
+      for (let x = 0; x < this.defaultWorkstation.session1GroupMaxAbscissa; x++) {
+        this.workstationArray1.push([]);
+        for (let y = 0; y < this.defaultWorkstation.session1GroupMaxOrdinate; y++) {
+          this.workstationArray1[x].push({ 'name': ' ', 'status': '0' });
         }
       }
 
-      this.confirm = (await confirm(this.$store.state.selectedDateOfUse,
-                                    this.bookingSource,
-                                    this.featureIds,
-                                    this.$store.state.selectedHour,
-                                    this.languageId,
-                                    this.libraryCardNumber,
-                                    this.libraryId,
-                                    this.$store.state.selectedSession1Time,
-                                    this.session1WorkstationId,
-                                    this.$store.state.selectedSession2Time,
-                                    this.session2WorkstationId,
-                                    this.typeId)
-                     ).data.data;
+      for (let x = 0; x < this.defaultWorkstation.session2GroupMaxAbscissa; x++) {
+        this.workstationArray2.push([]);
+        for (let y = 0; y < this.defaultWorkstation.session2GroupMaxOrdinate; y++) {
+          this.workstationArray2[x].push({ 'name': ' ', 'status': '0' });
+        }
+      }
+
+      if (this.workstationList1) {
+        if (this.workstationArray1) {
+          for (let i = 0; i < this.workstationList1.length; i++) {
+            this.workstationArray1[this.workstationList1[i].y][this.workstationList1[i].x].name = this.workstationList1[i].workstationId;
+            if (this.workstationList1[i].workstationId != this.selectedWorkstation1) {
+              this.workstationArray1[this.workstationList1[i].y][this.workstationList1[i].x].status = this.workstationList1[i].status;
+            } else {
+              this.workstationArray1[this.workstationList1[i].y][this.workstationList1[i].x].status = 1;
+              this.highlightedName1 = this.workstationList1[i].workstationId;
+              this.oldSelectedX1 = this.workstationList1[i].x;
+              this.oldSelectedY1 = this.workstationList1[i].y;
+              this.newSelectedX1 = this.workstationList1[i].x;
+              this.newSelectedY1 = this.workstationList1[i].y;
+            }
+          }
+        }
+      }
+      
+      if (this.workstationList2) {
+        if (this.workstationArray2) {
+          for (let i = 0; i < this.workstationList2.length; i++) {
+            this.workstationArray2[this.workstationList2[i].y][this.workstationList2[i].x].name = this.workstationList2[i].workstationId;
+            if (this.workstationList2[i].workstationId != this.selectedWorkstation1) {
+              this.workstationArray2[this.workstationList2[i].y][this.workstationList2[i].x].status = this.workstationList2[i].status;
+            } else {
+              this.workstationArray2[this.workstationList2[i].y][this.workstationList2[i].x].status = 1;
+              this.highlightedName2 = this.workstationList2[i].workstationId;
+              this.oldSelectedX2 = this.workstationList2[i].x;
+              this.oldSelectedY2 = this.workstationList2[i].y;
+              this.newSelectedX2 = this.workstationList2[i].x;
+              this.newSelectedY2 = this.workstationList2[i].y;
+            }
+          }
+        }
+      }
 
       this.$emit('checkComplete', 'BookingDetails');
     }
@@ -483,6 +536,13 @@ dl {
   color: white;
 }
 
+.status1 {
+  border: 1px solid black;
+  background-color: #548DD4;
+  color: #C6D9F1;
+  cursor: pointer;
+}
+
 .status2 {
   border: 1px solid black;
   background-color: #C6D9F1;
@@ -492,8 +552,8 @@ dl {
 
 .status3 {
   border: 1px solid black;
-  background-color: #548DD4;
-  color: #C6D9F1;
+  background-color: #CCCCCC;
+  color: white;
 }
 
 .selectedGrid {

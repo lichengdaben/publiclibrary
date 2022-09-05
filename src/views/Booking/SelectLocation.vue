@@ -60,9 +60,6 @@
                                                         <div class="secondfont">WORKSTATION</div>
                                                     </label>
                                                 </b-col>
-                                                <b-col cols="1" align="center" style="padding: 0px;">
-                                                    <font-awesome-icon icon="fas fa-exclamation" class="fa-solid fa-exclamation" id="exclamationicon"/>
-                                                </b-col>
                                             </b-row>
                                         </b-container>
                                     </div>

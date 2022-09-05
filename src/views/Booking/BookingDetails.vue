@@ -18,7 +18,7 @@
                 </b-row>
             </b-container>
         </div>
-        <PageFooter />
+        <PageFooter ref="pageFooterSection" />
     </div>
 </template>
 
