@@ -171,9 +171,20 @@
                     checkbox.checked = false;
                     checkbox.disabled = false;
                 }
-                
+
+                this.$store.commit('sessionList', null);
                 this.$store.commit('selectedSession1Time', null);
+                this.$store.commit('selectedSession1Group', null);
+                this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession1WorkstationId', null);
+                this.$store.commit('selectedSession1WorkstationGrid', null);
                 this.$store.commit('selectedSession2Time', null);
+                this.$store.commit('selectedSession2Group', null);
+                this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('selectedSession2WorkstationId', null);
+                this.$store.commit('selectedSession2WorkstationGrid', null);
+                this.$store.commit('listGroup', null);
+                this.$store.commit('defaultWorkstation', null);
             },
 
             clickDate(dayAndWeek, yearAndMonth) {
@@ -183,10 +194,15 @@
                     this.$store.commit('selectedSession1Time', null);
                     this.$store.commit('selectedSession1Group', null);
                     this.$store.commit('selectedSession1Workstation', null);
+                    this.$store.commit('selectedSession1WorkstationId', null);
+                    this.$store.commit('selectedSession1WorkstationGrid', null);
                     this.$store.commit('selectedSession2Time', null);
                     this.$store.commit('selectedSession2Group', null);
                     this.$store.commit('selectedSession2Workstation', null);
+                    this.$store.commit('selectedSession2WorkstationId', null);
+                    this.$store.commit('selectedSession2WorkstationGrid', null);
                     this.$store.commit('listGroup', null);
+                    this.$store.commit('defaultWorkstation', null);
 
                     this.chooseDate = dayAndWeek.substring(4) + ' ' + yearAndMonth;
                     this.resetCheckboxes();
@@ -201,10 +217,15 @@
                     this.$store.commit('selectedSession1Time', null);
                     this.$store.commit('selectedSession1Group', null);
                     this.$store.commit('selectedSession1Workstation', null);
+                    this.$store.commit('selectedSession1WorkstationId', null);
+                    this.$store.commit('selectedSession1WorkstationGrid', null);
                     this.$store.commit('selectedSession2Time', null);
                     this.$store.commit('selectedSession2Group', null);
                     this.$store.commit('selectedSession2Workstation', null);
+                    this.$store.commit('selectedSession2WorkstationId', null);
+                    this.$store.commit('selectedSession2WorkstationGrid', null);
                     this.$store.commit('listGroup', null);
+                    this.$store.commit('defaultWorkstation', null);
 
                     this.numOfHours = numOfHours;
                     this.resetCheckboxes();
@@ -215,9 +236,14 @@
             addRemoveHour(time) {
                 this.$store.commit('selectedSession1Group', null);
                 this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession1WorkstationId', null);
+                this.$store.commit('selectedSession1WorkstationGrid', null);
                 this.$store.commit('selectedSession2Group', null);
                 this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('selectedSession2WorkstationId', null);
+                this.$store.commit('selectedSession2WorkstationGrid', null);
                 this.$store.commit('listGroup', null);
+                this.$store.commit('defaultWorkstation', null);
 
                 let hour = parseInt(time.substring(0, 2));
                 let index = this.selectedHours.indexOf(hour);
@@ -354,7 +380,7 @@
                 this.$store.commit('selectedSession1Time', null);
                 this.$store.commit('selectedSession2Time', null);
             }
-            
+
             if (!this.$store.state.selectedHour) {
                 this.$store.commit('selectedHour', 1);
                 this.numOfHours = 1;
@@ -388,6 +414,7 @@
                             checkbox.checked = true;
                         }
                     }
+
                     if (this.selectedHours.length >= 2) {
                         for (let checkbox of this.$refs.checkbox) {
                             if (!checkbox.checked) {

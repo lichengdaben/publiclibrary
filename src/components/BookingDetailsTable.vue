@@ -6,7 +6,8 @@
       <b-row align-v="center">
         <b-col cols="10">
           <div class="bookingDetailsInfoLeft">
-            <img :src="require(`@/${this.defaultWorkstation.session1GroupImagePath}`)" class="bookingDetailsImage" />
+            <img :src="require(`@/CFM/20220805/bf9aee22-2eb5-439e-bca4-5e47f4e9d11c.png`)" class="bookingDetailsImage" />
+            <!--<img :src="require(`@/${this.defaultWorkstation.session1GroupImagePath}`)" class="bookingDetailsImage" />-->
           </div>
 
           <div class="bookingDetailsInfoCenter">
@@ -47,7 +48,8 @@
                 </tbody>
               </table>
             </div>
-            <img v-if="isEnlargeFloorPlan1" :src="require(`@/${this.defaultWorkstation.session1FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = false" />
+            <img v-if="isEnlargeFloorPlan1" :src="require(`@/CFM/20220825/4e251630-23fe-4022-b8bb-b841cacb3dbb.jpg`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = false" />
+            <!--<img v-if="isEnlargeFloorPlan1" :src="require(`@/${this.defaultWorkstation.session1FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = false" />-->
           </b-col>
 
           <b-col cols="3">
@@ -70,9 +72,10 @@
               </tbody>
             </table>
 
-            <img v-if="!isEnlargeFloorPlan1" :src="require(`@/${this.defaultWorkstation.session1FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = true" />
+            <img v-if="!isEnlargeFloorPlan1" :src="require(`@/CFM/20220825/4e251630-23fe-4022-b8bb-b841cacb3dbb.jpg`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = true" />
+            <!--<img v-if="!isEnlargeFloorPlan1" :src="require(`@/${this.defaultWorkstation.session1FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan1 = true" />-->
 
-            <div align="right">
+            <div align="center">
               <button class="bookingDetailsSelect" @click="selectWorkstation(1)">Select</button>
             </div>
           </b-col>
@@ -103,7 +106,8 @@
       <b-row align-v="center">
         <b-col cols="10">
           <div class="bookingDetailsInfoLeft">
-            <img :src="require(`@/${this.defaultWorkstation.session2GroupImagePath}`)" class="bookingDetailsImage">
+            <img :src="require(`@/CFM/20220805/bf9aee22-2eb5-439e-bca4-5e47f4e9d11c.png`)" class="bookingDetailsImage" />
+            <!--<img :src="require(`@/${this.defaultWorkstation.session2GroupImagePath}`)" class="bookingDetailsImage">-->
           </div>
 
           <div class="bookingDetailsInfoCenter">
@@ -144,7 +148,8 @@
                 </tbody>
               </table>
             </div>
-            <img v-if="isEnlargeFloorPlan2" :src="require(`@/${this.defaultWorkstation.session2FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = false" />
+            <img v-if="isEnlargeFloorPlan2" :src="require(`@/CFM/20220825/4e251630-23fe-4022-b8bb-b841cacb3dbb.jpg`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = false" />
+            <!--<img v-if="isEnlargeFloorPlan2" :src="require(`@/${this.defaultWorkstation.session2FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = false" />-->
           </b-col>
           
           <b-col cols="3">
@@ -167,9 +172,10 @@
               </tbody>
             </table>
 
-            <img v-if="!isEnlargeFloorPlan2" :src="require(`@/${this.defaultWorkstation.session2FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = true" />
+            <img v-if="!isEnlargeFloorPlan2" :src="require(`@/CFM/20220825/4e251630-23fe-4022-b8bb-b841cacb3dbb.jpg`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = true" />
+            <!--<img v-if="!isEnlargeFloorPlan2" :src="require(`@/${this.defaultWorkstation.session2FloorPlanImagePath}`)" style="max-width:100%; max-height:100%;" @click="isEnlargeFloorPlan2 = true" />-->
 
-            <div align="right">
+            <div align="center">
               <button class="bookingDetailsSelect" @click="selectWorkstation(2)">Select</button>
             </div>
           </b-col>
@@ -200,8 +206,10 @@
         defaultWorkstation: null,
         workstationList: null,
 
-        floorNum: null,
-        groupName: null,
+        floorNum1: null,
+        floorNum2: null,
+        groupName1: null,
+        groupName2: null,
 
         numRows: null,
         numCols: null,
@@ -274,14 +282,29 @@
       }
     },
     async created() {
-      let groupId1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupId : null;
-      this.floorNum1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.floorNum : null;
-      this.groupName1 = this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupName : null;
+      let groupId1, groupId2;
 
-      let groupId2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.groupId : null;
-      this.floorNum2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.floorNum : null;
-      this.groupName2 = this.$store.state.selectedSession2Group ? this.$store.state.selectedSession2Group.groupName : null;
+      if (this.$store.state.selectedSession1Group) {
+        groupId1 = this.$store.state.selectedSession1Group.groupId;
+        this.floorNum1 = this.$store.state.selectedSession1Group.floorNum;
+        this.groupName1 = this.$store.state.selectedSession1Group.groupName;
+      }
 
+      if (this.$store.state.selectedSession2Group) {
+        groupId2 = this.$store.state.selectedSession2Group.groupId;
+        this.floorNum2 = this.$store.state.selectedSession2Group.floorNum;
+        this.groupName2 = this.$store.state.selectedSession2Group.groupName;
+      }
+      console.log('selectedDateOfUse: ' + this.$store.state.selectedDateOfUse);
+      console.log('selectedWorkstationFeatureId: ' + this.$store.state.selectedWorkstationFeatureId);
+      console.log('selecteselectedWorkstationLanguageIdDateOfUse: ' + this.$store.state.selectedWorkstationLanguageId,);
+      console.log('selectedLibraryId: ' + this.$store.state.selectedLibraryId);
+      console.log('groupId1: ' + groupId1);
+      console.log('selectedSession1Time: ' + this.$store.state.selectedSession1Time);
+      console.log('groupId2: ' + groupId2);
+      console.log('selectedSession2Time: ' + this.$store.state.selectedSession2Time);
+      console.log('selectedWorkstationTypeId: ' + this.$store.state.selectedWorkstationTypeId);
+      console.log('defaultWorkstation: ' + this.$store.state.defaultWorkstation);
       if (!this.$store.state.defaultWorkstation) {
         this.defaultWorkstation = (await queryDefaultWorkstation(this.$store.state.selectedDateOfUse,
                                                                  this.$store.state.selectedWorkstationFeatureId,
@@ -298,7 +321,7 @@
       } else {
         this.defaultWorkstation = this.$store.state.defaultWorkstation;
       }
-
+      
       if (!this.$store.state.selectedSession1WorkstationId) {
         this.selectedWorkstation1 = this.defaultWorkstation.session1DefaultWktId;
         this.$store.commit('selectedSession1Workstation', this.selectedWorkstation1); // 臨時代碼
@@ -337,57 +360,81 @@
         this.workstationList2 = this.$store.state.selectedSession2WorkstationGrid;
       }
 
-      for (let x = 0; x < this.defaultWorkstation.session1GroupMaxAbscissa; x++) {
-        this.workstationArray1.push([]);
-        for (let y = 0; y < this.defaultWorkstation.session1GroupMaxOrdinate; y++) {
-          this.workstationArray1[x].push({ 'name': ' ', 'status': '0' });
-        }
-      }
+      // 產生表格陣列
+      if (this.defaultWorkstation.session1GroupMaxAbscissa) {
+        for (let x = 0; x < this.defaultWorkstation.session1GroupMaxAbscissa; x++) {
+          this.workstationArray1.push([]);
 
-      for (let x = 0; x < this.defaultWorkstation.session2GroupMaxAbscissa; x++) {
-        this.workstationArray2.push([]);
-        for (let y = 0; y < this.defaultWorkstation.session2GroupMaxOrdinate; y++) {
-          this.workstationArray2[x].push({ 'name': ' ', 'status': '0' });
-        }
-      }
-
-      if (this.workstationList1) {
-        if (this.workstationArray1) {
-          for (let i = 0; i < this.workstationList1.length; i++) {
-            this.workstationArray1[this.workstationList1[i].y][this.workstationList1[i].x].name = this.workstationList1[i].workstationId;
-            if (this.workstationList1[i].workstationId != this.selectedWorkstation1) {
-              this.workstationArray1[this.workstationList1[i].y][this.workstationList1[i].x].status = this.workstationList1[i].status;
-            } else {
-              this.workstationArray1[this.workstationList1[i].y][this.workstationList1[i].x].status = 1;
-              this.highlightedName1 = this.workstationList1[i].workstationId;
-              this.oldSelectedX1 = this.workstationList1[i].x;
-              this.oldSelectedY1 = this.workstationList1[i].y;
-              this.newSelectedX1 = this.workstationList1[i].x;
-              this.newSelectedY1 = this.workstationList1[i].y;
+          if (this.defaultWorkstation.session1GroupMaxOrdinate) {
+            for (let y = 0; y < this.defaultWorkstation.session1GroupMaxOrdinate; y++) {
+              this.workstationArray1[x].push({ 'name': ' ', 'status': '0' });
             }
           }
         }
       }
       
-      if (this.workstationList2) {
-        if (this.workstationArray2) {
-          for (let i = 0; i < this.workstationList2.length; i++) {
-            this.workstationArray2[this.workstationList2[i].y][this.workstationList2[i].x].name = this.workstationList2[i].workstationId;
-            if (this.workstationList2[i].workstationId != this.selectedWorkstation1) {
-              this.workstationArray2[this.workstationList2[i].y][this.workstationList2[i].x].status = this.workstationList2[i].status;
-            } else {
-              this.workstationArray2[this.workstationList2[i].y][this.workstationList2[i].x].status = 1;
-              this.highlightedName2 = this.workstationList2[i].workstationId;
-              this.oldSelectedX2 = this.workstationList2[i].x;
-              this.oldSelectedY2 = this.workstationList2[i].y;
-              this.newSelectedX2 = this.workstationList2[i].x;
-              this.newSelectedY2 = this.workstationList2[i].y;
+      if (this.defaultWorkstation.session2GroupMaxAbscissa) {
+        for (let x = 0; x < this.defaultWorkstation.session2GroupMaxAbscissa; x++) {
+          this.workstationArray2.push([]);
+
+          if (this.defaultWorkstation.session2GroupMaxOrdinate) {
+            for (let y = 0; y < this.defaultWorkstation.session2GroupMaxOrdinate; y++) {
+              this.workstationArray2[x].push({ 'name': ' ', 'status': '0' });
             }
           }
         }
       }
 
-      this.$emit('checkComplete', 'BookingDetails');
+      // 在表格陣列填上數值
+      if (this.workstationList1) {
+        for (let i = 0; i < this.workstationList1.length; i++) {
+          let grid = null;
+
+          try {
+            grid = this.workstationArray1[this.workstationList1[i].y][this.workstationList1[i].x];
+          } catch {
+            console.error('無效的數據');
+            continue;
+          }
+
+          grid.name = this.workstationList1[i].workstationId;
+          grid.status = (this.workstationList1[i].workstationId != this.selectedWorkstation1 ? this.workstationList1[i].status : 1);
+
+          if (this.workstationList1[i].workstationId == this.selectedWorkstation1) {
+            this.highlightedName1 = this.workstationList1[i].workstationId;
+            this.oldSelectedX1 = this.workstationList1[i].x;
+            this.oldSelectedY1 = this.workstationList1[i].y;
+            this.newSelectedX1 = this.workstationList1[i].x;
+            this.newSelectedY1 = this.workstationList1[i].y;
+          }
+        }
+      }
+      
+      if (this.workstationList2) {
+        for (let i = 0; i < this.workstationList2.length; i++) {
+          let grid = null;
+
+          try {
+            grid = this.workstationArray2[this.workstationList2[i].y][this.workstationList2[i].x];
+          } catch {
+            console.error('無效的數據');
+            continue;
+          }
+
+          grid.name = this.workstationList2[i].workstationId;
+          grid.status = (this.workstationList2[i].workstationId != this.selectedWorkstation2 ? this.workstationList2[i].status : 1);
+
+          if (this.workstationList2[i].workstationId == this.selectedWorkstation2) {
+            this.highlightedName2 = this.workstationList2[i].workstationId;
+            this.oldSelectedX2 = this.workstationList2[i].x;
+            this.oldSelectedY2 = this.workstationList2[i].y;
+            this.newSelectedX2 = this.workstationList2[i].x;
+            this.newSelectedY2 = this.workstationList2[i].y;
+          }
+        }
+      }
+
+      this.$emit('checkComplete', 'bookingDetailsPage');
     }
   }
 </script>

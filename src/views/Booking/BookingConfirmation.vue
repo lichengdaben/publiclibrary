@@ -2,296 +2,48 @@
     <div class="BookingConfirmation">
         <div v-if="isMobile()">
         </div>
-        <div v-else ref="contentDesktop">
-            <b-container class="bv-example-row" fluid>
+        <div v-else>
             <MenuBar/>
             <NavBar/>
-                <b-row>
-                    <b-col cols="12">
-                        <div class="bookingConfirmationWarning">*You need to claim your booking within <em>10 minutes</em> before to starts or within <em>50 minutes</em> after it begins</div>
-                        <div>&nbsp;</div>
-                    </b-col>
-                </b-row>
-            </b-container>
-
-            <b-container class="bv-example-row" id="containerBookingConfirmation" fluid>
-                <b-row class="bookingConfirmationRow">
-                    <b-col cols="9" class="bookingConfirmationCol">
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">BOOKING REFERENCE ID</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">HKCL-P-20211109-1024</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">DISTRICT</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDistrict }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">LIBRARY</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedLibrary }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">WORKSTATION GROUP</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession1Group.floorNum + ' ' + this.$store.state.selectedSession1Group.groupName }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">CHOOSE COMPUTER</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">+ Visually Impaired Software<br/>+ Adobe CC<br/>+ English workstation</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">DATE OF USE</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDateOfUse }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">TIME OF USE</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedHour + ' Hour : ' + this.$store.state.selectedSession1Time }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">WORKSTATION NO.</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession1Workstation }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </b-col>
-
-                    <b-col cols="3">
-                        <ul>
-                            <li>
-                                <img id="bookingConfirmationImage" src="@/assets/img/sample.png" />
-                            </li>
-                            <li>
-                                <div>&nbsp;</div>
-                            </li>
-                            <li>
-                                <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationPrint" @click="printPage()">
-                                        <font-awesome-icon icon="fa-solid fa-print" />&nbsp;&nbsp;Print
-                                    </button>
-                                </div>
-                                <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationSave" @click="savePage()">
-                                        <font-awesome-icon icon="fa-regular fa-folder" />&nbsp;&nbsp;Save
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </b-col>
-                </b-row>
-            </b-container>
-
-            <div v-if="this.$store.state.selectedSession2Group" style="padding: 10px;"></div>
-
-            <b-container v-if="this.$store.state.selectedSession2Group" class="bv-example-row" id="containerBookingConfirmation" fluid>
-                <b-row class="bookingConfirmationRow">
-                    <b-col cols="9" class="bookingConfirmationCol">
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">BOOKING REFERENCE ID</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">HKCL-P-20211109-1025</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">DISTRICT</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDistrict }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">LIBRARY</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedLibrary }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">WORKSTATION GROUP</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession2Group.floorNum + ' ' + this.$store.state.selectedSession2Group.groupName }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">CHOOSE COMPUTER</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">+ Visually Impaired Software<br/>+ Adobe CC<br/>+ English workstation</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">DATE OF USE</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedDateOfUse }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">TIME OF USE</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedHour + ' Hour : ' + this.$store.state.selectedSession2Time }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldTitle">WORKSTATION NO.</div>
-                                    <div class="bookingConfirmationFieldColon">:</div>
-                                </div>
-                                <div class="bookingConfirmationGrid">
-                                    <div class="bookingConfirmationFieldValue">{{ this.$store.state.selectedSession2Workstation }}</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </b-col>
-
-                    <b-col cols="3">
-                        <ul>
-                            <li>
-                                <img id="bookingConfirmationImage" src="@/assets/img/sample.png" />
-                            </li>
-                            <li>
-                                <div>&nbsp;</div>
-                            </li>
-                            <li>
-                                <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationPrint" @click="printPage()">
-                                        <font-awesome-icon icon="fa-solid fa-print" />&nbsp;&nbsp;Print
-                                    </button>
-                                </div>
-                                <div class="bookingConfirmationButtons">
-                                    <button id="bookingConfirmationSave" @click="savePage()">
-                                        <font-awesome-icon icon="fa-regular fa-folder" />&nbsp;&nbsp;Save
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </b-col>
-                </b-row>
-            </b-container>
-
-            <b-container class="bv-example-row" id="containerBottom" fluid>
-                <b-row id="containerBottomRow">
-                    <b-col cols="3">
-                    </b-col>
-                    <b-col cols="3">
-                        <router-link :to="'/workstationbooking/Home'">
-                            <button id="bookingConfirmationOK">OK</button>
-                        </router-link>
-                    </b-col>
-                    <b-col cols="3">
-                        <router-link :to="'/workstationbooking/SelectLocation'">
-                            <button id="bookingConfirmationAnotherBooking">Another Booking</button>
-                        </router-link>
-                    </b-col>
-                    <b-col cols="3">
-                    </b-col>
-                </b-row>
-            </b-container>
+            <BookingConfirmationSession1Table ref="bookingConfirmtaionPage1" />
+            <div v-if="selectedSession2Time" style="padding: 10px;"></div>
+            <BookingConfirmationSession2Table ref="bookingConfirmtaionPage2" />
         </div>
     </div>
 </template>
 
 <script>
     import { mixins } from '@/common/mixins'
-    import html2pdf from 'html2pdf.js'
-    import NavBar from '@/components/NavBar.vue'
     import MenuBar from '@/components/MenuBar.vue'
+    import NavBar from '@/components/NavBar.vue'
+    import { confirmBooking } from '@/service/test.js'
+    import BookingConfirmationSession1Table from '@/components/BookingConfirmationSession1Table.vue'
+    import BookingConfirmationSession2Table from '@/components/BookingConfirmationSession2Table.vue'
+
     export default {
         name: 'WorkstationGroup',
-         components: {
-            NavBar,MenuBar
+        components: {
+            MenuBar,
+            NavBar,
+            BookingConfirmationSession1Table,
+            BookingConfirmationSession2Table
         },
         data() {
             return {
-                isShow: true,
-                active: false,
-                districtList: null,
-                districtname: null,
-                allLibrariesList: null,
-                libraryResult: null,
+                bookingResult: null,
+                selectedDistrict: this.$store.state.selectedDistrict,
+                selectedLibrary: this.$store.state.selectedLibrary,
+                floorNum: this.$store.state.selectedSession1Group.floorNum,
+                groupName: this.$store.state.selectedSession1Group.groupName,
+                selectedWorkstationFeature: this.$store.state.selectedWorkstationFeature,
+                selectedDateOfUse: this.$store.state.selectedDateOfUse,
+                selectedHour: this.$store.state.selectedHour,
+                selectedSession1Time: this.$store.state.selectedSession1Time,
+                selectedSession1Workstation: this.$store.state.selectedSession1Workstation,
+                session1GroupImagePath: this.$store.state.defaultWorkstation.session1GroupImagePath,
+                selectedSession2Time: this.$store.state.selectedSession2Time,
+                selectedSession2Workstation: this.$store.state.selectedSession2Workstation,
+                session2GroupImagePath: this.$store.state.defaultWorkstation.session2GroupImagePath
             }
         },
         mixins: [mixins],
@@ -299,38 +51,90 @@
             msg: String
         },
         methods: {
-            printPage() {
-                window.print();
-            },
-            savePage() {
-                let rightNow = new Date();
-                html2pdf(this.$refs.contentDesktop, {
-					margin: 1,
-					filename: 'AdvancedBookingConfirmation_' +
-                              ("0000" + rightNow.getFullYear()).slice(-4) +
-                              ("00" + (rightNow.getMonth() + 1)).slice(-2) +
-                              ("00" + rightNow.getDate()).slice(-2) + '_' + '1024' + '.pdf',
-					image: { type: 'png', quality: 0.98 },
-					html2canvas: { dpi: 192, letterRendering: true },
-					jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
-				})
+            async initializePage() {
+                this.bookingResult = (await confirmBooking(this.$store.state.selectedDateOfUse,
+                                                           1, // this.bookingSource,
+                                                           this.$store.state.selectedWorkstationFeatureId,
+                                                           this.$store.state.selectedHour,
+                                                           this.$store.state.selectedWorkstationLanguageId,
+                                                           '123456', // this.libraryCardNumber,
+                                                           this.$store.state.selectedLibraryId,
+                                                           this.$store.state.selectedSession1Time,
+                                                           this.$store.state.selectedSession1Workstation,
+                                                           this.$store.state.selectedSession2Time,
+                                                           this.$store.state.session2WorkstationId,
+                                                           this.$store.state.selectedSession1Workstation)
+                                     ).data.data;
+
+                this.$refs.bookingConfirmtaionPage1.fillReferenceID(this.bookingResult.session1BookingReferenceId,
+                                                                    this.selectedDistrict,
+                                                                    this.selectedLibrary,
+                                                                    this.floorNum,
+                                                                    this.groupName,
+                                                                    this.selectedWorkstationFeature,
+                                                                    this.selectedDateOfUse,
+                                                                    this.selectedHour,
+                                                                    this.selectedSession1Time,
+                                                                    this.selectedSession1Workstation,
+                                                                    this.session1GroupImagePath);
+
+                if (this.$store.state.selectedSession2Group) {
+                    this.$refs.bookingConfirmtaionPage2.fillReferenceID(this.bookingResult.session2BookingReferenceId,
+                                                                        this.selectedDistrict,
+                                                                        this.selectedLibrary,
+                                                                        this.floorNum,
+                                                                        this.groupName,
+                                                                        this.selectedWorkstationFeature,
+                                                                        this.selectedDateOfUse,
+                                                                        this.selectedHour,
+                                                                        this.selectedSession2Time,
+                                                                        this.selectedSession2Workstation,
+                                                                        this.session2GroupImagePath);
+                }
+
+                return Promise.resolve('');
             }
-        }/*,
-        created() {
-            this.confirm = (await confirm(this.$store.state.selectedDateOfUse,
-                            this.bookingSource,
-                            this.featureIds,
-                            this.$store.state.selectedHour,
-                            this.languageId,
-                            this.libraryCardNumber,
-                            this.libraryId,
-                            this.$store.state.selectedSession1Time,
-                            this.$store.state.session1WorkstationId,
-                            this.$store.state.selectedSession2Time,
-                            this.$store.state.session2WorkstationId,
-                            this.$store.state.selectedWorkstationTypeId)
-            ).data.data;
-        }*/
+        },
+        mounted() {
+            this.initializePage().then(val => {
+                console.log(val);
+
+                if (this.bookingResult) {
+                    this.$store.commit('selectedDistrict', null);
+                    this.$store.commit('selectedDistrictId', null);
+                    this.$store.commit('districtList', null);
+                    this.$store.commit('selectedLibrary', null);
+                    this.$store.commit('selectedLibraryId', null);
+                    this.$store.commit('libraryList', null);
+                    this.$store.commit('selectedWorkstationType', null);
+                    this.$store.commit('selectedWorkstationTypeId', null);
+                    this.$store.commit('workStationTypeList', null);
+                    this.$store.commit('isReadTerm', false);
+                    this.$store.commit('selectedWorkstationFeature', null);
+                    this.$store.commit('selectedWorkstationFeatureId', null);
+                    this.$store.commit('featureList', null);
+                    this.$store.commit('selectedWorkstationLanguage', null);
+                    this.$store.commit('selectedWorkstationLanguageId', null);
+                    this.$store.commit('languageList', null);
+                    this.$store.commit('selectedDateOfUse', null);
+                    this.$store.commit('dateOfUseList', null);
+                    this.$store.commit('selectedHour', null);
+                    this.$store.commit('sessionList', null);
+                    this.$store.commit('selectedSession1Time', null);
+                    this.$store.commit('selectedSession1Group', null);
+                    this.$store.commit('selectedSession1Workstation', null);
+                    this.$store.commit('selectedSession1WorkstationId', null);
+                    this.$store.commit('selectedSession1WorkstationGrid', null);
+                    this.$store.commit('selectedSession2Time', null);
+                    this.$store.commit('selectedSession2Group', null);
+                    this.$store.commit('selectedSession2Workstation', null);
+                    this.$store.commit('selectedSession2WorkstationId', null);
+                    this.$store.commit('selectedSession2WorkstationGrid', null);
+                    this.$store.commit('listGroup', null);
+                    this.$store.commit('defaultWorkstation', null);
+                }
+            });
+        }
     }
 </script>
 
@@ -347,7 +151,7 @@ dl {
 }
 
 .bookingConfirmationWarning > em {
-    color: #FF0000;
+    color: red;
 }
 
 #containerBookingConfirmation {

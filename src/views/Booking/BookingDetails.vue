@@ -27,8 +27,8 @@
     import NavBar from '@/components/NavBar.vue'
     import LeftMenu from '@/components/LeftMenu.vue'
     import LeftMenuSettings from '@/components/LeftMenuSettings.vue'
-    import BookingDetailsTable from '/src/components/BookingDetailsTable.vue'
-    import PageFooter from '/src/components/PageFooter.vue'
+    import BookingDetailsTable from '@/components/BookingDetailsTable.vue'
+    import PageFooter from '@/components/PageFooter.vue'
     import { mixins } from '@/common/mixins'
 
     export default {

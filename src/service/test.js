@@ -103,7 +103,7 @@ export async function queryWorkstationList(groupId, typeId, advancedBookingDate,
   });
 }
 
-export async function confirm(advancedBookingDate, bookingSource, featureIds, hour, languageId, libraryCardNumber, libraryId, session1Time, session1WorkstationId, session2Time, session2WorkstationId, typeId) {
+export async function confirmBooking(advancedBookingDate, bookingSource, featureIds, hour, languageId, libraryCardNumber, libraryId, session1Time, session1WorkstationId, session2Time, session2WorkstationId, typeId) {
   return request({
     url: `/cfm-admin-service/open-api/advancedBooking/confirm`,
     method: 'post',

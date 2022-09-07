@@ -84,7 +84,7 @@
               isComplete = false;
             }
           }
-        } else if (page == 'BookingDetails') {
+        } else if (page == 'bookingDetailsPage') {
           isComplete = true;
         }
         
@@ -114,42 +114,50 @@
           listGroup = this.$store.state.listGroup;
         }
 
-        let redirectPage = 3;
+        let redirectPage = null;
 
-        if (listGroup.session1Group.length == 0) {
-          alert('Session ' + this.$store.state.selectedSession1Time + ' is already full.');
-          redirectPage = null;
+        // 檢查時段 1 是不是只有一個工作組 / 沒有工作組
+        if (listGroup.session1Group) {
+          if (listGroup.session1Group.length == 0) {
+            alert('Session ' + this.$store.state.selectedSession1Time + ' is already full.');
+          } else if (listGroup.session1Group.length == 1) {
+            this.$store.commit('selectedSession1Group', listGroup.session1Group[0]);
+          }
+        } else {
+          throw "時段 1 錯誤";
         }
         
-        if (this.$store.state.selectedHour == 1 && listGroup.session2Group.length == 0) {
-          alert('Session ' + this.$store.state.selectedSession2Time + ' is already full.');
-          redirectPage = null;
+        // 檢查時段 2 是不是只有一個工作組 / 沒有工作組
+        if (this.$store.state.selectedHour == 1) {
+          if (listGroup.session2Group) {
+            if (listGroup.session2Group.length == 0) {
+              alert('Session ' + this.$store.state.selectedSession2Time + ' is already full.');
+            } else if (listGroup.session2Group.length == 1) {
+              this.$store.commit('selectedSession2Group', listGroup.session2Group[0]);
+            }
+          }
         }
 
         if (listGroup.session1Group) {
-          if (listGroup.session1Group.length == 1) {
-            this.$store.commit('selectedSession1Group', listGroup.session1Group[0]);
-            redirectPage = (currentPage == 2 ? 4 : 2);
+          if (listGroup.session1Group.length == 0) {
+            redirectPage = currentPage;
+          } else if (listGroup.session1Group.length == 1) {
+            if (listGroup.session2Group) {
+              redirectPage = (listGroup.session2Group.length == 0 ? currentPage :
+                              listGroup.session2Group.length == 1 ? (currentPage == 2 ? 4 : 2) :
+                              3);
+            } else {
+              redirectPage = (currentPage == 2 ? 4 : 2);
+            }
+          } else {
+            if (listGroup.session2Group) {
+              redirectPage = (listGroup.session2Group.length == 0 ? currentPage : 3);
+            } else {
+              redirectPage = 3;
+            }
           }
-        }
-
-        if (listGroup.session2Group) {
-          if (listGroup.session2Group.length == 1) {
-            this.$store.commit('selectedSession2Group', listGroup.session2Group[0]);
-            redirectPage = (currentPage == 2 ? 4 : 2);
-          }
-        }
-
-        if (typeof listGroup.session1Group !== 'undefined' && listGroup.session1Group !== null) {
-          if (listGroup.session1Group.length > 1) {
-            redirectPage = 3;
-          }
-        }
-
-        if (typeof listGroup.session2Group !== 'undefined' && listGroup.session2Group !== null) {
-          if (listGroup.session2Group.length > 1) {
-            redirectPage = 3;
-          }
+        } else {
+          redirectPage = currentPage;
         }
 
         return Promise.resolve(redirectPage);
@@ -198,7 +206,21 @@
       this.nextText = this.currentPage == 4 ? 'Confirm' : 'Next';
     },
     mounted() {
-      this.$refs.cou.checked = this.$store.state.isReadTerm;
+      switch (this.listOfPages.indexOf(this.$route.name)) {
+        case 1:
+          this.$refs.cou.checked = this.$store.state.isReadTerm;
+          this.checkComplete('selectionLocationPage');
+          break;
+        case 2:
+          this.checkComplete('dateTimeChoosePage');
+          break;
+        case 3:
+          this.checkComplete('workstationGroupPage');
+          break;
+        case 4:
+          this.checkComplete('bookingDetailsPage');
+          break;
+      }
     }
   }
 </script>
