@@ -66,7 +66,7 @@
                                                            this.$store.state.selectedSession1Workstation)
                                      ).data.data;
 
-                this.$refs.bookingConfirmtaionPage1.fillReferenceID(this.bookingResult.session1BookingReferenceId,
+                this.$refs.bookingConfirmtaionPage1.fillReferenceID(this.bookingResult ? this.bookingResult.session1BookingReferenceId : null,
                                                                     this.selectedDistrict,
                                                                     this.selectedLibrary,
                                                                     this.floorNum,
@@ -79,7 +79,7 @@
                                                                     this.session1GroupImagePath);
 
                 if (this.$store.state.selectedSession2Group) {
-                    this.$refs.bookingConfirmtaionPage2.fillReferenceID(this.bookingResult.session2BookingReferenceId,
+                    this.$refs.bookingConfirmtaionPage2.fillReferenceID(this.bookingResult ? this.bookingResult.session2BookingReferenceId : null,
                                                                         this.selectedDistrict,
                                                                         this.selectedLibrary,
                                                                         this.floorNum,
