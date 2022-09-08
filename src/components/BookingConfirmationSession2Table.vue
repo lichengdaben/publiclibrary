@@ -175,18 +175,21 @@
 
       savePage() {
         let rightNow = new Date();
-        this.$refs.remark.style.display = 'block';
-        html2pdf(this.$refs.contentDesktop, {
+
+        let element = this.$refs.contentDesktop;
+        let clonedElement = element.cloneNode(true);
+        clonedElement.childNodes[0].style.display = 'block';
+        html2pdf(clonedElement, {
           margin: 1,
           filename: 'AdvancedBookingConfirmation_' +
                     ("0000" + rightNow.getFullYear()).slice(-4) +
                     ("00" + (rightNow.getMonth() + 1)).slice(-2) +
-                    ("00" + rightNow.getDate()).slice(-2) + '_' + '1024' + '.pdf',
-          image: { type: 'png', quality: 0.98 },
+                    ("00" + rightNow.getDate()).slice(-2) + '_' + (this.referenceID ? this.referenceID : '') + '.pdf',
+          image: { type: 'bmp', quality: 0.98 },
           html2canvas: { dpi: 192, letterRendering: true },
           jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
         });
-        //this.$refs.remark.style.display = 'none';
+        clonedElement.remove();
       },
     }
   }

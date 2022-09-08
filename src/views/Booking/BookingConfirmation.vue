@@ -6,7 +6,7 @@
             <MenuBar/>
             <NavBar/>
             <BookingConfirmationSession1Table ref="bookingConfirmtaionPage1" />
-            <div v-if="selectedSession2Time" style="padding: 10px;"></div>
+            <div style="padding: 10px;"></div>
             <BookingConfirmationSession2Table ref="bookingConfirmtaionPage2" />
         </div>
     </div>
@@ -33,17 +33,17 @@
                 bookingResult: null,
                 selectedDistrict: this.$store.state.selectedDistrict,
                 selectedLibrary: this.$store.state.selectedLibrary,
-                floorNum: this.$store.state.selectedSession1Group.floorNum,
-                groupName: this.$store.state.selectedSession1Group.groupName,
+                floorNum: this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.floorNum : null,
+                groupName: this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupName : null,
                 selectedWorkstationFeature: this.$store.state.selectedWorkstationFeature,
                 selectedDateOfUse: this.$store.state.selectedDateOfUse,
                 selectedHour: this.$store.state.selectedHour,
                 selectedSession1Time: this.$store.state.selectedSession1Time,
                 selectedSession1Workstation: this.$store.state.selectedSession1Workstation,
-                session1GroupImagePath: this.$store.state.defaultWorkstation.session1GroupImagePath,
+                session1GroupImagePath: this.$store.state.defaultWorkstation ? this.$store.state.defaultWorkstation.session1GroupImagePath : null,
                 selectedSession2Time: this.$store.state.selectedSession2Time,
                 selectedSession2Workstation: this.$store.state.selectedSession2Workstation,
-                session2GroupImagePath: this.$store.state.defaultWorkstation.session2GroupImagePath
+                session2GroupImagePath: this.$store.state.defaultWorkstation ? this.$store.state.defaultWorkstation.session2GroupImagePath : null,
             }
         },
         mixins: [mixins],
