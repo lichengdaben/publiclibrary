@@ -3,13 +3,13 @@
         <div v-if="isMobile()">
             <WorkstationGroupH5/>
         </div>
-        <div v-else>
+        <div v-else style="overflow-y: auto; height: 100vh;"> 
             <b-container class="bv-example-row" fluid>
                 <MenuBar/>
                 <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
-                        <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" style="height: 10000px;" />
+                        <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" />
                     </b-col>
                     <b-col cols="9" class="right-content">
                         <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
@@ -17,8 +17,9 @@
                     </b-col>
                 </b-row>
             </b-container>
+            <div style="height: 100px;"></div>
+            <PageFooter ref="pageFooterSection" />
         </div>
-        <PageFooter ref="pageFooterSection" />
     </div>
 </template>
 

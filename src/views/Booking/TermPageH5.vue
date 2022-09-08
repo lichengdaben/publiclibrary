@@ -1,11 +1,11 @@
 <template>
-    <div class="TermPageH5">
+    <div class="TermPageH5" style="overflow-y: auto; height: 100vh;">
         <b-container class="bv-example-row" id="container-DTC" fluid>
             <NavBarCoU />
-        <b-row cols="12" id="cfm_nav_title">
-            <b-col cols="12" >
-                <div class="cfm_cou_contentbody">
-                    <ol><li>
+            <b-row cols="12" id="cfm_nav_title">
+                <b-col cols="12" >
+                    <div class="cfm_cou_contentbody">
+                        <ol><li>
 Members of the public are welcome to use the public libraries’ Internet & Digital Service Workstations free of charge.  Children aged below 12 may use the Kid’s Internet & Digital Service Workstations.
 </li><li>
 Prior booking is required for using the library computer facilities.  Members of the public may book a workstation or multimedia content 7 days in advance (including the date of use).  If users want to make a booking for the current day, they should complete the booking procedures 15 minutes before the session begins.  Users who place bookings in person at the service counter are required to complete a form and produce valid proof of identity, such as the Library Card of the Hong Kong Public Libraries or Hong Kong Identity Card.  For bookings by telephone, users are required to produce valid proof of identity when they claim their bookings.  Registered readers may use the MMIS online booking service.  Users are required to produce upon request their library cards or Hong Kong Identity Cards for verification.
@@ -49,6 +49,7 @@ Copying of a copyright work is an act restricted by the Copyright Ordinance.  Us
                 </b-col>
             </b-row>
         </b-container>
+        <div style="height: 100px;"></div>
         <PageFooter />
     </div>
 </template>

@@ -1,19 +1,22 @@
 <template>
     <div class="DateTimeChoose">
-        <b-container class="bv-example-row" id="container-DTC" fluid>
-            <MenuBar/>
-            <NavBar/>
-            <b-row>
-                <b-col cols="3" class="left-menu">
-                    <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" style="height: 10000px;" />
-                </b-col>
-                <b-col cols="9" class="right-content">
-                    <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
-                    <DateTimeChooseTable ref="dateTimeChoosePage" @checkComplete="checkComplete" />
-                </b-col>
-            </b-row>
-        </b-container>
-        <PageFooter ref="pageFooterSection" @resetDateTimeChoosePage="resetDateTimeChoosePage" />
+        <div style="overflow-y: auto; height: 100vh;">
+            <b-container class="bv-example-row" id="container-DTC" fluid>
+                <MenuBar/>
+                <NavBar/>
+                <b-row>
+                    <b-col cols="3" class="left-menu">
+                        <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" />
+                    </b-col>
+                    <b-col cols="9" class="right-content">
+                        <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
+                        <DateTimeChooseTable ref="dateTimeChoosePage" @checkComplete="checkComplete" />
+                    </b-col>
+                </b-row>
+            </b-container>
+            <div style="height: 100px;"></div>
+            <PageFooter ref="pageFooterSection" @resetDateTimeChoosePage="resetDateTimeChoosePage" />
+        </div>
     </div>
 </template>
 

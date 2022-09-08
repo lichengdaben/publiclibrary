@@ -6,7 +6,7 @@
         <div v-else-if="isIpad()">
             <SelectLocationT/>
         </div>
-        <div v-else>
+        <div v-else style="overflow-y: auto; height: 100vh;">
             <b-container class="bv-example-row" id="container-DTC" fluid>
                 <MenuBar/>
                 <NavBar/>
@@ -17,7 +17,7 @@
                                 <div class="firstHeader">
                                     <div>DISTRICT</div>
                                     <div v-if="selectedDistrictName" class="secondHeader">{{selectedDistrictName}}</div>
-                                    <div v-else class="secondHeader" >Please choose the district that suits you</div>
+                                    <div v-else class="secondHeader">Please choose the district that suits you</div>
                                 </div> 
                             </div>
                             <div v-if="districtList" id="districtDropdown" class="dropdown-content">
@@ -69,8 +69,9 @@
                     </b-col>
                 </b-row>
             </b-container>
-            <PageFooter ref="pageFooterSection" />
+            <div style="height: 100px;"></div>
         </div>
+        <PageFooter ref="pageFooterSection" />
     </div>
 </template>
 

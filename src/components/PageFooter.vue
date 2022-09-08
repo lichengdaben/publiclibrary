@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid id="pageFooter">
+    <b-container fluid id="pageFooter" style="background-color: white;">
       <b-row>
         <b-col cols="1" class="left-menu">
           <button id="pageFooterResetButton" v-if="isShowReset" @click="reset()">Reset&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-rotate-right" /></button>

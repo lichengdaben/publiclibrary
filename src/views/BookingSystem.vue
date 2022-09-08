@@ -3,9 +3,7 @@
     <div v-if="isMobile()">
         <BookingSystemH5/>
     </div>
-    <div v-else>
-    </div>
-    <div>
+        <div v-else style="overflow-y: auto; height: 100vh;">
         <MenuBar/>
         <b-container class="bv-example-row">
             <p>電腦設施網上預約系統</p>

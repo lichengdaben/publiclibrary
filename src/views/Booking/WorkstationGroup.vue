@@ -3,7 +3,7 @@
         <div v-if="isMobile()">
            
         </div>
-        <div v-else>
+        <div v-else style="overflow-y: auto; height: 100vh;">
             <b-container class="bv-example-row" id="container-DTC" fluid>
                 <MenuBar/>
                 <NavBar/>
@@ -17,8 +17,9 @@
                     </b-col>
                 </b-row>
             </b-container>
+            <div style="height: 100px;"></div>
+            <PageFooter ref="pageFooterSection" @resetWorkstationGroupPage="resetWorkstationGroupPage" />
         </div>
-        <PageFooter ref="pageFooterSection" @resetWorkstationGroupPage="resetWorkstationGroupPage" />
     </div>
 </template>
 

@@ -1,13 +1,34 @@
 <template>
     <div class="BookingConfirmation">
         <div v-if="isMobile()">
+            
         </div>
-        <div v-else>
+        <div v-else style="overflow-y: auto; height: 100vh;">
             <MenuBar/>
             <NavBar/>
+            
             <BookingConfirmationSession1Table ref="bookingConfirmtaionPage1" />
             <div style="padding: 10px;"></div>
             <BookingConfirmationSession2Table ref="bookingConfirmtaionPage2" />
+
+            <b-container class="bv-example-row" id="containerBottom" fluid>
+                <b-row id="containerBottomRow">
+                    <b-col cols="3">
+                    </b-col>
+                    <b-col cols="3">
+                        <router-link :to="'/workstationbooking/Home'">
+                            <button id="bookingConfirmationOK">OK</button>
+                        </router-link>
+                    </b-col>
+                    <b-col cols="3">
+                        <router-link :to="'/workstationbooking/SelectLocation'">
+                            <button id="bookingConfirmationAnotherBooking">Another Booking</button>
+                        </router-link>
+                    </b-col>
+                    <b-col cols="3">
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
     </div>
 </template>
