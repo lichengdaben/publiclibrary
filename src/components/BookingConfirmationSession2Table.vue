@@ -139,6 +139,7 @@
     name: 'BookingConfirmationSession2Table',
     data() {
       return {
+        referenceID: null,
         selectedDistrict: null,
         selectedLibrary: null,
         floorNum: null,
@@ -157,6 +158,7 @@
       fillReferenceID(referenceID, selectedDistrict, selectedLibrary, floorNum, groupName, selectedWorkstationFeature, selectedDateOfUse, selectedHour,
                       selectedSessionTime, selectedSessionWorkstation, sessionGroupImagePath) {
         this.$refs.sessionBookingReferenceId.innerText = referenceID;
+        this.referenceID = referenceID;
         this.selectedDistrict = selectedDistrict;
         this.selectedLibrary = selectedLibrary;
         this.floorNum = floorNum;

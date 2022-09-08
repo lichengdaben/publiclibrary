@@ -139,6 +139,7 @@
     name: 'BookingConfirmationSession1Table',
     data() {
       return {
+        referenceID: null,
         selectedDistrict: null,
         selectedLibrary: null,
         floorNum: null,
@@ -157,6 +158,7 @@
       fillReferenceID(referenceID, selectedDistrict, selectedLibrary, floorNum, groupName, selectedWorkstationFeature, selectedDateOfUse, selectedHour,
                       selectedSessionTime, selectedSessionWorkstation, sessionGroupImagePath) {
         this.$refs.sessionBookingReferenceId.innerText = referenceID;
+        this.referenceID = referenceID;
         this.selectedDistrict = selectedDistrict;
         this.selectedLibrary = selectedLibrary;
         this.floorNum = floorNum;
@@ -175,7 +177,7 @@
 
       savePage() {
         let rightNow = new Date();
-        
+
         html2pdf(this.$refs.contentDesktop, {
           margin: 1,
           filename: 'AdvancedBookingConfirmation_' +
