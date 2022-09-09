@@ -76,17 +76,18 @@
             <div class="firstHeader clearfix">
                 <div class="firstfont">TIME SLOT:</div>
             </div>
-            <b-button-group class="TimePeriod-group">
+            <div v-if="isLoading"><b>Loading</b></div>
+            <b-button-group v-else class="TimePeriod-group">
                 <table>
-                    <thead>
+                    <!--<thead>
                         <tr>
                             <th colspan="4">Morning</th>
                             <th colspan="5">Afternoon</th>
                             <th colspan="4">Night</th>
                         </tr>
-                    </thead>
+                    </thead>-->
                     <tbody>
-                        <tr>
+                        <!--<tr>
                             <td v-for="time in morningPeriod" :key="time.id" v-bind:id="'timeRange' + time">
                                 <div class="timeRange">{{ time.name }}</div>
                                 <div align="center">
@@ -105,45 +106,27 @@
                                     <input type="checkbox" :name="time.name" :value="parseInt(time.name.substring(0, 2))" class="checkbox" ref="checkbox" @change="addRemoveHour(time.name)" />
                                 </div>
                             </td>
+                        </tr>-->
+                        <tr v-if="sessionList.length > 0">
+                            <td v-for="time in sessionList" :key="time" v-bind:id="'timeRange' + time">
+                                <div class="timeRange">{{ time + ':00' }}</div>
+                                <div align="center">
+                                    <input type="checkbox" :name="time" :value="time" class="checkbox" ref="checkbox" @change="addRemoveHour(time)" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-else>
+                            <td>No available session</td>
                         </tr>
                     </tbody>
                 </table>
-                <!--<ul class="clearfix">
-                    <li>
-                        <div class="secondfont">Morning</div>
-                        <b-button v-for='(product, index) in MorningPeriod' :key='product.id' class="TimePeriod-outline" variant="outline-dark">
-                            <span class="Tp-Time">
-                                <span style="display: none;">{{ index + 1 }}</span>{{ product.name }}
-                            </span>
-                            <input type="checkbox" checked="checked" class="checkedboxstyle">
-                        </b-button>
-                    </li>
-                    <li>
-                        <div class="secondfont">Afternoon</div>
-                        <b-button v-for='(product, index) in AfternoonPeriod' :key='product.id' class="TimePeriod-outline" variant="outline-dark">
-                            <span class="Tp-Time">
-                                <span style="display: none;">{{ index + 1 }}</span>{{ product.name }}
-                            </span>
-                            <input type="checkbox" checked="checked" class="checkedboxstyle ">
-                        </b-button>
-                    </li>
-                    <li>
-                        <div class="secondfont">Night</div>
-                        <b-button v-for='(product, index) in NightPeriod' :key='product.id' class="TimePeriod-outline" variant="outline-dark">
-                            <span class="Tp-Time">
-                                <span style="display: none;">{{ index + 1 }}</span>{{ product.name }}
-                            </span>
-                            <input type="checkbox" checked="checked" class="checkedboxstyle ">
-                        </b-button>
-                    </li>
-                </ul>-->
             </b-button-group>
         </div>
     </b-container>
 </template>
 
 <script>
-    import { getDateOfUse } from '@/service/test.js'
+    import { getDateOfUse, getLibraryTimeSlot } from '@/service/test.js'
     export default {
         name: 'DateTimeChooseTable',
         data() {
@@ -159,20 +142,22 @@
                 nightPeriod: null,
                 selectedHours: [],
                 checkbox: null,
-                sessionList: null
+                sessionList: null,
+                isLoading: false,
             }
         },
         props: [ 'dateTimeChoosePage' ],
         methods: {
-            resetCheckboxes() {
+            async resetCheckboxes(isGetLibraryTimeSlot) {
                 this.selectedHours = [];
 
-                for (let checkbox of this.$refs.checkbox) {
-                    checkbox.checked = false;
-                    checkbox.disabled = false;
+                if (this.$refs.checkbox) {
+                    for (let checkbox of this.$refs.checkbox) {
+                        checkbox.checked = false;
+                        checkbox.disabled = false;
+                    }
                 }
 
-                this.$store.commit('sessionList', null);
                 this.$store.commit('selectedSession1Time', null);
                 this.$store.commit('selectedSession1Group', null);
                 this.$store.commit('selectedSession1Workstation', null);
@@ -185,6 +170,31 @@
                 this.$store.commit('selectedSession2WorkstationGrid', null);
                 this.$store.commit('listGroup', null);
                 this.$store.commit('defaultWorkstation', null);
+
+                if (isGetLibraryTimeSlot) {
+                    let bookingDateStr = (new Date(this.chooseDate)).getFullYear() + '-' +
+                                     ('0' + ((new Date(this.chooseDate)).getMonth() + 1)).slice(-2) + '-' +
+                                     ('0' + (new Date(this.chooseDate)).getDate()).slice(-2);
+                
+                    this.isLoading = true;
+                    let timeSlot = (await getLibraryTimeSlot(bookingDateStr, 
+                                                            this.$store.state.selectedWorkstationFeatureId,
+                                                            this.$store.state.selectedHour,
+                                                            this.$store.state.languageId,
+                                                            this.$store.state.selectedLibraryId,
+                                                            this.$store.state.selectedWorkstationTypeId) 
+                                ).data.data;
+                    this.isLoading = false;
+
+                    this.sessionList = [];
+                    for (let i = 0; i < timeSlot.length; i++) {
+                        if (timeSlot[i].status == 1) {
+                            this.sessionList.push(parseInt(timeSlot[i].startTimeSlot.substring(0, 2)));
+                        }
+                    }
+                }
+
+                this.$store.commit('sessionList', this.sessionList);
             },
 
             clickDate(dayAndWeek, yearAndMonth) {
@@ -205,7 +215,7 @@
                     this.$store.commit('defaultWorkstation', null);
 
                     this.chooseDate = dayAndWeek.substring(4) + ' ' + yearAndMonth;
-                    this.resetCheckboxes();
+                    this.resetCheckboxes(true);
                     this.$emit('checkComplete', 'dateTimeChoosePage');
                 }
             },
@@ -228,12 +238,12 @@
                     this.$store.commit('defaultWorkstation', null);
 
                     this.numOfHours = numOfHours;
-                    this.resetCheckboxes();
+                    this.resetCheckboxes(true);
                     this.$emit('checkComplete', 'dateTimeChoosePage');
                 }
             },
 
-            addRemoveHour(time) {
+            addRemoveHour(hour) {
                 this.$store.commit('selectedSession1Group', null);
                 this.$store.commit('selectedSession1Workstation', null);
                 this.$store.commit('selectedSession1WorkstationId', null);
@@ -245,7 +255,6 @@
                 this.$store.commit('listGroup', null);
                 this.$store.commit('defaultWorkstation', null);
 
-                let hour = parseInt(time.substring(0, 2));
                 let index = this.selectedHours.indexOf(hour);
 
                 if (index == -1) { // 添加時間
@@ -255,23 +264,28 @@
                         if (this.sessionList.indexOf(hour + 1) != -1) {
                             this.$store.commit('selectedSession1Time', ('0' + hour).slice(-2) + ':00-' + ('0' + (hour + 2)).slice(-2) + ':00');
                             this.selectedHours.push(hour + 1);
-                            for (let checkbox of this.$refs.checkbox) {
-                                if (checkbox.value == hour + 1) {
-                                    checkbox.checked = true;
-                                    break;
+                            if (this.$refs.checkbox) {
+                                for (let checkbox of this.$refs.checkbox) {
+                                    if (checkbox.value == hour + 1) {
+                                        checkbox.checked = true;
+                                        break;
+                                    }
                                 }
                             }
                         } else {
                             this.$store.commit('selectedSession1Time', ('0' + (hour - 1)).slice(-2) + ':00-' + ('0' + (hour + 1)).slice(-2) + ':00');
                             this.selectedHours.push(hour - 1);
                             [this.selectedHours[0], this.selectedHours[1]] = [this.selectedHours[1], this.selectedHours[0]];
-                            for (let checkbox of this.$refs.checkbox) {
-                                if (checkbox.value == hour - 1) {
-                                    checkbox.checked = true;
-                                    break;
+                            if (this.$refs.checkbox) {
+                                for (let checkbox of this.$refs.checkbox) {
+                                    if (checkbox.value == hour - 1) {
+                                        checkbox.checked = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
+                        
                     } else if (this.numOfHours == 1) {
                         if (this.selectedHours.length == 1){
                             this.$store.commit('selectedSession1Time', ('0' + hour).slice(-2) + ':00-' + ('0' + (hour + 1)).slice(-2) + ':00');
@@ -285,9 +299,11 @@
                     }
 
                     if (this.selectedHours.length >= 2) {
-                        for (let checkbox of this.$refs.checkbox) {
-                            if (!checkbox.checked) {
-                                checkbox.disabled = true;
+                        if (this.$refs.checkbox) {
+                            for (let checkbox of this.$refs.checkbox) {
+                                if (!checkbox.checked) {
+                                    checkbox.disabled = true;
+                                }
                             }
                         }
                     }
@@ -296,11 +312,13 @@
                         this.selectedHours.splice(index, 1);
                         this.$store.commit('selectedSession1Time', ('0' + this.selectedHours[0]).slice(-2) + ':00-' + ('0' + (this.selectedHours[0] + 1)).slice(-2) + ':00');
                         this.$store.commit('selectedSession2Time', null);
-                        for (let checkbox of this.$refs.checkbox) {
-                            checkbox.disabled = false;
+                        if (this.$refs.checkbox) {
+                            for (let checkbox of this.$refs.checkbox) {
+                                checkbox.disabled = false;
+                            }
                         }
                     } else {
-                        this.resetCheckboxes();
+                        this.resetCheckboxes(false);
                     }
                 }
 
@@ -326,13 +344,14 @@
                 this.$store.commit('selectedHour', 1);
                 this.numOfHours = 1;
 
-                this.resetCheckboxes();
+                this.resetCheckboxes(true);
                 
                 this.$emit('checkComplete', 'dateTimeChoosePage');
             },
 
             initializePage() {
                 if (this.$store.state.selectedDateOfUse) {
+                    this.chooseDate = this.$store.state.selectedDateOfUse;
                     this.dateOfUseList = this.$store.state.dateOfUseList;
 
                     if (this.$store.state.selectedHour) {
@@ -379,6 +398,8 @@
                 this.$store.commit('dateOfUseList', this.dateOfUseList);
                 this.$store.commit('selectedSession1Time', null);
                 this.$store.commit('selectedSession2Time', null);
+            } else {
+                this.chooseDate = this.$store.state.selectedDateOfUse;
             }
 
             if (!this.$store.state.selectedHour) {
@@ -388,8 +409,31 @@
                 this.$store.commit('selectedSession1Time', null);
                 this.$store.commit('selectedSession2Time', null);
             }
+            
+            if (!this.$store.state.sessionList) {
+                let bookingDateStr = (new Date(this.chooseDate)).getFullYear() + '-' +
+                                     ('0' + ((new Date(this.chooseDate)).getMonth() + 1)).slice(-2) + '-' +
+                                     ('0' + (new Date(this.chooseDate)).getDate()).slice(-2);
 
-            this.sessionList = [ 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 ]; // 臨時代碼
+                let timeSlot = (await getLibraryTimeSlot(bookingDateStr, 
+                                                         this.$store.state.selectedWorkstationFeatureId,
+                                                         this.$store.state.selectedHour,
+                                                         this.$store.state.languageId,
+                                                         this.$store.state.selectedLibraryId,
+                                                         this.$store.state.selectedWorkstationTypeId) 
+                               ).data.data;
+
+                this.sessionList = [];
+                for (let i = 0; i < timeSlot.length; i++) {
+                    if (timeSlot[i].status == 1) {
+                        this.sessionList.push(parseInt(timeSlot[i].startTimeSlot.substring(0, 2)));
+                    }
+                }
+
+                this.$store.commit('sessionList', this.sessionList);
+            } else {
+                this.sessionList = this.$store.state.sessionList;
+            }
         },
         mounted() {
             this.currentDateTime = this.getCurrentDateTime();
@@ -409,16 +453,20 @@
                     this.dateOfUseList[3].holiday = true; // 臨時代碼
 
                     this.chooseDate = this.$store.state.selectedDateOfUse;
-                    for (let checkbox of this.$refs.checkbox) {
-                        if (checkbox.value == this.selectedHours[0] || checkbox.value == this.selectedHours[1]) {
-                            checkbox.checked = true;
+                    if (this.$refs.checkbox) {
+                        for (let checkbox of this.$refs.checkbox) {
+                            if (checkbox.value == this.selectedHours[0] || checkbox.value == this.selectedHours[1]) {
+                                checkbox.checked = true;
+                            }
                         }
                     }
 
                     if (this.selectedHours.length >= 2) {
-                        for (let checkbox of this.$refs.checkbox) {
-                            if (!checkbox.checked) {
-                                checkbox.disabled = true;
+                        if (this.$refs.checkbox) {
+                            for (let checkbox of this.$refs.checkbox) {
+                                if (!checkbox.checked) {
+                                    checkbox.disabled = true;
+                                }
                             }
                         }
                     }

@@ -9,7 +9,7 @@
                         <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" />
                     </b-col>
                     <b-col cols="9" class="right-content">
-                        <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
+                        <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" @resetCheckboxes="resetCheckboxes" @checkComplete="checkComplete" />
                         <DateTimeChooseTable ref="dateTimeChoosePage" @checkComplete="checkComplete" />
                     </b-col>
                 </b-row>
@@ -25,8 +25,8 @@
     import NavBar from '@/components/NavBar.vue'
     import LeftMenu from '@/components/LeftMenu.vue'
     import LeftMenuSettings from '@/components/LeftMenuSettings.vue'
-    import DateTimeChooseTable from '/src/components/DateTimeChooseTable.vue'
-    import PageFooter from '/src/components/PageFooter.vue'
+    import DateTimeChooseTable from '@/components/DateTimeChooseTable.vue'
+    import PageFooter from '@/components/PageFooter.vue'
 
     export default {
         name: 'DateTimeChoose',
@@ -47,14 +47,6 @@
             msg: String
         },
         methods: {
-            /*currentDateTime() {
-                const current = new Date();
-                const date = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
-                const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-                const dateTime = date + ' ' + time;
-                return dateTime;
-            },*/
-
             showLeftMenuSettings(isActive) {
                 this.$refs.leftMenuSettings.showLeftMenuSettings(isActive);
             },
@@ -73,6 +65,10 @@
 
             selectLanguage(selectedWorkstationFeature) {
                 this.$refs.leftMenu.selectLanguage(selectedWorkstationFeature);
+            },
+
+            resetCheckboxes(isGetLibraryTimeSlot) {
+                this.$refs.dateTimeChoosePage.resetCheckboxes(isGetLibraryTimeSlot);
             }
         }
     }

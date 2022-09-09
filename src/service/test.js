@@ -25,12 +25,12 @@ export async function queryLibraryByDistrictId (districtId) {
 }
 
 export async function queryWorkstationByLibraryCode (libraryId, libraryCardNumber) {
-    return request({
-        url: `/cfm-admin-service/open-api/advancedBooking/getBookingType?libraryId=` + libraryId + `&libraryCardNumber=` + libraryCardNumber,
-        method: 'get', 
-        // params: 
-      })
-  }
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/getBookingType?libraryId=` + libraryId + `&libraryCardNumber=` + libraryCardNumber,
+    method: 'get', 
+    // params: 
+  })
+}
 
 export async function couAdvancedBooking() {
   return request({
@@ -40,29 +40,44 @@ export async function couAdvancedBooking() {
   })
 }
 
-  export async function workstationFeature(typeId, libraryId) {
-    return request({
-        url: `/cfm-admin-service/open-api/advancedBooking/getBookingFeature?typeId=` + typeId + '&libraryId=' + libraryId,
-        method: 'get', 
-        // params: 
-      })
-  }
+export async function workstationFeature(typeId, libraryId) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/getBookingFeature?typeId=` + typeId + '&libraryId=' + libraryId,
+    method: 'get', 
+    // params: 
+  })
+}
 
-  export async function workstationLanguage(libraryId) {
-    return request({
-        url: `/cfm-admin-service/open-api/advancedBooking/getBookingLanguage?libraryId=` + libraryId,
-        method: 'get', 
-        // params: 
-      })
-  }
+export async function workstationLanguage(libraryId) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/getBookingLanguage?libraryId=` + libraryId,
+    method: 'get', 
+    // params: 
+  })
+}
   
-  export async function getDateOfUse (libraryId) {
-    return request({
-        url: `/cfm-admin-service/open-api/advancedBooking/getDateOfUse/`+libraryId,
-        method: 'get', 
-        // params: 
-      })
-  }
+export async function getDateOfUse(libraryId) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/getDateOfUse/` + libraryId,
+    method: 'get', 
+    // params: 
+  })
+}
+
+export async function getLibraryTimeSlot(bookingDateStr, featureIds, hour, languageId, libraryId, typeId) {
+  return request({
+    url: `/cfm-admin-service/open-api/advancedBooking/getLibraryTimeSlot`,
+    method: 'post',
+    data: {
+      "bookingDateStr": bookingDateStr,
+      "featureIds": featureIds,
+      "hour": hour,
+      "languageId": languageId,
+      "libraryId": libraryId,
+      "typeId": typeId
+    }
+  });
+}
 
 export async function queryGroup(advancedBookingDate, featureIds, languageId, libraryId, session1Time, session2Time, typeId, walkInBookingChooseTimeVO) {
   return request({

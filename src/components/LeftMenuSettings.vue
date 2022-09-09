@@ -49,9 +49,14 @@
             async clickWorkStationFeature(workstationFeature) {
                 this.$store.commit('selectedSession1Group', null);
                 this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession1WorkstationId', null);
+                this.$store.commit('selectedSession1WorkstationGrid', null);
                 this.$store.commit('selectedSession2Group', null);
                 this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('selectedSession2WorkstationId', null);
+                this.$store.commit('selectedSession2WorkstationGrid', null);
                 this.$store.commit('listGroup', null);
+                this.$store.commit('defaultWorkstation', null);
 
                 if (this.selectedWorkstationFeature.indexOf(workstationFeature.featureName) == -1) {
                     this.selectedWorkstationFeature.push(workstationFeature.featureName);
@@ -68,6 +73,8 @@
                 this.$store.commit('selectedWorkstationFeatureId', this.selectedWorkstationFeatureId);
 
                 this.$emit('selectFeature', this.selectedWorkstationFeature);
+                this.$emit('resetCheckboxes', true);
+                this.$emit('checkComplete', 'dateTimeChoosePage');
             },
 
             async clickWorkStationLanguage(workstationLanguage) {
@@ -75,14 +82,21 @@
                 this.$store.commit('selectedWorkstationLanguageId', workstationLanguage.languageId);
                 this.$store.commit('selectedSession1Group', null);
                 this.$store.commit('selectedSession1Workstation', null);
+                this.$store.commit('selectedSession1WorkstationId', null);
+                this.$store.commit('selectedSession1WorkstationGrid', null);
                 this.$store.commit('selectedSession2Group', null);
                 this.$store.commit('selectedSession2Workstation', null);
+                this.$store.commit('selectedSession2WorkstationId', null);
+                this.$store.commit('selectedSession2WorkstationGrid', null);
                 this.$store.commit('listGroup', null);
+                this.$store.commit('defaultWorkstation', null);
 
                 this.selectedWorkstationLanguage = workstationLanguage.languageName;
                 this.selectedWorkstationLanguageId = workstationLanguage.languageId;
 
                 this.$emit('selectLanguage', this.selectedWorkstationLanguage);
+                this.$emit('resetCheckboxes', true);
+                this.$emit('checkComplete', 'dateTimeChoosePage');
             },
 
             initializeFeature() {
