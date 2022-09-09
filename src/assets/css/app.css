@@ -477,6 +477,21 @@ nav a.router-link-exact-active {
     margin-left: 15px;
 }
 
+.buttonNextCou:disabled {
+    border: 1px solid #d4d4d4;
+    background-image: linear-gradient(#6BAAE3, #5B9BD7);
+    width: 240px;
+    height: 54px;
+    margin: 0px;
+    padding: 0 20px;
+    font-weight: bold;
+    border-radius: 4px;
+    opacity: 1;
+    float: right;
+    color:white;
+    margin-left: 15px;
+}
+
 
 #containerMobile2 {
     display: flex;

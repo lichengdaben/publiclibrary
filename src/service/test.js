@@ -31,6 +31,15 @@ export async function queryWorkstationByLibraryCode (libraryId, libraryCardNumbe
         // params: 
       })
   }
+
+export async function couAdvancedBooking() {
+  return request({
+    url: `/cfm-admin-service/open-api/couAdvancedBooking`,
+    method: 'get', 
+    // params: 
+  })
+}
+
   export async function workstationFeature(typeId, libraryId) {
     return request({
         url: `/cfm-admin-service/open-api/advancedBooking/getBookingFeature?typeId=` + typeId + '&libraryId=' + libraryId,
@@ -123,31 +132,6 @@ export async function confirmBooking(advancedBookingDate, bookingSource, feature
     }
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //let districtList=[
 //        {"id":1,"Name":"CENTRAL AND WESTERN DISTRICT"},
