@@ -6,7 +6,7 @@
         <div v-else-if="isIpad()">
             <SelectLocationT/>
         </div>
-        <div v-else style="overflow-y: auto; height: 100vh;">
+        <div v-else style="overflow-y: auto; height: calc(100vh - 84px);">
             <b-container class="bv-example-row" id="container-DTC" fluid>
                 <MenuBar/>
                 <NavBar/>
@@ -70,8 +70,8 @@
                 </b-row>
             </b-container>
             <div style="height: 100px;"></div>
+            <PageFooter ref="pageFooterSection" />
         </div>
-        <PageFooter ref="pageFooterSection" />
     </div>
 </template>
 

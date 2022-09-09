@@ -48,7 +48,7 @@ input[type="radio"], input[type="checkbox"]{
     overflow: scroll;
     border: 1px solid #ccc;
     min-height: 200px;
-    height: calc(100% - 600px);
+    height: 100%;
     width: calc(100% - 3%);
     margin-top: 10px;
 }

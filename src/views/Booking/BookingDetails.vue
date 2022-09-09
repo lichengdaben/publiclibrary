@@ -3,7 +3,7 @@
         <div v-if="isMobile()">
             <WorkstationGroupH5/>
         </div>
-        <div v-else style="overflow-y: auto; height: 100vh;"> 
+        <div v-else style="overflow-y: auto; height: calc(100vh - 84px);"> 
             <b-container class="bv-example-row" fluid>
                 <MenuBar/>
                 <NavBar/>
