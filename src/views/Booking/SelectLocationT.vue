@@ -78,7 +78,7 @@
 
 <script>
 import { mixins } from '@/common/mixins'
-import  {getAllDistrict, getAllLibraries} from '@/service/test.js'
+import { getAllDistrict, queryLibraryByDistrictId } from '@/service/test.js'
 
 export default {
   name: 'SelectLocation',
@@ -136,20 +136,14 @@ export default {
   },
   async created(){
   this.districtList=await getAllDistrict();
-  this.allLibrariesList = await getAllLibraries();
+  this.allLibrariesList = await queryLibraryByDistrictId(42);
   this.districtList=await getAllDistrict();
   this.districtList = this.districtList.data;
-  this.allLibrariesList = await getAllLibraries();
+  this.allLibrariesList = await queryLibraryByDistrictId(42);
   this.allLibrariesList = this.allLibrariesList.data;
 
   }
 }   
-
-
-
-
-
-
 
 </script>
 
