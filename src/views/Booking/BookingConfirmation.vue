@@ -6,19 +6,14 @@
         <div v-else style="overflow-y: auto; height: calc(100vh - 84px);">
             <MenuBar/>
             <NavBar/>
-            
             <BookingConfirmationSession1Table ref="bookingConfirmtaionPage1" />
-            <div style="padding: 10px;"></div>
-            <BookingConfirmationSession2Table ref="bookingConfirmtaionPage2" />
-
             <b-container class="bv-example-row" id="containerBottom" fluid>
                 <b-row id="containerBottomRow">
                     <b-col cols="3">
                     </b-col>
                     <b-col cols="3">
-                        <router-link :to="'/workstationbooking/Home'">
-                            <button id="bookingConfirmationOK">OK</button>
-                        </router-link>
+                        
+                            <button id="bookingConfirmationOK" @click="clickOk()">OK</button>
                     </b-col>
                     <b-col cols="3">
                         <router-link :to="'/workstationbooking/SelectLocation'">
@@ -29,7 +24,9 @@
                     </b-col>
                 </b-row>
             </b-container>
+                <PageFooter/>
         </div>
+
     </div>
 </template>
 
@@ -37,9 +34,8 @@
     import { mixins } from '@/common/mixins'
     import MenuBar from '@/components/MenuBar.vue'
     import NavBar from '@/components/NavBar.vue'
-    import { confirmBooking } from '@/service/test.js'
     import BookingConfirmationSession1Table from '@/components/BookingConfirmationSession1Table.vue'
-    import BookingConfirmationSession2Table from '@/components/BookingConfirmationSession2Table.vue'
+    import PageFooter from '@/components/PageFooter.vue'
 
     export default {
         name: 'WorkstationGroup',
@@ -47,24 +43,11 @@
             MenuBar,
             NavBar,
             BookingConfirmationSession1Table,
-            BookingConfirmationSession2Table
+            PageFooter
         },
         data() {
             return {
-                bookingResult: null,
-                selectedDistrict: this.$store.state.selectedDistrict,
-                selectedLibrary: this.$store.state.selectedLibrary,
-                floorNum: this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.floorNum : null,
-                groupName: this.$store.state.selectedSession1Group ? this.$store.state.selectedSession1Group.groupName : null,
-                selectedWorkstationFeature: this.$store.state.selectedWorkstationFeature,
-                selectedDateOfUse: this.$store.state.selectedDateOfUse,
-                selectedHour: this.$store.state.selectedHour,
-                selectedSession1Time: this.$store.state.selectedSession1Time,
-                selectedSession1Workstation: this.$store.state.selectedSession1Workstation,
-                session1GroupImagePath: this.$store.state.defaultWorkstation ? this.$store.state.defaultWorkstation.session1GroupImagePath : null,
-                selectedSession2Time: this.$store.state.selectedSession2Time,
-                selectedSession2Workstation: this.$store.state.selectedSession2Workstation,
-                session2GroupImagePath: this.$store.state.defaultWorkstation ? this.$store.state.defaultWorkstation.session2GroupImagePath : null,
+               
             }
         },
         mixins: [mixins],
@@ -72,89 +55,10 @@
             msg: String
         },
         methods: {
-            async initializePage() {
-                this.bookingResult = (await confirmBooking(this.$store.state.selectedDateOfUse,
-                                                           1, // this.bookingSource,
-                                                           this.$store.state.selectedWorkstationFeatureId,
-                                                           this.$store.state.selectedHour,
-                                                           this.$store.state.selectedWorkstationLanguageId,
-                                                           '123456', // this.libraryCardNumber,
-                                                           this.$store.state.selectedLibraryId,
-                                                           this.$store.state.selectedSession1Time,
-                                                           this.$store.state.selectedSession1Workstation,
-                                                           this.$store.state.selectedSession2Time,
-                                                           this.$store.state.session2WorkstationId,
-                                                           this.$store.state.selectedSession1Workstation)
-                                     ).data.data;
+           clickOk(){
+            alert("you have successfully booked")
 
-                this.$refs.bookingConfirmtaionPage1.fillReferenceID(this.bookingResult ? this.bookingResult.session1BookingReferenceId : null,
-                                                                    this.selectedDistrict,
-                                                                    this.selectedLibrary,
-                                                                    this.floorNum,
-                                                                    this.groupName,
-                                                                    this.selectedWorkstationFeature,
-                                                                    this.selectedDateOfUse,
-                                                                    this.selectedHour,
-                                                                    this.selectedSession1Time,
-                                                                    this.selectedSession1Workstation,
-                                                                    this.session1GroupImagePath);
-
-                if (this.$store.state.selectedSession2Group) {
-                    this.$refs.bookingConfirmtaionPage2.fillReferenceID(this.bookingResult ? this.bookingResult.session2BookingReferenceId : null,
-                                                                        this.selectedDistrict,
-                                                                        this.selectedLibrary,
-                                                                        this.floorNum,
-                                                                        this.groupName,
-                                                                        this.selectedWorkstationFeature,
-                                                                        this.selectedDateOfUse,
-                                                                        this.selectedHour,
-                                                                        this.selectedSession2Time,
-                                                                        this.selectedSession2Workstation,
-                                                                        this.session2GroupImagePath);
-                }
-
-                return Promise.resolve('');
-            }
-        },
-        mounted() {
-            this.initializePage().then(val => {
-                console.log(val);
-
-                if (this.bookingResult) {
-                    this.$store.commit('selectedDistrict', null);
-                    this.$store.commit('selectedDistrictId', null);
-                    this.$store.commit('districtList', null);
-                    this.$store.commit('selectedLibrary', null);
-                    this.$store.commit('selectedLibraryId', null);
-                    this.$store.commit('libraryList', null);
-                    this.$store.commit('selectedWorkstationType', null);
-                    this.$store.commit('selectedWorkstationTypeId', null);
-                    this.$store.commit('workStationTypeList', null);
-                    this.$store.commit('isReadTerm', false);
-                    this.$store.commit('selectedWorkstationFeature', null);
-                    this.$store.commit('selectedWorkstationFeatureId', null);
-                    this.$store.commit('featureList', null);
-                    this.$store.commit('selectedWorkstationLanguage', null);
-                    this.$store.commit('selectedWorkstationLanguageId', null);
-                    this.$store.commit('languageList', null);
-                    this.$store.commit('selectedDateOfUse', null);
-                    this.$store.commit('dateOfUseList', null);
-                    this.$store.commit('selectedHour', null);
-                    this.$store.commit('sessionList', null);
-                    this.$store.commit('selectedSession1Time', null);
-                    this.$store.commit('selectedSession1Group', null);
-                    this.$store.commit('selectedSession1Workstation', null);
-                    this.$store.commit('selectedSession1WorkstationId', null);
-                    this.$store.commit('selectedSession1WorkstationGrid', null);
-                    this.$store.commit('selectedSession2Time', null);
-                    this.$store.commit('selectedSession2Group', null);
-                    this.$store.commit('selectedSession2Workstation', null);
-                    this.$store.commit('selectedSession2WorkstationId', null);
-                    this.$store.commit('selectedSession2WorkstationGrid', null);
-                    this.$store.commit('listGroup', null);
-                    this.$store.commit('defaultWorkstation', null);
-                }
-            });
+           }
         }
     }
 </script>

@@ -1,9 +1,18 @@
 <template>
   <div ref="contentDesktop">
-    <b-container class="bv-example-row" id="remark" ref="remark" fluid style="display: block;">
+    <b-container
+      class="bv-example-row"
+      id="remark"
+      ref="remark"
+      fluid
+      style="display: block"
+    >
       <b-row>
         <b-col cols="12">
-          <div class="bookingConfirmationWarning">*You need to claim your booking within <em>10 minutes</em> before to starts or within <em>50 minutes</em> after it begins</div>
+          <div class="bookingConfirmationWarning">
+            *You need to claim your booking within <em>10 minutes</em> before to
+            starts or within <em>50 minutes</em> after it begins
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -14,11 +23,18 @@
           <ul>
             <li>
               <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldTitle">BOOKING REFERENCE ID</div>
+                <div class="bookingConfirmationFieldTitle">
+                  BOOKING REFERENCE ID
+                </div>
                 <div class="bookingConfirmationFieldColon">:</div>
               </div>
               <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldValue" ref="sessionBookingReferenceId">Loading...</div>
+                <div
+                  class="bookingConfirmationFieldValue"
+                  ref="sessionBookingReferenceId"
+                >
+                  PLB202200{{ i }}
+                </div>
               </div>
             </li>
           </ul>
@@ -29,7 +45,9 @@
                 <div class="bookingConfirmationFieldColon">:</div>
               </div>
               <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldValue">{{ selectedDistrict }}</div>
+                <div class="bookingConfirmationFieldValue">
+                  {{ this.$store.state.selectedDistrict.Name }}
+                </div>
               </div>
             </li>
           </ul>
@@ -40,30 +58,8 @@
                 <div class="bookingConfirmationFieldColon">:</div>
               </div>
               <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldValue">{{ selectedLibrary }}</div>
-              </div>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldTitle">WORKSTATION GROUP</div>
-                <div class="bookingConfirmationFieldColon">:</div>
-              </div>
-              <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldValue">{{ floorNum + ' ' + groupName }}</div>
-              </div>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldTitle">CHOOSE COMPUTER</div>
-                <div class="bookingConfirmationFieldColon">:</div>
-              </div>
-              <div class="bookingConfirmationGrid">
-                <div v-for="workstationFeature in selectedWorkstationFeature" :key="workstationFeature" class="bookingConfirmationFieldValue">
-                  + {{ workstationFeature }}<br/>
+                <div class="bookingConfirmationFieldValue">
+                  {{ this.$store.state.selectedLibrary.name }}
                 </div>
               </div>
             </li>
@@ -71,11 +67,30 @@
           <ul>
             <li>
               <div class="bookingConfirmationGrid">
+                <div class="bookingConfirmationFieldTitle">
+                  WORKSTATION GROUP
+                </div>
+                <div class="bookingConfirmationFieldColon">:</div>
+              </div>
+              <div class="bookingConfirmationGrid">
+                <div class="bookingConfirmationFieldValue" v-if="this.$store.state.selectedWorkstationGroup">
+                  {{ this.$store.state.selectedWorkstationGroup.Name }}
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul></ul>
+          <ul>
+            <li>
+              <div class="bookingConfirmationGrid">
                 <div class="bookingConfirmationFieldTitle">DATE OF USE</div>
                 <div class="bookingConfirmationFieldColon">:</div>
               </div>
               <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldValue">{{ selectedDateOfUse }}</div>
+                <div class="bookingConfirmationFieldValue">
+                  {{ this.$store.state.selectedDate.Name
+                  }}{{ this.$store.state.selectedDate.Date }}
+                </div>
               </div>
             </li>
           </ul>
@@ -86,18 +101,22 @@
                 <div class="bookingConfirmationFieldColon">:</div>
               </div>
               <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldValue">{{ selectedHour + ' Hour : ' + selectedSessionTime }}</div>
-              </div>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldTitle">WORKSTATION NO.</div>
-                <div class="bookingConfirmationFieldColon">:</div>
-              </div>
-              <div class="bookingConfirmationGrid">
-                <div class="bookingConfirmationFieldValue">{{ selectedSessionWorkstation }}</div>
+                <div class="bookingConfirmationFieldValue" v-if="this.$store.state.selectedTime.length==2">
+                  {{
+                    this.$store.state.selectedSession +
+                    " Hour : " +
+                   this.$store.state.selectedTime[0].name+ "&&"+
+                    this.$store.state.selectedTime[1].name
+                  }}
+                </div>
+                 <div class="bookingConfirmationFieldValue" v-if="this.$store.state.selectedTime.length==1">
+                  {{
+                    this.$store.state.selectedSession +
+                    " Hour : " +
+                   this.$store.state.selectedTime[0].name 
+                   
+                  }}
+                </div>
               </div>
             </li>
           </ul>
@@ -106,8 +125,12 @@
         <b-col cols="3">
           <ul>
             <li>
-              <img :src="require(`@/CFM/20220805/bf9aee22-2eb5-439e-bca4-5e47f4e9d11c.png`)" id="bookingConfirmationImage" />
-              <!--<img :src="require(`@/${sessionGroupImagePath}`)" id="bookingConfirmationImage" />-->
+              <img
+                :src="
+                  require(`@/CFM/20220805/bf9aee22-2eb5-439e-bca4-5e47f4e9d11c.png`)
+                "
+                id="bookingConfirmationImage"
+              />
             </li>
             <li>
               <div>&nbsp;</div>
@@ -115,12 +138,16 @@
             <li>
               <div class="bookingConfirmationButtons">
                 <button id="bookingConfirmationPrint" @click="printPage()">
-                  <font-awesome-icon icon="fa-solid fa-print" />&nbsp;&nbsp;Print
+                  <font-awesome-icon
+                    icon="fa-solid fa-print"
+                  />&nbsp;&nbsp;Print
                 </button>
               </div>
               <div class="bookingConfirmationButtons">
                 <button id="bookingConfirmationSave" @click="savePage()">
-                  <font-awesome-icon icon="fa-regular fa-folder" />&nbsp;&nbsp;Save
+                  <font-awesome-icon
+                    icon="fa-regular fa-folder"
+                  />&nbsp;&nbsp;Save
                 </button>
               </div>
             </li>
@@ -132,75 +159,35 @@
 </template>
 
 <script>
-  import { mixins } from '@/common/mixins'
-  import html2pdf from 'html2pdf.js'
+import { mixins } from "@/common/mixins";
 
-  export default {
-    name: 'BookingConfirmationSession1Table',
-    data() {
-      return {
-        referenceID: null,
-        selectedDistrict: null,
-        selectedLibrary: null,
-        floorNum: null,
-        groupName: null,
-        selectedWorkstationFeature: null,
-        selectedDateOfUse: null,
-        selectedHour: null,
-        selectedSessionTime: null,
-        selectedSessionWorkstation: null,
-        sessionGroupImagePath: null
-      }
+export default {
+  name: "BookingConfirmationSession1Table",
+  data() {
+    return {
+      i: 1,
+    };
+  },
+  props: [],
+  mixins: [mixins],
+  methods: {
+    printPage() {
+      alert("You have Printed your booking");
     },
-    props: [ 'bookingConfirmtaionPage1' ],
-    mixins: [mixins],
-    methods: {
-      fillReferenceID(referenceID, selectedDistrict, selectedLibrary, floorNum, groupName, selectedWorkstationFeature, selectedDateOfUse, selectedHour,
-                      selectedSessionTime, selectedSessionWorkstation, sessionGroupImagePath) {
-        this.$refs.sessionBookingReferenceId.innerText = referenceID;
-        this.referenceID = referenceID;
-        this.selectedDistrict = selectedDistrict;
-        this.selectedLibrary = selectedLibrary;
-        this.floorNum = floorNum;
-        this.groupName = groupName;
-        this.selectedWorkstationFeature = selectedWorkstationFeature;
-        this.selectedDateOfUse = selectedDateOfUse;
-        this.selectedHour = selectedHour;
-        this.selectedSessionTime = selectedSessionTime;
-        this.selectedSessionWorkstation = selectedSessionWorkstation;
-        this.sessionGroupImagePath = sessionGroupImagePath;
-      },
-
-      printPage() {
-        window.print();
-      },
-
-      savePage() {
-        let rightNow = new Date();
-
-        html2pdf(this.$refs.contentDesktop, {
-          margin: 1,
-          filename: 'AdvancedBookingConfirmation_' +
-                    ("0000" + rightNow.getFullYear()).slice(-4) +
-                    ("00" + (rightNow.getMonth() + 1)).slice(-2) +
-                    ("00" + rightNow.getDate()).slice(-2) + '_' + (this.referenceID ? this.referenceID : '') + '.pdf',
-          image: { type: 'bmp', quality: 0.98 },
-          html2canvas: { dpi: 192, letterRendering: true },
-          jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
-        });
-      },
-    }
-  }
+    savePage() {
+      alert("You have saved your booking");
+      this.i = this.i + 1;
+    },
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 ol,
 ul,
 dl {
-    margin-top: 0;
-    margin-bottom: 0rem !important;
+  margin-top: 0;
+  margin-bottom: 0rem !important;
 }
 
 #remark {
@@ -209,74 +196,73 @@ dl {
 }
 
 .bookingConfirmationWarning {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .bookingConfirmationWarning > em {
-    color: red;
+  color: red;
 }
 
 #containerBookingConfirmation {
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 33px;
-    padding-right: 33px;
-    border: 1px solid #BBBBBB;
-    width: 90%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 33px;
+  padding-right: 33px;
+  border: 1px solid #bbbbbb;
+  width: 90%;
 }
 
 .bookingConfirmationCol > ul {
-    border-bottom: 1px dotted #BBBBBB;
+  border-bottom: 1px dotted #bbbbbb;
 }
 
 .bookingConfirmationCol > ul > li div {
-    display: inline-block;
-    font-weight: bold;
-    vertical-align: top;
+  display: inline-block;
+  font-weight: bold;
+  vertical-align: top;
 }
 
 .bookingConfirmationGrid {
-    padding-bottom: 4px;
+  padding-bottom: 4px;
 }
 
 .bookingConfirmationFieldTitle {
-    color: #096BCC;
-    width: 194px;
+  color: #096bcc;
+  width: 194px;
 }
 
 .bookingConfirmationFieldColon {
-    color: #096BCC;
-    width: 24px;
+  color: #096bcc;
+  width: 24px;
 }
 
 #bookingConfirmationImage {
-    width: 100%;
+  width: 100%;
 }
 
 .bookingConfirmationButtons {
-    display: inline-flex;
-    justify-content: center;
-    width: 50%;
+  display: inline-flex;
+  justify-content: center;
+  width: 50%;
 }
 
 #bookingConfirmationPrint {
-    background-image: linear-gradient(#E0FFE5, #B8ECC1);
-    border: none;
-    border-radius: 8px;
-    width: 25%;
-    height: 11%;
-    min-width: 100px;
-    min-height: 42px;
+  background-image: linear-gradient(#e0ffe5, #b8ecc1);
+  border: none;
+  border-radius: 8px;
+  width: 25%;
+  height: 11%;
+  min-width: 100px;
+  min-height: 42px;
 }
 
 #bookingConfirmationSave {
-    background-image: linear-gradient(#FEF1E0, #EBD6BA);
-    border: none;
-    border-radius: 8px;
-    width: 25%;
-    height: 11%;
-    min-width: 100px;
-    min-height: 42px;
+  background-image: linear-gradient(#fef1e0, #ebd6ba);
+  border: none;
+  border-radius: 8px;
+  width: 25%;
+  height: 11%;
+  min-width: 100px;
+  min-height: 42px;
 }
-
 </style>

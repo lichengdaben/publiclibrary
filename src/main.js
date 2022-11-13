@@ -3,6 +3,7 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/axios'
 import './plugins/bootstrap-vue'
+import "./plugins/element.js";
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -23,6 +24,10 @@ import { faFolder, faUser } from '@fortawesome/free-regular-svg-icons'
 
 import VueGoodTablePlugin from 'vue-good-table';
 import Vuesax from 'vuesax';
+
+
+
+
 
 /* add icons to the library */
 library.add(faExclamation);
@@ -55,3 +60,17 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+Vue.prototype.sortBasedProperty=function(propertyName) {
+    return function (obj1, obj2) {
+      let value1 = obj1[propertyName];
+      let value2 = obj2[propertyName];
+      if (value1 < value2) {
+        return -1;
+      } else if (value1 === value2) {
+        return 0;
+      } else {
+        return 1;
+      }
+    };
+  }

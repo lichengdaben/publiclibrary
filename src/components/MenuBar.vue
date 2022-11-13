@@ -1,62 +1,88 @@
 <template>
-<div class="MenuBar">
-  <b-navbar type="purple" variant="purple">
-    <b-navbar-nav style="width: 50%;">
-     <img src="@/assets/librarylogo.jpeg" alt=""  id="titleimage">
-    </b-navbar-nav>
-    <b-navbar-nav style="width: 50%;" align="right" >
-         <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+  <div class="MenuBar">
+    <b-navbar type="purple" variant="purple">
+      <b-navbar-nav style="width: 50%">
+        <img src="@/assets/librarylogo.jpeg" alt="" id="titleimage" />
+      </b-navbar-nav>
+      <b-navbar-nav style="width: 50%" align="right">
+        <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
         <b-nav-item href="#">
-        <div class="purple">圖書館目錄</div>
-       </b-nav-item> 
-        <font-awesome-icon icon="fa-solid fa-file-lines" />
-       <b-nav-item href="#" >
-       <div class="purple">主目錄</div>
-       </b-nav-item>
-           <font-awesome-icon icon="fa-regular fa-user" />
-        <b-nav-item href="#">
-        <div class="purple">登入</div>
+          <div class="purple">圖書館目錄</div>
         </b-nav-item>
-    </b-navbar-nav>
-  </b-navbar>
-</div>
+        <font-awesome-icon icon="fa-solid fa-file-lines" />
+        <b-nav-item href="#">
+          <div class="purple">主目錄</div>
+        </b-nav-item>
+        <font-awesome-icon icon="fa-regular fa-user" />
+        <b-nav-item href="#">
+          <div class="purple" v-show="display" @click="login">登入</div>
+          <div class="purple" v-show="!display">
+            {{ this.$store.state.userName }}
+          </div>
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'MenuBar',
-}
+  name: "MenuBar",
+  data() {
+    return {
+      display: true,
+    };
+  },
+
+  props: {
+    msg: String,
+  },
+  methods: {
+    login() {
+      this.$router.push("/login");
+    },
+  },
+  computed: {
+   
+  },
+
+  mounted() {
+    //  display1();
+    if(this.$store.state.userName != null)
+     this.display=false
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .workStationGroupFieldTitle {
-    color: #096BCC;
-    font-weight: bold;
+  color: #096bcc;
+  font-weight: bold;
 }
 
 .workStationGroupFieldValue {
-    font-weight: bold;
-    display: inline;
+  font-weight: bold;
+  display: inline;
 }
-.MenuBar{
+.MenuBar {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  color: #3C2879;
+  color: #3c2879;
   border-radius: 4px;
   opacity: 1;
 }
 
-.purple{
-color: #3C2879;
+.purple {
+  color: #3c2879;
 }
 .navbar-nav {
- display: flex;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-    flex-direction: row;
-    align-items: center;
-  }
+  display: flex;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  flex-direction: row;
+  align-items: center;
+}
 </style>

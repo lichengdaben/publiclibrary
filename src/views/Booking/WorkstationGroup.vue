@@ -9,16 +9,15 @@
                 <NavBar/>
                 <b-row>
                     <b-col cols="3" class="left-menu">
-                        <LeftMenu ref="leftMenu" @showLeftMenuSettings="showLeftMenuSettings" style="height: 10000px;" />
+                        <LeftMenu ref="leftMenu" style="height: 10000px;" />
                     </b-col>
                     <b-col cols="9" id="WorkstationGroup" class="right-content">
-                        <LeftMenuSettings ref="leftMenuSettings" @selectFeature="selectFeature" @selectLanguage="selectLanguage" />
-                        <WorkstationGroupTable ref="workstationGroupPage" @checkComplete="checkComplete" />
+                        <WorkstationGroupTable />
                     </b-col>
                 </b-row>
             </b-container>
             <div style="height: 100px;"></div>
-            <PageFooter ref="pageFooterSection" @resetWorkstationGroupPage="resetWorkstationGroupPage" />
+            <PageFooter ref="pageFooterSection" />
         </div>
     </div>
 </template>
@@ -27,18 +26,15 @@
     import MenuBar from '@/components/MenuBar.vue'
     import NavBar from '@/components/NavBar.vue'
     import LeftMenu from '@/components/LeftMenu.vue'
-    import LeftMenuSettings from '@/components/LeftMenuSettings.vue'
-    import WorkstationGroupTable from '/src/components/WorkstationGroupTable.vue'
     import PageFooter from '/src/components/PageFooter.vue'
     import { mixins } from '@/common/mixins'
-
+    import WorkstationGroupTable from '@/components/WorkstationGroupTable.vue'
     export default {
         name: 'WorkstationGroup',
         components: {
             MenuBar,
             NavBar,
             LeftMenu,
-            LeftMenuSettings,
             WorkstationGroupTable,
             PageFooter
         },
@@ -53,25 +49,7 @@
             msg: String
         },
         methods: {
-            showLeftMenuSettings(isActive) {
-                this.$refs.leftMenuSettings.showLeftMenuSettings(isActive);
-            },
-
-            checkComplete(pageName) {
-                this.$refs.pageFooterSection.checkComplete(pageName);
-            },
-
-            resetWorkstationGroupPage() {
-                this.$refs.workstationGroupPage.resetPage();
-            },
-
-            selectFeature(selectedWorkstationFeature) {
-                this.$refs.leftMenu.selectFeature(selectedWorkstationFeature);
-            },
-
-            selectLanguage(selectedWorkstationFeature) {
-                this.$refs.leftMenu.selectLanguage(selectedWorkstationFeature);
-            }
+            
         }
     }
 </script>
